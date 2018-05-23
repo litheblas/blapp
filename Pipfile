@@ -1,0 +1,37 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+channels = "*"
+daphne = "*"
+django = "*"
+django-cors-headers = "*"
+django-environ = "*"
+django-extensions = "*"
+django-filter = "*"
+django-phonenumber-field = "*"
+django-redis = "*"
+graphene-django = "*"
+ipython = "*"
+mysqlclient = "*"
+"psycopg2-binary" = "*"
+whitenoise = "==4.0b4"
+
+[dev-packages]
+factory-boy = "*"
+"flake8" = "*"
+"flake8-commas" = "*"
+"flake8-isort" = "*"
+ipdb = "*"
+pytest = "*"
+pytest-django = "*"
+pytest-env = "*"
+pytest-services = "*"
+pytest-splinter = "*"
+readline = "*"
+ipython = "*"
+
+[requires]
+python_version = "3.6"
