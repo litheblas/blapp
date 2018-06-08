@@ -41,3 +41,10 @@ class UniqueEmailField(models.EmailField):
         # but probably works good enough.
         value = super().clean(*args, **kwargs)
         return value.lower() if value else None
+
+
+class MoneyDecimalField(models.DecimalField):
+    def __init__(self, *args, **kwargs):
+        kwargs['max_digits'] = 12
+        kwargs['decimal_places'] = 2
+        super().__init__(*args, **kwargs)
