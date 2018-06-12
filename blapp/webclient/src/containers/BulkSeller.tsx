@@ -14,15 +14,11 @@ interface BulkSellerState {
 
 const quantities = R.range(0,51).map(x => x * 2)
 
-const mapObj = (fn: any) => R.pipe(
-  R.mapObjIndexed(fn),
+const fixPurchases = R.pipe(
   R.values,
-)
-
-const mapObjSortBy = (mapFn: any, sortFn: any) => R.pipe(
-  R.mapObjIndexed(mapFn),
-  R.values,
-  R.sortBy(sortFn),
+  //@ts-ignore
+  R.sortBy(R.pluck('timestamp')),
+  R.reverse,
 )
 
 const mapStateToProps = (state: any, ownProps: any) => ({
@@ -69,13 +65,6 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
     }
 
     render() {
-      const fixPurchases = R.pipe(
-        R.values,
-        //@ts-ignore
-        R.sortBy(R.pluck('timestamp')),
-        R.reverse,
-      )
-
       return <>
         <Container fluid>
           <Row>
@@ -90,11 +79,16 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
             </Col>
             <Col sm={6}>
               <Row>
-                {mapObjSortBy((person: any, personKey: any) => (
-                  <Col sm={3} className='mb-2' key={personKey}>
-                    <Button block size='lg' className='py-3' color={this.state.personId === person.id ? 'success' : 'default'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
-                  </Col>
-                ), (x: any) => x.shortName)(this.props.people)}
+                {R.pipe(
+                  R.values,
+                  R.sortBy((x) => x.shortName),
+                  R.mapObjIndexed((person: any, personKey: any) => (
+                    <Col sm={3} className='mb-2' key={personKey}>
+                      <Button block size='lg' className='py-3' color={this.state.personId === person.id ? 'success' : 'default'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
+                    </Col>
+                  )),
+                  R.values,
+                )(this.props.people)}
               </Row>
             </Col>
             <Col sm={4}>
