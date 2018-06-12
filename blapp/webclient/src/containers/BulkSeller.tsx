@@ -72,7 +72,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
               <Row>
                 {quantities.map((quantity, quantityKey) => (
                   <Col xs={12} className='mb-2' key={quantityKey}>
-                    <Button block size='lg' className='py-3' color={this.state.quantity === quantity ? 'success' : 'default'} onClick={() => this.setState({quantity})}>{quantity}</Button>
+                    <Button block size='md' className='py-3' color={this.state.quantity === quantity ? 'success' : 'secondary'} onClick={() => this.setState({quantity})}>{quantity}</Button>
                   </Col>
                 ))}
               </Row>
@@ -84,7 +84,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                   R.sortBy((x) => x.shortName),
                   R.mapObjIndexed((person: any, personKey: any) => (
                     <Col sm={3} className='mb-2' key={personKey}>
-                      <Button block size='md' className='py-3' color={this.state.personId === person.id ? 'success' : 'default'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
+                      <Button block size='md' className='py-3' color={this.state.personId === person.id ? 'success' : 'secondary'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
                     </Col>
                   )),
                   R.values,
@@ -92,7 +92,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
               </Row>
             </Col>
             <Col sm={4}>
-              <Button block size='lg' className='py-3' color='primary' disabled={!(this.state.personId && this.state.quantity)} onClick={this.makePurchase}>Köp</Button>
+              <Button block size='lg' className='py-4' color='primary' disabled={!(this.state.personId && this.state.quantity)} onClick={this.makePurchase}>Köp</Button>
               <p></p>
               <h3>Osynkade köp</h3>
               <Table size='sm'>
