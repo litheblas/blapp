@@ -5,7 +5,7 @@ import { Dispatch, AnyAction } from 'redux'
 import { connect } from 'react-redux'
 import { DateTime } from 'luxon'
 
-import { actions } from '../actions'
+import { actions, actionTypes } from '../actions'
 
 interface BulkSellerState {
   personId: string | null,
@@ -28,6 +28,9 @@ const mapObjSortBy = (mapFn: any, sortFn: any) => R.pipe(
 const mapStateToProps = (state: any, ownProps: any) => ({
   people: state.people,
   purchases: state.purchases,
+  failedPurchases: state.failedPurchases,
+  //@ts-ignore
+  unsyncedPurchases: state.offline.outbox.filter((x) => x.type === actionTypes.makePurchase.request).map((x) => x.meta.purchase),
   selectedProductId: state.selectedProduct,
   selectedSalePointId: state.selectedSalePoint,
 })
@@ -66,6 +69,13 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
     }
 
     render() {
+      const fixPurchases = R.pipe(
+        R.values,
+        //@ts-ignore
+        R.sortBy(R.pluck('timestamp')),
+        R.reverse,
+      )
+
       return <>
         <Container fluid>
           <Row>
@@ -78,7 +88,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                 ))}
               </Row>
             </Col>
-            <Col sm={7}>
+            <Col sm={6}>
               <Row>
                 {mapObjSortBy((person: any, personKey: any) => (
                   <Col sm={3} className='mb-2' key={personKey}>
@@ -87,8 +97,9 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                 ), (x: any) => x.shortName)(this.props.people)}
               </Row>
             </Col>
-            <Col sm={3}>
-              <Button block size='lg' className='py-3' onClick={this.makePurchase}>Köp</Button>
+            <Col sm={4}>
+              <Button block size='lg' className='py-3' color='primary' disabled={!(this.state.personId && this.state.quantity)} onClick={this.makePurchase}>Köp</Button>
+              <h3>Osynkade köp</h3>
               <Table size='sm'>
                 <thead>
                   <tr>
@@ -98,13 +109,62 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                   </tr>
                 </thead>
                 <tbody>
-                  {R.reverse(mapObjSortBy((purchase: any, purchaseKey: any) => (
-                    <tr>
-                      <td>{this.props.people[purchase.person.id].shortName}</td>
-                      <td>{purchase.quantity}</td>
-                      <td>{DateTime.fromISO(purchase.timestamp).setLocale('sv-SE').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)}</td>
-                    </tr>
-                  ), (x: any) => x.timestamp)(this.props.purchases))}
+                  {
+                    //@ts-ignore
+                    fixPurchases(this.props.unsyncedPurchases).map((purchase: any, purchaseKey: any) => (
+                      <tr key={purchaseKey}>
+                        <td>{this.props.people[purchase.person.id].shortName}</td>
+                        <td>{purchase.quantity}</td>
+                        <td>{DateTime.fromISO(purchase.timestamp).setLocale('sv-SE').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </Table>
+
+              <h3>Misslyckade köp</h3>
+              <Table size='sm'>
+                <thead>
+                  <tr>
+                    <th>Person</th>
+                    <th>Kvantitet</th>
+                    <th>Tidsstämpel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    //@ts-ignore
+                    fixPurchases(this.props.failedPurchases).map((purchase: any, purchaseKey: any) => (
+                      <tr key={purchaseKey}>
+                        <td>{this.props.people[purchase.person.id].shortName}</td>
+                        <td>{purchase.quantity}</td>
+                        <td>{DateTime.fromISO(purchase.timestamp).setLocale('sv-SE').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </Table>
+
+              <h3>Synkade köp</h3>
+              <Table size='sm'>
+                <thead>
+                  <tr>
+                    <th>Person</th>
+                    <th>Kvantitet</th>
+                    <th>Tidsstämpel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    //@ts-ignore
+                    fixPurchases(this.props.purchases).map((purchase: any, purchaseKey: any) => (
+                      <tr key={purchaseKey}>
+                        <td>{this.props.people[purchase.person.id].shortName}</td>
+                        <td>{purchase.quantity}</td>
+                        <td>{DateTime.fromISO(purchase.timestamp).setLocale('sv-SE').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)}</td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
               </Table>
 

@@ -109,9 +109,15 @@ const makePurchase = (salePointId: string, productId: string, personId: string, 
 
   const meta = {
     uid,
-    salePoint: salePointId,
-    product: productId,
-    person: personId,
+    salePoint: {
+      id: salePointId,
+    },
+    product: {
+      id: productId,
+    },
+    person: {
+      id: personId,
+    },
     timestamp: timestamp,
     quantity: quantity,
   }
