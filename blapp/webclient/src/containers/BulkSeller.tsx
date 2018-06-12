@@ -66,7 +66,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
 
     render() {
       return <>
-        <Container fluid>
+        <Container fluid style={{marginTop: '15px'}}>
           <Row>
             <Col sm={2}>
               <Row>
@@ -84,7 +84,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                   R.sortBy((x) => x.shortName),
                   R.mapObjIndexed((person: any, personKey: any) => (
                     <Col sm={3} className='mb-2' key={personKey}>
-                      <Button block size='lg' className='py-3' color={this.state.personId === person.id ? 'success' : 'default'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
+                      <Button block size='md' className='py-3' color={this.state.personId === person.id ? 'success' : 'default'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
                     </Col>
                   )),
                   R.values,
@@ -93,6 +93,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
             </Col>
             <Col sm={4}>
               <Button block size='lg' className='py-3' color='primary' disabled={!(this.state.personId && this.state.quantity)} onClick={this.makePurchase}>Köp</Button>
+              <p></p>
               <h3>Osynkade köp</h3>
               <Table size='sm'>
                 <thead>
