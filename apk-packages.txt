@@ -7,3 +7,4 @@ git
 postgresql-dev
 python3-dev
 mariadb-dev
+yarn

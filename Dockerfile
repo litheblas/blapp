@@ -18,9 +18,13 @@ RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\r\
 COPY Pipfile Pipfile.lock ${APP_ROOT}/
 RUN pipenv install --system --deploy
 
+COPY package.json yarn.lock ${APP_ROOT}/
+RUN yarn install && yarn cache clean
+
 COPY . ${APP_ROOT}/
 
 RUN pip3 install -e ${APP_ROOT} && \
+    yarn prod-build && \
     BLAPP_DATABASE_URL=sqlite://// BLAPP_LEGACY_DATABASE_URL=sqlite://// BLAPP_EMAIL_URL=consolemail:// BLAPP_REDIS_URL=redis:// BLAPP_SECRET_KEY=build django-admin collectstatic --no-input
 
 EXPOSE 80

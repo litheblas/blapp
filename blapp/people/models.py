@@ -31,6 +31,8 @@ class Person(models.Model):
 
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
 
+    temp_tour18 = models.BooleanField(default=False)
+
     class Meta:
         ordering = ('first_name', 'last_name')
 

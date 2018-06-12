@@ -109,7 +109,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin, models.Model):
 class ServiceAccount(models.Model):
     id = PrimaryKeyUUIDField()
 
-    token = models.CharField(max_length=AUTH_TOKEN_LENGTH)
+    token = models.CharField(max_length=AUTH_TOKEN_LENGTH, editable=False)
 
     name = NameField()
     description = DescriptionField()

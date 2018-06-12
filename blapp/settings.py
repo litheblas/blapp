@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'blapp.legacy',
     'blapp.people',
     'blapp.utils',
+    'blapp.webclient',
 ]
 
 MIDDLEWARE = [
