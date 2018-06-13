@@ -16,6 +16,7 @@ django-redis = "*"
 graphene-django = "*"
 ipython = "*"
 mysqlclient = "*"
+phonenumberslite = "*"
 "psycopg2-binary" = "*"
 whitenoise = "==4.0b4"
 
