@@ -1,10 +1,15 @@
 const path = require('path')
 
 const PROJECT_ROOT = path.resolve(__dirname)
-const WEBCLIENT_ROOT = path.resolve(PROJECT_ROOT, 'blapp', 'webclient')
+const FRONTEND_ROOT = path.resolve(PROJECT_ROOT, 'blapp', 'frontend')
 
 module.exports = {
-  entry: path.resolve(WEBCLIENT_ROOT, 'src', 'index.tsx'),
+  entry: {
+    // Add more bundles here.
+    base: path.resolve(FRONTEND_ROOT, 'src', 'base', 'index.tsx'),
+    commerce: path.resolve(FRONTEND_ROOT, 'src', 'commerce', 'index.tsx'),
+    style: path.resolve(FRONTEND_ROOT, 'src', 'style', 'index.scss'),
+  },
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -14,16 +19,39 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        test: /\.(scss)$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('precss'),
+                require('autoprefixer'),
+              ]
+            }
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
       },
+
     ],
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: [ '.tsx', '.ts', '.js', '.scss' ],
+    alias: {
+      blapp: path.resolve(FRONTEND_ROOT, 'src'),
+    },
   },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(WEBCLIENT_ROOT, 'static'),
+    filename: '[name]/bundle.js',
+    path: path.resolve(FRONTEND_ROOT, 'static'),
   },
 }

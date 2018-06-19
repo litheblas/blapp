@@ -2,7 +2,6 @@ import * as R from 'ramda'
 import uuid1 from 'uuid/v1'
 import uuid4 from 'uuid/v4'
 import { DateTime } from 'luxon'
-import { ThunkAction } from 'redux-thunk';
 
 const subActionSeparator = '/'
 

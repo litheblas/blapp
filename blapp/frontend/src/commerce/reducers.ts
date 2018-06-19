@@ -1,8 +1,6 @@
-import { Action } from 'redux'
 import * as R from 'ramda'
 
-import { actionTypes, SubActionNameSuffixMap } from './actions'
-import { stat } from 'fs';
+import { actionTypes } from 'blapp/commerce/actions'
 
 const defaultState = {
   offline: {},

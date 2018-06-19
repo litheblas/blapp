@@ -54,10 +54,10 @@ INSTALLED_APPS = [
     'blapp.api',
     'blapp.auth',
     'blapp.commerce',
+    'blapp.frontend',
     'blapp.legacy',
     'blapp.people',
     'blapp.utils',
-    'blapp.webclient',
 ]
 
 MIDDLEWARE = [
@@ -131,7 +131,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # good use case for this.
 WHITENOISE_ROOT = path.join(APP_ROOT, 'utils', 'root_static')
 
-WEBCLIENT_SETTINGS = {
+FRONTEND_SETTINGS = {
     'API_ROOT': reverse_lazy('api-graphql'),
 }
 

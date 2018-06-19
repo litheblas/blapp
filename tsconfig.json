@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./blapp/webclient/static/",
+    "outDir": "./blapp/frontend/static/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es2015",
@@ -11,5 +11,9 @@
     "allowSyntheticDefaultImports": true,
     "pretty": true,
     "moduleResolution": "node",
-  }
+    "baseUrl": ".",
+    "paths": {
+      "blapp/*": ["blapp/frontend/src/*"],
+    },
+  },
 }

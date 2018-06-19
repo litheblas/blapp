@@ -1,15 +1,12 @@
 import * as React from 'react'
-import * as R from 'ramda'
-import { Button, Container, Row, Col } from 'reactstrap'
-import { Dispatch, Action } from 'redux'
+import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { actionTypes, actions } from '../actions'
 
-import { BulkSellerContainer } from './BulkSeller'
-import { AuthFormContainer } from './AuthForm'
+import { actionTypes, actions } from 'blapp/commerce/actions'
+import { AuthFormContainer } from 'blapp/commerce/containers/AuthForm'
+import { BulkSellerContainer } from 'blapp/commerce/containers/BulkSeller'
 
-import 'bootstrap/dist/css/bootstrap.css'
-
+import 'blapp/style'
 
 const mapStateToProps = (state: any, ownProps: Object) => ({
   isAuthenticated: state.auth.isAuthenticated,
