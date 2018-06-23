@@ -1,0 +1,26 @@
+{% extends 'registration/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block inner_content %}
+  <h2>Request for permission</h2>
+
+  <p>
+    <strong>{{ client.name }}</strong> would like to access this information
+    from you:
+  </p>
+  <ul>
+    {% for scope in scopes %}
+      <li>
+        <strong>{{ scope.name }}</strong><br><i>{{ scope.description }}</i>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <form method="post" action="{% url 'openid:authorize' %}">
+    {% csrf_token %}
+    {{ hidden_inputs }}
+    <input type="submit" value="Decline" />
+    <input type="submit" value="Authorize" name="allow" />
+  </form>
+{% endblock inner_content %}

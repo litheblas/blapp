@@ -13,7 +13,7 @@ from blapp.utils.db_fields import (
     NameField,
     PrimaryKeyUUIDField,
 )
-from blapp.utils.random import generate_random_hex_string
+from blapp.utils.random import hex_string
 
 from .constants import AUTH_TOKEN_LENGTH
 
@@ -116,7 +116,7 @@ class ServiceAccount(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.token:
-            self.token = generate_random_hex_string(length=AUTH_TOKEN_LENGTH)
+            self.token = hex_string(length=AUTH_TOKEN_LENGTH)
         super().save(*args, **kwargs)
 
     @property

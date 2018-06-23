@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'channels',
     'django_extensions',
     'graphene_django',
+    'oidc_provider',
+    'widget_tweaks',
 
     'blapp.api',
     'blapp.auth',
@@ -117,6 +119,13 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'blapp.auth.backends.ServiceAccountTokenBackend',
 ]
+LOGIN_URL = reverse_lazy('login')
+
+OIDC_USERINFO = 'blapp.auth.oidc.user_info'
+OIDC_TEMPLATES = {
+    'authorize': 'registration/openid-authorize.html',
+    'error': 'registration/openid-error.html',
+}
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
