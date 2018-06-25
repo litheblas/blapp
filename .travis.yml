@@ -1,0 +1,13 @@
+language: python
+python:
+  - 3.6
+
+install:
+  - pip install -U docker-compose
+
+env:
+  - COMPOSE_FILE=docker-compose.ci.yml
+
+script:
+  - docker-compose build
+  - docker-compose run tests
