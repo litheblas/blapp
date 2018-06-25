@@ -38,3 +38,7 @@ pytest-splinter = "*"
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+docker-test = "pytest --create-db"
+web = "daphne -b 0.0.0.0 -p 80 blapp.routing:application"

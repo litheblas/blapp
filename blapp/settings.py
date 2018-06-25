@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 
 from blapp.utils.settings import PrefixEnv
 
-env = PrefixEnv(prefix='BLAPP_')
+ENV_PREFIX = 'BLAPP_'
+env = PrefixEnv(prefix=ENV_PREFIX)
 
 # Build paths inside the project like this: path.join(REPO_ROOT, ...)
 REPO_ROOT = path.dirname(path.dirname(path.abspath(__file__)))
@@ -22,6 +23,9 @@ DATABASES = {
     'default': env.db('DATABASE_URL'),
     'legacy': env.db('LEGACY_DATABASE_URL'),
 }
+
+if env.str('TEST_DATABASE_URL', default=''):
+    DATABASES['default']['TEST'] = env.db('TEST_DATABASE_URL')
 
 DATABASE_ROUTERS = (
     'blapp.legacy.db_routers.LegacyRouter',

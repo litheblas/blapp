@@ -1,4 +1,5 @@
 .env
+.var/
 
 *.pyc
 *.egg-info/
