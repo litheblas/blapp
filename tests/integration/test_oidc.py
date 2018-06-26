@@ -86,7 +86,7 @@ def test_oidc(browser, oidc_client, oidc_provider, oidc_scopes, person, user_acc
         'redirect_uri': oidc_provider.redirect_uris[0],
         'state': oidc_session.state,
     })
-    auth_url = auth_req.request(oidc_client.provider_info['authorization_endpoint'])
+    auth_url = auth_req.request(oidc_client.authorization_endpoint)
 
     browser.visit(auth_url)
     browser.find_by_name('username').fill(user_account.username)
