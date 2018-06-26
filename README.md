@@ -1,5 +1,7 @@
 Blapp
 =====
+[![Build Status](https://travis-ci.org/litheblas/blapp.svg?branch=master)](https://travis-ci.org/litheblas/blapp)
+
 The Blapp is the LiTHe Blås App. It handles very important things.
 
 # Installing dependencies
