@@ -33,7 +33,6 @@ oic = "*"
 pytest = "*"
 pytest-django = "*"
 pytest-env = "*"
-pytest-services = "*"
 pytest-splinter = "*"
 
 [requires]
