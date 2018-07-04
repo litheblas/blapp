@@ -40,24 +40,28 @@ class Purchase(models.Model):
         unique=True,
         default=uuid.uuid1,
         help_text=_(
-            'Unique ID used to ensure that offline clients can sync multiple '
-            'times without creating duplicates. Offline clients *must* supply '
-            'this.',
+            "Unique ID used to ensure that offline clients can sync multiple "
+            "times without creating duplicates. Offline clients *must* supply "
+            "this."
         ),
     )
 
-    timestamp = models.DateTimeField(default=now, editable=False, verbose_name=_('timestamp'))
-
-    person = models.ForeignKey('people.Person', on_delete=models.CASCADE, verbose_name=_('person'))
-    product = models.ForeignKey(
-        'commerce.Product', on_delete=models.CASCADE, verbose_name=_('product')
+    timestamp = models.DateTimeField(
+        default=now, editable=False, verbose_name=_("timestamp")
     )
-    quantity = models.IntegerField(default=1, verbose_name=_('quantity'))
+
+    person = models.ForeignKey(
+        "people.Person", on_delete=models.CASCADE, verbose_name=_("person")
+    )
+    product = models.ForeignKey(
+        "commerce.Product", on_delete=models.CASCADE, verbose_name=_("product")
+    )
+    quantity = models.IntegerField(default=1, verbose_name=_("quantity"))
     sale_point = models.ForeignKey(
-        'commerce.SalePoint', on_delete=models.CASCADE, verbose_name=_('sale point')
+        "commerce.SalePoint", on_delete=models.CASCADE, verbose_name=_("sale point")
     )
 
     class Meta:
-        ordering = ('-timestamp', )
-        verbose_name = _('purchase')
-        verbose_name_plural = _('purchases')
+        ordering = ("-timestamp",)
+        verbose_name = _("purchase")
+        verbose_name_plural = _("purchases")

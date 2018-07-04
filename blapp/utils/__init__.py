@@ -1,1 +1,1 @@
-default_app_config = 'blapp.utils.apps.UtilsConfig'
+default_app_config = "blapp.utils.apps.UtilsConfig"

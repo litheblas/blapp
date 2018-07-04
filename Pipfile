@@ -24,6 +24,7 @@ service-identity = "*"
 whitenoise = "==4.0b4"
 
 [dev-packages]
+black = "==18.6b4"
 factory-boy = "*"
 "flake8" = "*"
 "flake8-commas" = "*"

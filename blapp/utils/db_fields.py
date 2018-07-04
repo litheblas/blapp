@@ -6,33 +6,33 @@ from django.utils.translation import ugettext_lazy as _
 
 class PrimaryKeyUUIDField(models.UUIDField):
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault('default', uuid.uuid4)
-        kwargs.setdefault('editable', False)
-        kwargs.setdefault('primary_key', True)
-        kwargs.setdefault('verbose_name', _('ID'))
+        kwargs.setdefault("default", uuid.uuid4)
+        kwargs.setdefault("editable", False)
+        kwargs.setdefault("primary_key", True)
+        kwargs.setdefault("verbose_name", _("ID"))
         super().__init__(*args, **kwargs)
 
 
 class DescriptionField(models.TextField):
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault('blank', True)
-        kwargs.setdefault('verbose_name', _('description'))
+        kwargs.setdefault("blank", True)
+        kwargs.setdefault("verbose_name", _("description"))
         super().__init__(*args, **kwargs)
 
 
 class NameField(models.CharField):
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault('max_length', 256)
-        kwargs.setdefault('verbose_name', _('name'))
+        kwargs.setdefault("max_length", 256)
+        kwargs.setdefault("verbose_name", _("name"))
         super().__init__(*args, **kwargs)
 
 
 class UniqueEmailField(models.EmailField):
     def __init__(self, *args, **kwargs):
-        kwargs['blank'] = True
-        kwargs['default'] = None
-        kwargs['null'] = True
-        kwargs['unique'] = True
+        kwargs["blank"] = True
+        kwargs["default"] = None
+        kwargs["null"] = True
+        kwargs["unique"] = True
         super().__init__(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
@@ -45,6 +45,6 @@ class UniqueEmailField(models.EmailField):
 
 class MoneyDecimalField(models.DecimalField):
     def __init__(self, *args, **kwargs):
-        kwargs['max_digits'] = 12
-        kwargs['decimal_places'] = 2
+        kwargs["max_digits"] = 12
+        kwargs["decimal_places"] = 2
         super().__init__(*args, **kwargs)

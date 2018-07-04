@@ -3,5 +3,5 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class LegacyConfig(AppConfig):
-    name = 'blapp.legacy'
-    verbose_name = _('Legacy')
+    name = "blapp.legacy"
+    verbose_name = _("Legacy")

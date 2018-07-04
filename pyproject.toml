@@ -1,0 +1,5 @@
+[tool.black]
+# https://github.com/ambv/black#line-length
+line-length = 88
+py36 = true
+exclude = 'node_modules'

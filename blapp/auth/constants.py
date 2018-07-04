@@ -1,3 +1,3 @@
 AUTH_TOKEN_LENGTH = 40
 
-SERVICE_TOKEN_HEADER = 'Service-Token'
+SERVICE_TOKEN_HEADER = "Service-Token"

@@ -9,15 +9,17 @@ def dummy_view(request):
     raise Http404()
 
 
+# fmt: off
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/graphql/$', api_view, name='api-graphql'),
-    url(r'^auth/', include([
-        url(r'^', include('django.contrib.auth.urls')),
-        url(r'^openid/', include([
-            url(r'^', include('oidc_provider.urls', namespace='openid')),
-            url(r'$', dummy_view, name='openid'),
+    url(r"^admin/", admin.site.urls),
+    url(r"^api/graphql/$", api_view, name="api-graphql"),
+    url(r"^auth/", include([
+        url(r"^", include("django.contrib.auth.urls")),
+        url(r"^openid/", include([
+            url(r"^", include("oidc_provider.urls", namespace="openid")),
+            url(r"$", dummy_view, name="openid"),
         ])),
     ])),
-    url(r'^', include('blapp.frontend.urls')),
+    url(r"", include("blapp.frontend.urls")),
 ]
+# fmt: on

@@ -20,24 +20,19 @@ class UserAccount(DjangoObjectType):
         model = auth_models.UserAccount
         interfaces = [Node]
         only_fields = [
-            'id',
-            'username',
+            "id",
+            "username",
             # Relations
-            'person',
+            "person",
         ]
-        filter_fields = ['username']
+        filter_fields = ["username"]
 
 
 class Product(DjangoObjectType):
     class Meta:
         model = commerce_models.Product
         interfaces = [Node]
-        only_fields = [
-            'id',
-            'name',
-            'description',
-            'price',
-        ]
+        only_fields = ["id", "name", "description", "price"]
         filter_fields = []
 
 
@@ -45,11 +40,7 @@ class SalePoint(DjangoObjectType):
     class Meta:
         model = commerce_models.SalePoint
         interfaces = [Node]
-        only_fields = [
-            'id',
-            'name',
-            'description',
-        ]
+        only_fields = ["id", "name", "description"]
         filter_fields = []
 
 
@@ -58,14 +49,14 @@ class Purchase(DjangoObjectType):
         model = commerce_models.Purchase
         interfaces = [Node]
         only_fields = [
-            'id',
-            'uid',
-            'quantity',
-            'timestamp',
+            "id",
+            "uid",
+            "quantity",
+            "timestamp",
             # Relations
-            'person',
-            'product',
-            'sale_point',
+            "person",
+            "product",
+            "sale_point",
         ]
         filter_fields = []
 
@@ -80,23 +71,21 @@ class Person(DjangoObjectType):
         model = people_models.Person
         interfaces = [Node]
         only_fields = [
-            'id',
-            'full_name',
-            'short_name',
-            'first_name',
-            'last_name',
-            'nickname',
-            'date_of_birth',
-            'date_of_death',
-            'email',
-            'legacy_id',
+            "id",
+            "full_name",
+            "short_name",
+            "first_name",
+            "last_name",
+            "nickname",
+            "date_of_birth",
+            "date_of_death",
+            "email",
+            "legacy_id",
             # Relations
-            'purchases',
-            'user_account',
+            "purchases",
+            "user_account",
         ]
-        filter_fields = [
-            'temp_tour18',
-        ]
+        filter_fields = ["temp_tour18"]
 
 
 class MakePurchase(ClientIDMutation):
@@ -112,12 +101,12 @@ class MakePurchase(ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        purchase = commerce_models.Purchase(uid=uuid.UUID(input['uid']))
-        purchase.product = Node.get_node_from_global_id(info, input['product'])
-        purchase.person = Node.get_node_from_global_id(info, input['person'])
-        purchase.sale_point = Node.get_node_from_global_id(info, input['sale_point'])
-        purchase.timestamp = input['timestamp']
-        purchase.quantity = input['quantity']
+        purchase = commerce_models.Purchase(uid=uuid.UUID(input["uid"]))
+        purchase.product = Node.get_node_from_global_id(info, input["product"])
+        purchase.person = Node.get_node_from_global_id(info, input["person"])
+        purchase.sale_point = Node.get_node_from_global_id(info, input["sale_point"])
+        purchase.timestamp = input["timestamp"]
+        purchase.quantity = input["quantity"]
         purchase.save()
 
         return MakePurchase(purchase=purchase)

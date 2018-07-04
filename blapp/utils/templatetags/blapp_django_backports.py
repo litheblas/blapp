@@ -16,14 +16,15 @@ def json_script(value, element_id):
     the escaped JSON in a script tag.
     """
     _json_script_escapes = {
-        ord('>'): '\\u003E',
-        ord('<'): '\\u003C',
-        ord('&'): '\\u0026',
+        ord(">"): "\\u003E",
+        ord("<"): "\\u003C",
+        ord("&"): "\\u0026",
     }
 
     json_str = json.dumps(value, cls=DjangoJSONEncoder).translate(_json_script_escapes)
 
     return format_html(
         '<script id="{}" type="application/json">{}</script>',
-        element_id, mark_safe(json_str),
+        element_id,
+        mark_safe(json_str),
     )

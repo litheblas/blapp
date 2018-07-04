@@ -8,11 +8,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from blapp.people.models import Person
-from blapp.utils.db_fields import (
-    DescriptionField,
-    NameField,
-    PrimaryKeyUUIDField,
-)
+from blapp.utils.db_fields import DescriptionField, NameField, PrimaryKeyUUIDField
 from blapp.utils.random import hex_string
 
 from .constants import AUTH_TOKEN_LENGTH
@@ -20,28 +16,21 @@ from .constants import AUTH_TOKEN_LENGTH
 
 class UserAccountManager(BaseUserManager):
     def create_user(
-        self,
-        username=None,
-        email=None,
-        password=None,
-        first_name=None,
-        last_name=None,
+        self, username=None, email=None, password=None, first_name=None, last_name=None
     ):
         if not username:
-            raise ValueError('Users must have a username')
+            raise ValueError("Users must have a username")
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
         if not first_name:
-            raise ValueError('Users must have a first name')
+            raise ValueError("Users must have a first name")
         if not last_name:
-            raise ValueError('Users must have a last name')
+            raise ValueError("Users must have a last name")
 
         assert not UserAccount.objects.filter(username=username).exists()
 
         person = Person.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
+            first_name=first_name, last_name=last_name, email=email
         )
 
         user = self.model(username=username, person=person)
@@ -62,32 +51,26 @@ class UserAccount(AbstractBaseUser, PermissionsMixin, models.Model):
     id = PrimaryKeyUUIDField()
 
     person = models.OneToOneField(
-        'people.Person',
-        related_name='user_account',
+        "people.Person",
+        related_name="user_account",
         on_delete=models.CASCADE,
-        verbose_name=_('person'),
+        verbose_name=_("person"),
     )
 
     username = models.CharField(
         max_length=256,
         unique=True,
         validators=[UnicodeUsernameValidator()],
-        verbose_name=_('username'),
+        verbose_name=_("username"),
     )
 
-    is_active = models.BooleanField(
-        default=True,
-        verbose_name=_('is active'),
-    )
-    is_staff = models.BooleanField(
-        default=False,
-        verbose_name=_('is staff'),
-    )
+    is_active = models.BooleanField(default=True, verbose_name=_("is active"))
+    is_staff = models.BooleanField(default=False, verbose_name=_("is staff"))
 
     objects = UserAccountManager()
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['person']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["person"]
 
     def __str__(self):
         return str(self.person)

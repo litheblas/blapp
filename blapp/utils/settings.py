@@ -5,7 +5,7 @@ import environ
 
 class PrefixEnv(environ.Env):
     def __init__(self, *args, prefix=None, **kwargs):
-        self.var_prefix = prefix or ''
+        self.var_prefix = prefix or ""
         self.use_prefix = True
         super().__init__(*args, **kwargs)
 

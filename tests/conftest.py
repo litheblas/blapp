@@ -6,7 +6,7 @@ from django_redis import get_redis_connection
 from blapp.utils.settings import PrefixEnv
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def env():
     return PrefixEnv(prefix=settings.ENV_PREFIX)
 
@@ -18,4 +18,4 @@ def request_factory():
 
 @pytest.fixture(autouse=True)
 def clear_cache():
-    get_redis_connection('default').flushall()
+    get_redis_connection("default").flushall()

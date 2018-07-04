@@ -1,13 +1,14 @@
 from django.db import DatabaseError
 
-LEGACY_APP_LABEL = 'legacy'
-LEGACY_DATABASE_LABEL = 'legacy'
+LEGACY_APP_LABEL = "legacy"
+LEGACY_DATABASE_LABEL = "legacy"
 
 
 class LegacyRouter:
     """
     A database router to route all queries from the legacy app to the legacy database.
     """
+
     def db_for_read(self, model, **hints):
         if model._meta.app_label == LEGACY_APP_LABEL:
             return LEGACY_DATABASE_LABEL
@@ -15,11 +16,14 @@ class LegacyRouter:
 
     def db_for_write(self, model, **hints):
         if model._meta.app_label == LEGACY_APP_LABEL:
-            raise DatabaseError('Writing to the legacy database is not allowed.')
+            raise DatabaseError("Writing to the legacy database is not allowed.")
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
-        if (obj1._meta.app_label == LEGACY_APP_LABEL or obj2._meta.app_label == LEGACY_APP_LABEL):
+        if (
+            obj1._meta.app_label == LEGACY_APP_LABEL
+            or obj2._meta.app_label == LEGACY_APP_LABEL
+        ):
             # Don't allow relations with tables in the legacy database.
             return False
         return None

@@ -13,19 +13,19 @@ class Sebi(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'SEBI'
+        db_table = "SEBI"
 
 
 class AktPers(models.Model):
-    akt = models.ForeignKey('Aktivitet', models.DO_NOTHING)
-    pers = models.ForeignKey('Person', models.DO_NOTHING)
+    akt = models.ForeignKey("Aktivitet", models.DO_NOTHING)
+    pers = models.ForeignKey("Person", models.DO_NOTHING)
     svar = models.CharField(max_length=1)
     kommentar = models.TextField()
 
     class Meta:
         managed = False
-        db_table = 'akt_pers'
-        unique_together = (('akt', 'pers'),)
+        db_table = "akt_pers"
+        unique_together = (("akt", "pers"),)
 
 
 class AktPobel(models.Model):
@@ -37,8 +37,8 @@ class AktPobel(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'akt_pobel'
-        unique_together = (('akt_id', 'pobel_id'),)
+        db_table = "akt_pobel"
+        unique_together = (("akt_id", "pobel_id"),)
 
 
 class AktPobelPerson(models.Model):
@@ -49,16 +49,17 @@ class AktPobelPerson(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'akt_pobel_person'
-        unique_together = (('fnamn', 'enamn', 'epost'),)
+        db_table = "akt_pobel_person"
+        unique_together = (("fnamn", "enamn", "epost"),)
 
 
 class Aktivitet(models.Model):
-    arrangor = models.ForeignKey('Person', models.DO_NOTHING)
+    arrangor = models.ForeignKey("Person", models.DO_NOTHING)
     aktivitet = models.CharField(max_length=127)
     plats = models.CharField(max_length=127)
     koordinat = models.ForeignKey(
-        'Coord', models.DO_NOTHING, db_column='koordinat', blank=True, null=True)
+        "Coord", models.DO_NOTHING, db_column="koordinat", blank=True, null=True
+    )
     fritext = models.TextField()
     tid = models.DateTimeField()
     sluttid = models.DateTimeField()
@@ -69,7 +70,7 @@ class Aktivitet(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'aktivitet'
+        db_table = "aktivitet"
 
 
 class ArrPers(models.Model):
@@ -78,7 +79,7 @@ class ArrPers(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'arr_pers'
+        db_table = "arr_pers"
 
 
 class Arrangemang(models.Model):
@@ -88,12 +89,13 @@ class Arrangemang(models.Model):
     slutdatum = models.DateField(blank=True, null=True)
     barstat = models.CharField(max_length=3, blank=True, null=True)
     maillist = models.ForeignKey(
-        'Mailadress', models.DO_NOTHING, db_column='maillist', blank=True, null=True)
+        "Mailadress", models.DO_NOTHING, db_column="maillist", blank=True, null=True
+    )
     mapcolor = models.CharField(max_length=7, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'arrangemang'
+        db_table = "arrangemang"
 
 
 class BarenStat(models.Model):
@@ -103,8 +105,8 @@ class BarenStat(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'baren_stat'
-        unique_together = (('pers', 'datum'),)
+        db_table = "baren_stat"
+        unique_together = (("pers", "datum"),)
 
 
 class Barskulder(models.Model):
@@ -115,7 +117,7 @@ class Barskulder(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'barskulder'
+        db_table = "barskulder"
 
 
 class Blasbaslog(models.Model):
@@ -126,7 +128,7 @@ class Blasbaslog(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'blasbaslog'
+        db_table = "blasbaslog"
 
 
 class Bokning(models.Model):
@@ -138,7 +140,7 @@ class Bokning(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'bokning'
+        db_table = "bokning"
 
 
 class Bokresurs(models.Model):
@@ -146,7 +148,7 @@ class Bokresurs(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'bokresurs'
+        db_table = "bokresurs"
 
 
 class Coord(models.Model):
@@ -156,19 +158,19 @@ class Coord(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'coord'
+        db_table = "coord"
 
 
 class CoordArr(models.Model):
-    coordid = models.ForeignKey(Coord, models.DO_NOTHING, db_column='coordid')
-    arrid = models.ForeignKey(Arrangemang, models.DO_NOTHING, db_column='arrid')
+    coordid = models.ForeignKey(Coord, models.DO_NOTHING, db_column="coordid")
+    arrid = models.ForeignKey(Arrangemang, models.DO_NOTHING, db_column="arrid")
     datum = models.DateField(blank=True, null=True)
     tid = models.TimeField(blank=True, null=True)
     text = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'coord_arr'
+        db_table = "coord_arr"
 
 
 class Deletelog(models.Model):
@@ -178,7 +180,7 @@ class Deletelog(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'deletelog'
+        db_table = "deletelog"
 
 
 class Et05(models.Model):
@@ -186,7 +188,7 @@ class Et05(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'et05'
+        db_table = "et05"
 
 
 class ExtraSida(models.Model):
@@ -196,16 +198,18 @@ class ExtraSida(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'extra_sida'
+        db_table = "extra_sida"
 
 
 class Extramail(models.Model):
-    addr = models.OneToOneField('Mailadress', models.DO_NOTHING, db_column='addr', primary_key=True)
+    addr = models.OneToOneField(
+        "Mailadress", models.DO_NOTHING, db_column="addr", primary_key=True
+    )
     password = models.CharField(max_length=63, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'extramail'
+        db_table = "extramail"
 
 
 class Flumm(models.Model):
@@ -214,7 +218,7 @@ class Flumm(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'flumm'
+        db_table = "flumm"
 
 
 class FragaKat(models.Model):
@@ -222,7 +226,7 @@ class FragaKat(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'fraga_kat'
+        db_table = "fraga_kat"
 
 
 class Funk(models.Model):
@@ -233,7 +237,7 @@ class Funk(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'funk'
+        db_table = "funk"
 
 
 class Gb(models.Model):
@@ -244,7 +248,7 @@ class Gb(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'gb'
+        db_table = "gb"
 
 
 class Identitet(models.Model):
@@ -254,7 +258,7 @@ class Identitet(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'identitet'
+        db_table = "identitet"
 
 
 class Identitetstyp(models.Model):
@@ -263,7 +267,7 @@ class Identitetstyp(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'identitetstyp'
+        db_table = "identitetstyp"
 
 
 class Image(models.Model):
@@ -282,19 +286,19 @@ class Image(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'image'
+        db_table = "image"
 
 
 class Instrument(models.Model):
     instrid = models.AutoField(primary_key=True)
     lnamn = models.CharField(max_length=31)
     knamn = models.CharField(max_length=31, blank=True, null=True)
-    sekt = models.ForeignKey('Sektion', models.DO_NOTHING, db_column='sekt')
+    sekt = models.ForeignKey("Sektion", models.DO_NOTHING, db_column="sekt")
     hemsida = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'instrument'
+        db_table = "instrument"
 
 
 class Karta(models.Model):
@@ -303,7 +307,7 @@ class Karta(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'karta'
+        db_table = "karta"
 
 
 class Kartplats(models.Model):
@@ -320,7 +324,7 @@ class Kartplats(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'kartplats'
+        db_table = "kartplats"
 
 
 class Kort(models.Model):
@@ -330,7 +334,7 @@ class Kort(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'kort'
+        db_table = "kort"
 
 
 class Kres(models.Model):
@@ -339,7 +343,7 @@ class Kres(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'kres'
+        db_table = "kres"
 
 
 class KresPers(models.Model):
@@ -348,7 +352,7 @@ class KresPers(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'kres_pers'
+        db_table = "kres_pers"
 
 
 class Logkort(models.Model):
@@ -359,7 +363,7 @@ class Logkort(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'logkort'
+        db_table = "logkort"
 
 
 class Logresurs(models.Model):
@@ -369,7 +373,7 @@ class Logresurs(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'logresurs'
+        db_table = "logresurs"
 
 
 class Mailadress(models.Model):
@@ -377,32 +381,33 @@ class Mailadress(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'mailadress'
+        db_table = "mailadress"
 
 
 class Maillist(models.Model):
     maillistid = models.AutoField(primary_key=True)
     namn = models.ForeignKey(
-        Mailadress, models.DO_NOTHING, db_column='namn', blank=True, null=True)
+        Mailadress, models.DO_NOTHING, db_column="namn", blank=True, null=True
+    )
     beskr = models.CharField(max_length=63, blank=True, null=True)
     slutdatum = models.DateField(blank=True, null=True)
     sluten = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'maillist'
+        db_table = "maillist"
 
 
 class Medlem(models.Model):
     medlemid = models.AutoField(primary_key=True)
-    pers = models.ForeignKey('Person', models.DO_NOTHING, db_column='pers')
+    pers = models.ForeignKey("Person", models.DO_NOTHING, db_column="pers")
     datum = models.DateField()
     typ = models.CharField(max_length=7)
     instr = models.IntegerField()
 
     class Meta:
         managed = False
-        db_table = 'medlem'
+        db_table = "medlem"
 
 
 class Misslyckadeadd(models.Model):
@@ -413,18 +418,18 @@ class Misslyckadeadd(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'misslyckadeadd'
+        db_table = "misslyckadeadd"
 
 
 class MsStat(models.Model):
-    pers = models.OneToOneField('Person', models.DO_NOTHING, primary_key=True)
+    pers = models.OneToOneField("Person", models.DO_NOTHING, primary_key=True)
     datum = models.DateField()
     tillstand = models.CharField(max_length=1)
 
     class Meta:
         managed = False
-        db_table = 'ms_stat'
-        unique_together = (('pers', 'datum'),)
+        db_table = "ms_stat"
+        unique_together = (("pers", "datum"),)
 
 
 class Musik(models.Model):
@@ -437,7 +442,7 @@ class Musik(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'musik'
+        db_table = "musik"
 
 
 class Offyellow2005(models.Model):
@@ -445,7 +450,7 @@ class Offyellow2005(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'offyellow2005'
+        db_table = "offyellow2005"
 
 
 class Oldmusik(models.Model):
@@ -458,7 +463,7 @@ class Oldmusik(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'oldmusik'
+        db_table = "oldmusik"
 
 
 class Oldspellista(models.Model):
@@ -469,7 +474,7 @@ class Oldspellista(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'oldspellista'
+        db_table = "oldspellista"
 
 
 class Pagang(models.Model):
@@ -478,7 +483,8 @@ class Pagang(models.Model):
     tid = models.TimeField(blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     koordinat = models.ForeignKey(
-        Coord, models.DO_NOTHING, db_column='koordinat', blank=True, null=True)
+        Coord, models.DO_NOTHING, db_column="koordinat", blank=True, null=True
+    )
     kontakt = models.CharField(max_length=63, blank=True, null=True)
     kontakttel = models.CharField(max_length=31, blank=True, null=True)
     kontaktmail = models.CharField(max_length=31, blank=True, null=True)
@@ -488,7 +494,7 @@ class Pagang(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'pagang'
+        db_table = "pagang"
 
 
 class Page(models.Model):
@@ -499,30 +505,30 @@ class Page(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'page'
+        db_table = "page"
 
 
 class Persfunk(models.Model):
-    pers = models.ForeignKey('Person', models.DO_NOTHING, db_column='pers')
-    funk = models.ForeignKey(Funk, models.DO_NOTHING, db_column='funk')
+    pers = models.ForeignKey("Person", models.DO_NOTHING, db_column="pers")
+    funk = models.ForeignKey(Funk, models.DO_NOTHING, db_column="funk")
     startdatum = models.DateField()
     slutdatum = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'persfunk'
+        db_table = "persfunk"
 
 
 class Perslist(models.Model):
     perslistid = models.AutoField(primary_key=True)
-    pers = models.ForeignKey('Person', models.DO_NOTHING, db_column='pers')
-    maillist = models.ForeignKey(Maillist, models.DO_NOTHING, db_column='maillist')
+    pers = models.ForeignKey("Person", models.DO_NOTHING, db_column="pers")
+    maillist = models.ForeignKey(Maillist, models.DO_NOTHING, db_column="maillist")
     admin = models.CharField(max_length=1, blank=True, null=True)
     request = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'perslist'
+        db_table = "perslist"
 
 
 class Person(models.Model):
@@ -544,7 +550,8 @@ class Person(models.Model):
     icqnr = models.CharField(max_length=20, blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     blasmail = models.OneToOneField(
-        Mailadress, models.DO_NOTHING, db_column='blasmail', blank=True, null=True)
+        Mailadress, models.DO_NOTHING, db_column="blasmail", blank=True, null=True
+    )
     gras_medlem_till = models.DateField(blank=True, null=True)
     arbete = models.CharField(max_length=63, blank=True, null=True)
     icke_blasare = models.CharField(max_length=1, blank=True, null=True)
@@ -563,7 +570,7 @@ class Person(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'person'
+        db_table = "person"
 
 
 class Persres(models.Model):
@@ -574,8 +581,8 @@ class Persres(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'persres'
-        unique_together = (('persid', 'resid'),)
+        db_table = "persres"
+        unique_together = (("persid", "resid"),)
 
 
 class Resurs(models.Model):
@@ -586,7 +593,7 @@ class Resurs(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'resurs'
+        db_table = "resurs"
 
 
 class Resursio(models.Model):
@@ -600,7 +607,7 @@ class Resursio(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'resursio'
+        db_table = "resursio"
 
 
 class Saxsekten(models.Model):
@@ -609,7 +616,7 @@ class Saxsekten(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'saxsekten'
+        db_table = "saxsekten"
 
 
 class Script(models.Model):
@@ -619,8 +626,7 @@ class Script(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'script'
-
+        db_table = "script"
 
 
 class Sektion(models.Model):
@@ -632,7 +638,7 @@ class Sektion(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'sektion'
+        db_table = "sektion"
 
 
 class Spellista(models.Model):
@@ -643,7 +649,7 @@ class Spellista(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'spellista'
+        db_table = "spellista"
 
 
 class Svar(models.Model):
@@ -653,7 +659,7 @@ class Svar(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'svar'
+        db_table = "svar"
 
 
 class T2S(models.Model):
@@ -665,7 +671,7 @@ class T2S(models.Model):
 
     class Meta:
         managed = False
-        db_table = 't2s'
+        db_table = "t2s"
 
 
 class Test(models.Model):
@@ -674,7 +680,7 @@ class Test(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'test'
+        db_table = "test"
 
 
 class Uppslag(models.Model):
@@ -685,7 +691,7 @@ class Uppslag(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'uppslag'
+        db_table = "uppslag"
 
 
 class User(models.Model):
@@ -698,4 +704,4 @@ class User(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'user'
+        db_table = "user"

@@ -9,24 +9,60 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Person',
+            name="Person",
             fields=[
-                ('id', blapp.utils.db_fields.PrimaryKeyUUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', blapp.utils.db_fields.NameField(max_length=256, verbose_name='first name')),
-                ('last_name', blapp.utils.db_fields.NameField(max_length=256, verbose_name='last name')),
-                ('nickname', blapp.utils.db_fields.NameField(blank=True, max_length=256, verbose_name='nickname')),
-                ('date_of_birth', models.DateField(blank=True, null=True, verbose_name='date of birth')),
-                ('date_of_death', models.DateField(blank=True, null=True, verbose_name='date of death')),
-                ('email', blapp.utils.db_fields.UniqueEmailField(blank=True, default=None, max_length=254, null=True, unique=True)),
-                ('legacy_id', models.PositiveIntegerField(blank=True, null=True)),
+                (
+                    "id",
+                    blapp.utils.db_fields.PrimaryKeyUUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "first_name",
+                    blapp.utils.db_fields.NameField(
+                        max_length=256, verbose_name="first name"
+                    ),
+                ),
+                (
+                    "last_name",
+                    blapp.utils.db_fields.NameField(
+                        max_length=256, verbose_name="last name"
+                    ),
+                ),
+                (
+                    "nickname",
+                    blapp.utils.db_fields.NameField(
+                        blank=True, max_length=256, verbose_name="nickname"
+                    ),
+                ),
+                (
+                    "date_of_birth",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="date of birth"
+                    ),
+                ),
+                (
+                    "date_of_death",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="date of death"
+                    ),
+                ),
+                (
+                    "email",
+                    blapp.utils.db_fields.UniqueEmailField(
+                        blank=True, default=None, max_length=254, null=True, unique=True
+                    ),
+                ),
+                ("legacy_id", models.PositiveIntegerField(blank=True, null=True)),
             ],
-            options={
-                'ordering': ('first_name', 'last_name'),
-            },
-        ),
+            options={"ordering": ("first_name", "last_name")},
+        )
     ]
