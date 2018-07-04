@@ -79,6 +79,12 @@ class UserAccount(AbstractBaseUser, PermissionsMixin, models.Model):
         assert self.person.email
         super().save(*args, **kwargs)
 
+    @property
+    def email(self):
+        # Having this available on the user model makes some third-party apps
+        # less sad.
+        return self.person.email
+
     def get_username(self):
         return self.username
 
