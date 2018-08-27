@@ -30,7 +30,7 @@ def user_info(claims, user):
         "family_name": person.last_name,
         "nickname": person.nickname,
         "preferred_username": user.username,
-        "birthdate": person.date_of_birth.isoformat(),
+        "birthdate": person.date_of_birth.isoformat() if person.date_of_birth else None,
         # email
         "email": person.email,
         # phone
