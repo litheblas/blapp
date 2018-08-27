@@ -110,6 +110,7 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_URL = reverse_lazy("login")
 
 OIDC_USERINFO = "blapp.auth.oidc.user_info"
+OIDC_EXTRA_SCOPE_CLAIMS = "blapp.auth.oidc.CustomScopeClaims"
 OIDC_TEMPLATES = {
     "authorize": "registration/openid-authorize.html",
     "error": "registration/openid-error.html",
