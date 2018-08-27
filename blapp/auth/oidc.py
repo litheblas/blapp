@@ -14,7 +14,7 @@ class CustomScopeClaims(ScopeClaims):
         return {
             # Wraps the UUID to an integer fitting in 63 bits (or Mattermost
             # will fall on its side)
-            "id": self.id.int % (2 ** 63 - 1),
+            "id": self.user.id.int % (2 ** 63 - 1),
             "username": self.userinfo["preferred_username"],
         }
 
