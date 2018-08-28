@@ -36,6 +36,8 @@ pytest = "==3.6.*"
 pytest-django = "==3.3.*"
 pytest-env = "==0.6.*"
 pytest-splinter = "==1.9.*"
+# Locked at lower version due to compatibility problems in pytest-splinter
+splinter = "==0.8.*"
 
 [requires]
 python_version = "3.6"
