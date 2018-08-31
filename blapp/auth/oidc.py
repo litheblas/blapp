@@ -16,6 +16,8 @@ class CustomScopeClaims(ScopeClaims):
             # will fall on its side)
             "id": self.user.id.int % (2 ** 63 - 1),
             "username": self.userinfo["preferred_username"],
+            # Nicknames in full name are handled so-so good in Mattermost
+            "name": f"{self.user.person.first_name} {self.user.person.last_name}",
         }
 
 
