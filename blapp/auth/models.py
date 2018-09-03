@@ -103,6 +103,9 @@ class ServiceAccount(models.Model):
     name = NameField()
     description = DescriptionField()
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
         if not self.token:
             self.token = hex_string(length=AUTH_TOKEN_LENGTH)
