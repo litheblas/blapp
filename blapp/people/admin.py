@@ -7,6 +7,7 @@ from . import models
 class RoleAssignmentInline(admin.TabularInline):
     model = models.RoleAssignment
     fields = ["person", "role", "period", "trial"]
+    raw_id_fields = ["person"]
     extra = 0
 
 
