@@ -46,8 +46,8 @@
   },
   "scripts": {
     "dev-build": "webpack --mode=development",
-    "dev-watch": "run-s 'dev-build' 'dev-build --watch'",
+    "dev-watch": "run-s 'dev-build --watch'",
     "prod-build": "webpack --mode=production",
-    "prod-watch": "run-s 'prod-build' 'prod-build --watch'"
+    "prod-watch": "run-s 'prod-build --watch'"
   }
 }
