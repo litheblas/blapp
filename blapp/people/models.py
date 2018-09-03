@@ -1,7 +1,14 @@
+from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from mptt.models import MPTTModel, TreeForeignKey
 
-from blapp.utils.db_fields import NameField, PrimaryKeyUUIDField, UniqueEmailField
+from blapp.utils.db_fields import (
+    DescriptionField,
+    NameField,
+    PrimaryKeyUUIDField,
+    UniqueEmailField,
+)
 
 
 class Person(models.Model):
@@ -42,3 +49,56 @@ class Person(models.Model):
     @property
     def short_name(self):
         return self.nickname or f"{self.first_name} {self.last_name[:1]}"
+
+
+class Role(MPTTModel, models.Model):
+    id = PrimaryKeyUUIDField()
+
+    name = NameField()
+    description = DescriptionField()
+
+    parent = TreeForeignKey(
+        "self", on_delete=models.CASCADE, related_name="children", null=True, blank=True
+    )
+
+    membership = models.BooleanField(default=False)
+    engagement = models.BooleanField(default=False)
+
+    legacy_table = models.CharField(max_length=64)
+    legacy_id = models.CharField(max_length=64)
+
+    class MPTTMeta:
+        order_insertion_by = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class RoleAssignment(models.Model):
+    id = PrimaryKeyUUIDField()
+
+    role = TreeForeignKey(
+        "people.Role",
+        on_delete=models.CASCADE,
+        related_name="role_assignments",
+        verbose_name=_("role"),
+    )
+    person = models.ForeignKey(
+        "people.Person",
+        on_delete=models.CASCADE,
+        related_name="role_assignments",
+        verbose_name=_("person"),
+    )
+
+    period = DateRangeField(verbose_name=_("period"))
+    trial = models.BooleanField()
+
+    legacy_table = models.CharField(max_length=64)
+    legacy_start_id = models.CharField(max_length=64)
+    legacy_end_id = models.CharField(max_length=64)
+
+    class Meta:
+        ordering = ["period"]
+
+    def __str__(self):
+        return f"{self.person.short_name}: {self.role} ({self.period.lower}–{self.period.upper})"

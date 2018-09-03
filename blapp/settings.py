@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "channels",
     "django_extensions",
     "graphene_django",
+    "mptt",
     "oidc_provider",
     "widget_tweaks",
     "blapp.api",
