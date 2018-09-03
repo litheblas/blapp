@@ -64,8 +64,8 @@ class Role(MPTTModel, models.Model):
     membership = models.BooleanField(default=False)
     engagement = models.BooleanField(default=False)
 
-    legacy_table = models.CharField(max_length=64)
-    legacy_id = models.CharField(max_length=64)
+    legacy_table = models.CharField(max_length=64, blank=True)
+    legacy_id = models.CharField(max_length=64, blank=True)
 
     class MPTTMeta:
         order_insertion_by = ["name"]
@@ -93,9 +93,9 @@ class RoleAssignment(models.Model):
     period = DateRangeField(verbose_name=_("period"))
     trial = models.BooleanField()
 
-    legacy_table = models.CharField(max_length=64)
-    legacy_start_id = models.CharField(max_length=64)
-    legacy_end_id = models.CharField(max_length=64)
+    legacy_table = models.CharField(max_length=64, blank=True)
+    legacy_start_id = models.CharField(max_length=64, blank=True)
+    legacy_end_id = models.CharField(max_length=64, blank=True)
 
     class Meta:
         ordering = ["period"]
