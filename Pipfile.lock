@@ -56,17 +56,17 @@
         },
         "attrs": {
             "hashes": [
-                "sha256:4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265",
-                "sha256:e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"
+                "sha256:10cbf6e27dbce8c30807caf056c8eb50917e0eaafe86347671b57254006c3e69",
+                "sha256:ca4be454458f9dec299268d472aaa5a11f67a4ff70093396e1ceae9c76cf4bbb"
             ],
-            "version": "==18.1.0"
+            "version": "==18.2.0"
         },
         "autobahn": {
             "hashes": [
-                "sha256:4debaa226ee8a9880e0a534049a6eb2b4e94694342c68a771d3ee06be99dde6a",
-                "sha256:b69858e0be4bff8437b0bd82a0db1cbef7405e16bd9354ba587c043d6d5e1ad9"
+                "sha256:829fbeb08b7e0f7e8cd14d9d169043a861075c3f6e5e2739d564dc985b5e7015",
+                "sha256:ef29f48d9375e20de4d60d63ca3feae330213421c3c3a7319014e1d21db7dfe8"
             ],
-            "version": "==18.8.1"
+            "version": "==18.9.1"
         },
         "automat": {
             "hashes": [
@@ -386,18 +386,18 @@
         },
         "phonenumbers": {
             "hashes": [
-                "sha256:1c31db3859aada0568e7afe7231c4e795f34bfcf5749e31c9d1da3c72ba7059b",
-                "sha256:46a4e819840d9a44c6d4af69ea4b5f6060a6f8dda2b130ff27d118ea792d80a8"
+                "sha256:39cd0c67a17a9ca4c2851ab8fad5272948d811ccd2a8e52ddcc8d275a802af70",
+                "sha256:b1c8de1a8f1e997e2baedc3fba396fa447d655e08b69c68dbcf5f1993b4a4d75"
             ],
-            "version": "==8.9.11"
+            "version": "==8.9.12"
         },
         "phonenumberslite": {
             "hashes": [
-                "sha256:c1028208e1986916005b8978623a234d7f378d0e3a4aa483ba44952e26acd498",
-                "sha256:c7b4301e3270e2af10662354de7b2d0037c7fd7748a9e5cd3be3d3ff65d30e86"
+                "sha256:5d9b907a99fa8bcd0c16d79968ba8fa6feaf9bca2b15aa08e479f1dd3ee7ac43",
+                "sha256:b4a546df347550e3c0ff467dff13878f06b4d7e7bd0e9fb0ef9c92b691dde6e8"
             ],
             "index": "pypi",
-            "version": "==8.9.11"
+            "version": "==8.9.12"
         },
         "pickleshare": {
             "hashes": [
@@ -619,10 +619,10 @@
         },
         "txaio": {
             "hashes": [
-                "sha256:14bdd7b26c12bf1b213e4f85bf7e4d5a2e920692313f2fb19f0f9ab5b143026f",
-                "sha256:701de939e90bb80f7e085357081552437526752199def5541dddfc34c0b0593f"
+                "sha256:67e360ac73b12c52058219bb5f8b3ed4105d2636707a36a7cdafb56fe06db7fe",
+                "sha256:b6b235d432cc58ffe111b43e337db71a5caa5d3eaa88f0eacf60b431c7626ef5"
             ],
-            "version": "==18.7.1"
+            "version": "==18.8.1"
         },
         "typing": {
             "hashes": [
@@ -703,18 +703,18 @@
         },
         "atomicwrites": {
             "hashes": [
-                "sha256:6b5282987b21cd79151f51caccead7a09d0a32e89c568bd9e3c4aaa7bbdf3f3a",
-                "sha256:e16334d50fe0f90919ef7339c24b9b62e6abaa78cd2d226f3d94eb067eb89043"
+                "sha256:0312ad34fcad8fac3704d441f7b317e50af620823353ec657a53e981f92920c0",
+                "sha256:ec9ae8adaae229e4f8446952d204a3e4b5fdd2d099f9be3aaf556120135fb3ee"
             ],
-            "markers": "python_version >= '2.7' and python_version != '3.3.*' and python_version != '3.0.*' and python_version != '3.1.*' and python_version != '3.2.*'",
-            "version": "==1.2.0"
+            "markers": "python_version != '3.0.*' and python_version != '3.2.*' and python_version != '3.3.*' and python_version >= '2.7' and python_version != '3.1.*'",
+            "version": "==1.2.1"
         },
         "attrs": {
             "hashes": [
-                "sha256:4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265",
-                "sha256:e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"
+                "sha256:10cbf6e27dbce8c30807caf056c8eb50917e0eaafe86347671b57254006c3e69",
+                "sha256:ca4be454458f9dec299268d472aaa5a11f67a4ff70093396e1ceae9c76cf4bbb"
             ],
-            "version": "==18.1.0"
+            "version": "==18.2.0"
         },
         "backcall": {
             "hashes": [
