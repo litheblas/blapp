@@ -1,6 +1,7 @@
 Blapp
 =====
 [![Build Status](https://travis-ci.org/litheblas/blapp.svg?branch=master)](https://travis-ci.org/litheblas/blapp)
+[![Docker Repository](https://quay.io/repository/litheblas/blapp/status "Docker Repository")](https://quay.io/repository/litheblas/blapp)
 
 The Blapp is the LiTHe Blås App. It handles very important things.
 
