@@ -13,6 +13,8 @@ class RoleAssignmentInline(admin.TabularInline):
 
 @admin.register(models.Person)
 class PersonAdmin(admin.ModelAdmin):
+    list_display = ["first_name", "last_name", "nickname", "email"]
+    list_display_links = ["first_name", "last_name", "nickname"]
     search_fields = ["first_name", "last_name", "nickname", "email"]
     inlines = [RoleAssignmentInline]
 

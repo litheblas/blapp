@@ -7,6 +7,7 @@ from . import models
 
 @admin.register(models.ServiceAccount)
 class ServiceAccountAdmin(admin.ModelAdmin):
+    list_display = ["name", "description"]
     readonly_fields = ["token"]
 
 
