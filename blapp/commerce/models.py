@@ -51,14 +51,23 @@ class Purchase(models.Model):
     )
 
     person = models.ForeignKey(
-        "people.Person", on_delete=models.CASCADE, verbose_name=_("person")
+        "people.Person",
+        on_delete=models.CASCADE,
+        related_name="purchases",
+        verbose_name=_("person"),
     )
     product = models.ForeignKey(
-        "commerce.Product", on_delete=models.CASCADE, verbose_name=_("product")
+        "commerce.Product",
+        on_delete=models.CASCADE,
+        related_name="purchases",
+        verbose_name=_("product"),
     )
     quantity = models.IntegerField(default=1, verbose_name=_("quantity"))
     sale_point = models.ForeignKey(
-        "commerce.SalePoint", on_delete=models.CASCADE, verbose_name=_("sale point")
+        "commerce.SalePoint",
+        on_delete=models.CASCADE,
+        related_name="purchases",
+        verbose_name=_("sale point"),
     )
 
     class Meta:

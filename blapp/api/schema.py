@@ -65,8 +65,6 @@ class Person(DjangoObjectType):
     full_name = String()
     short_name = String()
 
-    purchases = DjangoFilterConnectionField(Purchase)
-
     class Meta:
         model = people_models.Person
         interfaces = [Node]
