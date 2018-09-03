@@ -54,4 +54,9 @@ module.exports = {
     filename: '[name]/bundle.js',
     path: path.resolve(FRONTEND_ROOT, 'static'),
   },
+  performance: {
+    // Don't whine until we hit 5 MiB
+    maxAssetSize: 5242880,
+    maxEntrypointSize: 5242880,
+  }
 }
