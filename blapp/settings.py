@@ -19,6 +19,16 @@ SECRET_KEY = env.str("SECRET_KEY")
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST", default=[])
 
+# Only sets SECURE_PROXY_SSL_HEADER if explicitly defined. The format of
+# BLAPP_SECURE_PROXY_HEADER is <header>=<value>, where <value> is the value of
+# the HTTP header <header> set by the proxy on secure (i.e. HTTPS) requests.
+# Example value: HTTP_X_FORWARDED_PROTO=https
+# Read https://docs.djangoproject.com/en/1.11/ref/settings/#secure-proxy-ssl-header
+_SECURE_PROXY_SSL_HEADER = env.str("SECURE_PROXY_HEADER", default=None)
+SECURE_PROXY_SSL_HEADER = (
+    tuple(_SECURE_PROXY_SSL_HEADER.split("=", 1)) if _SECURE_PROXY_SSL_HEADER else None
+)
+
 DATABASES = {"default": env.db("DATABASE_URL"), "legacy": env.db("LEGACY_DATABASE_URL")}
 
 if env.str("TEST_DATABASE_URL", default=""):
