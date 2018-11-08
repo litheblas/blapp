@@ -152,7 +152,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                 <tbody>
                   {
                     //@ts-ignore
-                    fixPurchases(this.props.purchases).map((purchase: any, purchaseKey: any) => (
+                    fixPurchases(this.props.purchases).slice(0, 10).map((purchase: any, purchaseKey: any) => (
                       <tr key={purchaseKey}>
                         <td>{typeof this.props.people[purchase.person.id] != 'undefined' ? this.props.people[purchase.person.id].shortName : 'Okänd'}</td>
                         <td>{purchase.quantity}</td>
