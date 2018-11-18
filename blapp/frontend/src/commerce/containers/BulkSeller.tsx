@@ -92,7 +92,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
               </Row>
             </Col>
             <Col sm={4}>
-              <Button block size='lg' className='py-4' color='primary' disabled={!(this.state.personId && this.state.quantity)} onClick={this.makePurchase}>Köp</Button>
+              <Button block size='lg' className='py-4' color='primary' disabled={!this.state.personId || this.state.quantity === null} onClick={this.makePurchase}>Köp</Button>
               <p></p>
               <h3>Osynkade köp</h3>
               <Table size='sm'>
