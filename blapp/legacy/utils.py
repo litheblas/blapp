@@ -166,7 +166,7 @@ def import_legacy_data():
         person.nickname = l_person.smek.strip() if l_person.smek else ""
         try:
             email_validator(l_person.epost)
-            person.email = l_person.epost
+            person.email = l_person.epost.strip()
         except ValidationError:
             person.email = None
         person.date_of_birth = l_person.fodd
