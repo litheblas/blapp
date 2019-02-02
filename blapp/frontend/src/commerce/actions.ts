@@ -102,9 +102,8 @@ const getBaseData = () => (dispatch: any, getState: any) => {
   })
 }
 
-const makePurchase = (salePointId: string, productId: string, personId: string, timestamp: DateTime, quantity: number) => (dispatch: any, getState: any) => {
+const makePurchase = (salePointId: string, productId: string, personId: string, timestamp: DateTime, quantity: number, uid: string = uuid1()) => (dispatch: any, getState: any) => {
   const clientMutationId = uuid4()
-  const uid = uuid1()
 
   const meta = {
     uid,
@@ -187,7 +186,21 @@ const makePurchase = (salePointId: string, productId: string, personId: string, 
   })
 }
 
+const retryAllFailedPurchases = () => (dispatch: any, getState: any) => {
+  R.values(getState().failedPurchases).forEach((p) => {
+    dispatch(makePurchase(
+      p.salePoint.id,
+      p.product.id,
+      p.person.id,
+      DateTime.fromISO(p.timestamp),
+      p.quantity,
+      p.uid,
+    ))
+  })
+}
+
 export const actions = {
   getBaseData,
   makePurchase,
+  retryAllFailedPurchases,
 }

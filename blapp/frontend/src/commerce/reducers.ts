@@ -51,6 +51,12 @@ const reducer = (state = defaultState, action: any) => {
           isAuthenticated: false,
         },
       }
+    case actionTypes.makePurchase.request:
+      return {
+        ...state,
+        // Deletes the purchase from the failed queue as it enters the outbox.
+        failedPurchases: R.dissoc(action.meta.purchase.uid, state.failedPurchases),
+      }
     case actionTypes.makePurchase.commit:
       return {
         ...state,
@@ -64,7 +70,7 @@ const reducer = (state = defaultState, action: any) => {
         ...state,
         failedPurchases: {
           ...state.failedPurchases,
-          [action.meta.purchase.uid]: action.meta.purchase
+          [action.meta.purchase.uid]: action.meta.purchase,
         },
       }
     default:
