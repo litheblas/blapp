@@ -17,6 +17,8 @@ RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\r\
   pip3 install -U "pipenv==2018.11.26"
 
 COPY Pipfile Pipfile.lock ${APP_ROOT}/
+# Workaround for https://github.com/pypa/pip/issues/6197 until pip==19.0.2
+ENV PIP_USE_PEP517=false
 RUN pipenv install --deploy
 
 COPY package.json yarn.lock ${APP_ROOT}/
