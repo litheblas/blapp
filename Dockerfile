@@ -14,7 +14,7 @@ WORKDIR ${APP_ROOT}
 
 COPY apk-packages.txt ${APP_ROOT}/
 RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\r\n" " ") && \
-  pip3 install -U "pipenv==2018.5.18"
+  pip3 install -U "pipenv==2018.11.26"
 
 COPY Pipfile Pipfile.lock ${APP_ROOT}/
 RUN pipenv install --deploy
