@@ -10,7 +10,7 @@ The Blapp is the LiTHe Blås App. It handles very important things.
 Use Homebrew and Pipenv:
 ```sh
 brew bundle install
-pipenv install -d
+pipenv install -d -e . (Don't leave out the period)
 ```
 
 ## Other platforms
@@ -52,3 +52,23 @@ pipenv run pytest
 # Tips and tricks
 * If you prefer not to prefix commands with `pipenv run`, then start a subshell
 within the virtual environment with `pipenv shell`.
+
+# Documented errors:
+
+## Mac:
+
+If the `postgresql` service isn't running. In that case, the following command should start it.
+```sh
+sudo brew services postgresql start
+```
+
+## Database:
+
+If you get the error: "FATAL: role "blapp" does not exist", you may need to enter the postgres prompt and create the database blapp with an owner blapp. On mac, the following commands may be a possible solution (from the parent blapp directory). Don't leave out the semicolons.
+```sh
+psql -U postgres -h localhost
+=# CREATE USER blapp SUPERUSER;
+=# CREATE DATABASE blapp WITH OWNER blapp;
+=# \q
+```
+After this, the migrate command should work.
