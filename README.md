@@ -17,6 +17,15 @@ pipenv install -d -e . (Don't leave out the period)
 Pull requests with instructions are welcome. The instructions above and the
 `Brewfile` will give you a hint of what's needed.
 
+## Linux
+sudo apt install chromium-chromedriver
+sudo pip install mysqlclient
+sudo pip install pipenv
+sudo apt install postgresql postgresql-contrib
+sudo (python probably already included)
+sudo apt install redis-server (might need extra config.)
+sudo apt install yarnpkg (might need to add rep.)
+
 # Setting up a development environment
 Copy the environment template, migrate the database and start an interactive
 Python shell:
