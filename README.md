@@ -20,9 +20,10 @@ Pull requests with instructions are welcome. The instructions above and the
 ## Linux
 sudo apt install chromium-chromedriver
 sudo pip install mysqlclient
+sudo apt install libmysqlclient-dev
 sudo pip install pipenv
 sudo apt install postgresql postgresql-contrib
-sudo (python probably already included)
+sudo apt install python3.6-dev
 sudo apt install redis-server (might need extra config.)
 sudo apt install yarnpkg (might need to add rep.)
 
