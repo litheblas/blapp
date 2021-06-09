@@ -125,6 +125,12 @@ UserAccount.objects.create_superuser(
 ```
 Now the development server should be configured correctly.
 
+# Populate database
+Make sure that the database is running. Populate the database by running:
+```py
+python3 install/create_users.py | pipenv run django-admin shell_plus
+```
+
 # Start the development server
 Make sure that the postgres service is running:
 ```sh
