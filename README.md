@@ -31,7 +31,8 @@ sudo apt install \
 
 sudo pip3 install \
     mysqlclient \
-    pipenv
+    pipenv \
+    django
 
 pipenv install -d -e .
 ```
