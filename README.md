@@ -14,6 +14,7 @@ pipenv install -d -e . (Don't leave out the period)
 ```
 
 ## Ubuntu (WSL Ubuntu 20.04 LTS)
+```sh
 sudo add-apt-repository ppa:deadsnakes/ppa
 
 sudo apt update
@@ -34,6 +35,7 @@ sudo pip3 install \
     django
 
 pipenv install -d -e .
+```
 
 ## Other platforms
 Pull requests with instructions are welcome. The instructions above and the
