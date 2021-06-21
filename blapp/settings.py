@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "blapp.legacy",
     "blapp.people",
     "blapp.utils",
+    "blapp.events",
 ]
 
 MIDDLEWARE = [

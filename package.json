@@ -34,14 +34,13 @@
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-    "reactstrap": "^6.1.0",
+    "reactstrap": "^8.9.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.3.1",
-    "typescript": "^2.9.1",
     "uuid": "^3.2.1",
     "webpack": "^4.10.2",
     "webpack-cli": "^3.0.2"
@@ -51,5 +50,8 @@
     "dev-watch": "run-s 'dev-build --watch'",
     "prod-build": "webpack --mode=production",
     "prod-watch": "run-s 'prod-build --watch'"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2"
   }
 }
