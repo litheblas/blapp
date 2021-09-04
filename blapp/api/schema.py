@@ -1,14 +1,16 @@
 import uuid
 
-from graphene import ID, DateTime, Field, Int, ObjectType, Schema, String
+from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String
 from graphene.relay import Node as RelayNode
 from graphene.relay import ClientIDMutation
+from graphene.types import interface
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
 from blapp.auth import models as auth_models
 from blapp.commerce import models as commerce_models
 from blapp.people import models as people_models
+from blapp.events import models as event_models
 
 
 class Node(RelayNode):
@@ -86,6 +88,30 @@ class Person(DjangoObjectType):
         filter_fields = ["temp_tour18"]
 
 
+class EditPerson(ClientIDMutation):
+    person = Field(lambda: Person)
+    
+    class Input:
+        uid = String()
+        first_name = String()
+        last_name = String()
+        nickname = String()
+        # date_of_birth = Date()
+        # date_of_death = Date()
+        # email = String()
+        # legacy_id = Int()
+    
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        person = people_models.Person.objects.get(id=uuid.UUID(input["uid"]))
+        person.first_name = input["first_name"]
+        person.last_name = input["last_name"]
+        person.nickname = input["nickname"]
+        #person.date_of_birth = input["date"]
+        person.save()
+
+        return EditPerson(person=person)
+
 class MakePurchase(ClientIDMutation):
     purchase = Field(lambda: Purchase)
 
@@ -110,6 +136,38 @@ class MakePurchase(ClientIDMutation):
         return MakePurchase(purchase=purchase)
 
 
+class Event(DjangoObjectType):
+    class Meta:
+        model = event_models.Event
+        interfaces = [Node]
+        only_fields = [
+            "id",
+            "event_name",
+            "event_description",
+            "published",
+            "obligatory",
+            "starts",
+            "ends",
+            "signup_deadline",
+            # Relations
+            "event_creator",
+            "attendances"
+        ]
+        filter_fields = []
+
+class CreateEvent(ClientIDMutation):
+    class Input:
+        event_name = String()
+        event_description = String()
+    
+    event = Field(lambda: Event)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = event_models.Event(event_name=input["event_name"], event_description=input["event_description"])
+        event.save()
+        return CreateEvent(event=event)
+
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
     person = Node.Field(Person)
@@ -121,10 +179,14 @@ class CoreQuery:
     sale_point = Node.Field(SalePoint)
     user_accounts = DjangoFilterConnectionField(UserAccount)
     user_account = Node.Field(UserAccount)
+    events = DjangoFilterConnectionField(Event)
+    event = Node.Field(Event)
 
 
 class CoreMutation(ObjectType):
     make_purchase = MakePurchase.Field()
+    create_event = CreateEvent.Field()
+    edit_person = EditPerson.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):

@@ -120,7 +120,7 @@ const makePurchase = (salePointId: string, productId: string, personId: string, 
     quantity: quantity,
   }
 
-  dispatch({
+  const q = {
     type: actionTypes.makePurchase.request,
     payload: {
       uid,
@@ -183,7 +183,9 @@ const makePurchase = (salePointId: string, productId: string, personId: string, 
         },
       }
     }
-  })
+  };
+  console.log(q);
+  dispatch(q);
 }
 
 const retryAllFailedPurchases = () => (dispatch: any, getState: any) => {
