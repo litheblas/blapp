@@ -1,6 +1,6 @@
 import uuid
 
-from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String
+from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String, Boolean
 from graphene.relay import Node as RelayNode
 from graphene.relay import ClientIDMutation
 from graphene.types import interface
@@ -92,22 +92,32 @@ class EditPerson(ClientIDMutation):
     person = Field(lambda: Person)
     
     class Input:
-        uid = String()
-        first_name = String()
-        last_name = String()
-        nickname = String()
-        # date_of_birth = Date()
-        # date_of_death = Date()
-        # email = String()
-        # legacy_id = Int()
+        uid = String(required=True)
+        first_name = String(default=None)
+        last_name = String(default=None)
+        nickname = String(default=None)
+        date_of_birth = Date(default=None)
+        date_of_death = Date(default=None)
+        email = String(default=None)
+        legacy_id = Int(default=None)
     
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         person = people_models.Person.objects.get(id=uuid.UUID(input["uid"]))
-        person.first_name = input["first_name"]
-        person.last_name = input["last_name"]
-        person.nickname = input["nickname"]
-        #person.date_of_birth = input["date"]
+        if input.get("first_name"):
+            person.first_name = input["first_name"]
+        if input.get("last_name"):
+            person.last_name = input["last_name"]
+        if input.get("nickname"):
+            person.nickname = input["nickname"]
+        if input.get("date_of_birth"):
+            person.date_of_birth = input["date_of_birth"]
+        if input.get("date_of_death"):
+            person.date_of_death = input["date_of_death"]
+        if input.get("email"):
+            person.email = input["email"]
+        if input.get("legacy_id"):
+            person.legacy_id = input["legacy_id"]
         person.save()
 
         return EditPerson(person=person)
@@ -168,6 +178,59 @@ class CreateEvent(ClientIDMutation):
         event.save()
         return CreateEvent(event=event)
 
+class EditEvent(ClientIDMutation):
+    event = Field(lambda: Event)
+    creator = Field(lambda: Person)
+    
+    class Input:
+        eventUid = String(required=True)
+        creatorUid = String(default=None)
+        event_name = String(default=None)
+        event_description = String(default=None)
+        published = Boolean(default=None)
+        obligatory = Boolean(default=None)
+        starts = DateTime(default=None)
+        ends = DateTime(default=None)
+        signup_deadline = DateTime(default=None)
+    
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = event_models.Event.objects.get(id=uuid.UUID(input["eventUid"]))
+        if input.get("creatorUid"):
+            creator = people_models.Person.objects.get(id=uuid.UUID(input["creatorUid"]))
+            event.creator = creator
+
+        if input.get("event_name"):
+            event.event_name = input.get("event_name")
+        if input.get("event_description"):
+            event.event_description = input.get("event_description")
+        if input.get("published"):
+            event.published = input.get("published")
+        if input.get("obligatory"):
+            event.obligatory = input.get("obligatory")
+        if input.get("starts"):
+            event.starts = input.get("starts")
+        if input.get("ends"):
+            event.ends = input.get("ends")
+        if input.get("signup_deadline"):
+            event.signup_deadline = input.get("signup_deadline")
+        
+        event.save()
+
+        return EditEvent(event=event)
+    
+class DeleteEvent(ClientIDMutation):
+    event = Field(lambda: Event)
+    class Input:
+        eventUid = String()
+    
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = event_models.Event.objects.get(id=uuid.UUID(input["eventUid"]))
+        event.delete()
+        return DeleteEvent(event=event) # Vad ska returneras?
+
+
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
     person = Node.Field(Person)
@@ -187,6 +250,8 @@ class CoreMutation(ObjectType):
     make_purchase = MakePurchase.Field()
     create_event = CreateEvent.Field()
     edit_person = EditPerson.Field()
+    edit_event = EditEvent.Field()
+    delete_event = DeleteEvent.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):
