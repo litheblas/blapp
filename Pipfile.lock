@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b13e9649f7143d0ca1f0f5a4d29165b83c063b3fef0e1c82c377733a2068bbb6"
+            "sha256": "f612fed45d6ea89081364304b124215804eb62906451acc4e912a68b16f87fe7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -237,8 +237,8 @@
         },
         "django-oidc-provider": {
             "editable": true,
-            "git": "https://github.com/ovidner/django-oidc-provider.git",
-            "ref": "3445e7c8ddb52ca06830fe379601420f7adc0126"
+            "git": "https://github.com/vonfalk/django-oidc-provider.git",
+            "ref": "169e0d56fc3b77c6fe893fdc7bb3027600cc9b63"
         },
         "django-phonenumber-field": {
             "hashes": [
@@ -963,7 +963,7 @@
                 "sha256:9c2ea1e62d871267b78307fe511c0838ba0da28698c5732d54e2790bf3ba9899",
                 "sha256:e17d6e2b81095c9db0a03a8025a957f334d6ea30b26f9ec70805411e5c7c81f2"
             ],
-            "markers": "python_version < '4.0' and python_full_version >= '3.6.1'",
+            "markers": "python_version < '4' and python_full_version >= '3.6.1'",
             "version": "==5.9.3"
         },
         "jedi": {
