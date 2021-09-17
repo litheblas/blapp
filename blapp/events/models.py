@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils.timezone import now
 from django.db import models
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import ugettext_lazy as _
@@ -15,7 +15,7 @@ class Event(models.Model):
     event_description = DescriptionField()
     published = models.BooleanField(default=True)
     obligatory = models.BooleanField(default=True, verbose_name=_("obligatory attendance"))
-    starts = models.DateTimeField(verbose_name=_("start date"), default=datetime.now())
+    starts = models.DateTimeField(verbose_name=_("start date"), default=now)
     ends = models.DateTimeField(verbose_name=_("end date"), null=True, blank=True)
     signup_deadline = models.DateTimeField(verbose_name=_("signup deadline"), null=True, blank=True)
     creator = models.ForeignKey(Person, related_name=_("event_creator"), verbose_name=_("event creator"), blank=True, null=True, on_delete=models.SET_NULL)

@@ -160,8 +160,8 @@ class Event(DjangoObjectType):
             "ends",
             "signup_deadline",
             # Relations
-            "event_creator",
-            "attendances"
+            "creator",
+            "attendants"
         ]
         filter_fields = []
 
