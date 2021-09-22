@@ -24,7 +24,7 @@ sudo apt install \
     libmysqlclient-dev \
     postgresql \
     postgresql-contrib \
-    python3.6-dev \
+    python3.9-dev \
     python3-pip \
     redis-server \
     yarnpkg
