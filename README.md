@@ -155,6 +155,13 @@ pipenv run django-admin runserver
 
 The development server should now be available at http://localhost:8000/admin.
 
+## Making changes to the database schema
+When changing anything in the database schema, you need to migrate these changes to the database.
+```sh
+pipenv run django-admin makemigrations \
+&& pipenv run django-admin migrate --run-syncdb
+```
+
 # Running tests
 ```sh
 pipenv run pytest
