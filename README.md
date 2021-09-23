@@ -103,6 +103,9 @@ sudo service postgresql restart
 
 # Mac:
 sudo brew services postgresql restart
+-- or --
+brew services start postgresql
+
 ```
 
 ## Configure Django
@@ -140,6 +143,8 @@ sudo service postgresql start
 
 # Mac:
 sudo brew services postgresql start
+-- or --
+brew services start postgresql
 ```
 
 Start redis:
