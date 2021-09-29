@@ -12,6 +12,9 @@ env = PrefixEnv(prefix=ENV_PREFIX)
 REPO_ROOT = path.dirname(path.dirname(path.abspath(__file__)))
 APP_ROOT = path.join(REPO_ROOT, "blapp")
 
+MEDIA_ROOT = path.join(REPO_ROOT, "media/")
+MEDIA_URL = "/media/"
+
 TEST_MODE = env.bool("TEST_MODE", default=False)
 DEBUG = env.bool("DEBUG_MODE", default=False)
 SECRET_KEY = env.str("SECRET_KEY")

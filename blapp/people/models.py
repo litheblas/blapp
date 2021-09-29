@@ -10,6 +10,9 @@ from blapp.utils.db_fields import (
     UniqueEmailField,
 )
 
+def profile_picture_save_path(instance, filename):
+    return 'profile_pictures/{0}.jpg'.format(instance.id)
+
 
 class Person(models.Model):
     id = PrimaryKeyUUIDField()
@@ -31,6 +34,8 @@ class Person(models.Model):
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
 
     temp_tour18 = models.BooleanField(default=False)
+
+    profile_picture = models.ImageField(null=True, upload_to=profile_picture_save_path)
 
     class Meta:
         ordering = ("first_name", "last_name")
