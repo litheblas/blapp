@@ -17,6 +17,12 @@ class Person(models.Model):
     first_name = NameField(verbose_name=_("first name"))
     last_name = NameField(verbose_name=_("last name"))
     nickname = NameField(blank=True, verbose_name=_("nickname"))
+    student_id = NameField(blank=True, verbose_name=_("student id"))
+    home_address = NameField(blank=True, verbose_name=_("home address"))
+    phone_number = NameField(blank=True, verbose_name=_("phone number"))
+    workplace = NameField(blank=True, verbose_name=_("workplace"))
+    arbitrary_text = NameField(blank=True, verbose_name=_("arbitrary text"))
+    organ_donor = models.BooleanField(default=False)
 
     date_of_birth = models.DateField(
         null=True, blank=True, verbose_name=_("date of birth")

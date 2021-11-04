@@ -77,15 +77,21 @@ class Person(DjangoObjectType):
             "first_name",
             "last_name",
             "nickname",
+            "home_address",
+            "phone_number",
+            "email",
+            "student_id",
+            "workplace",
+            "organ_donor",
+            "arbitrary_text",
             "date_of_birth",
             "date_of_death",
-            "email",
             "legacy_id",
             # Relations
             "purchases",
             "user_account",
         ]
-        filter_fields = ["temp_tour18"]
+        filter_fields = ["temp_tour18", "id"]
 
 
 class EditPerson(ClientIDMutation):
@@ -96,6 +102,12 @@ class EditPerson(ClientIDMutation):
         first_name = String(default=None)
         last_name = String(default=None)
         nickname = String(default=None)
+        home_address = String(default=None)
+        phone_number = String(default=None)
+        student_id = String(default=None)
+        workplace = String(default=None)
+        organ_donor = Boolean(default=False)
+        arbitrary_text = String(default=None)
         date_of_birth = Date(default=None)
         date_of_death = Date(default=None)
         email = String(default=None)
@@ -110,6 +122,18 @@ class EditPerson(ClientIDMutation):
             person.last_name = input["last_name"]
         if input.get("nickname"):
             person.nickname = input["nickname"]
+        if input.get("phone_number"):
+            person.phone_number = input["phone_number"]
+        if input.get("student_id"):
+            person.student_id = input["student_id"]
+        if input.get("workplace"):
+            person.workplace = input["workplace"]
+        if input.get("arbitrary_text"):
+            person.arbitrary_text = input["arbitrary_text"]
+        if input.get("home_address"):
+            person.home_address = input["home_address"]
+        if input.get("organ_donor"):
+            person.organ_donor = input["organ_donor"]
         if input.get("date_of_birth"):
             person.date_of_birth = input["date_of_birth"]
         if input.get("date_of_death"):

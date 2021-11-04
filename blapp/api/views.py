@@ -13,6 +13,7 @@ _api_view = GraphQLView.as_view(schema=schema, graphiql=True)
 @csrf_exempt
 def api_view(request):
     try:
+        print(request.headers)
         service_account = ServiceAccount.objects.get(token=token_from_request(request))
         request.user = service_account
     except ServiceAccount.DoesNotExist as exc:
