@@ -164,6 +164,17 @@ def import_legacy_data():
         person.first_name = l_person.fnamn.strip()
         person.last_name = l_person.enamn.strip()
         person.nickname = l_person.smek.strip() if l_person.smek else ""
+
+        person.student_id = l_person.studentid.strip() if l_person.studentid else ""
+        person.home_address = l_person.gatuadr.strip() if l_person.gatuadr else ""
+        person.postal_code = l_person.postnr.strip() if l_person.postnr else ""
+        person.postal_region = l_person.ort.strip() if l_person.ort else ""
+        person.country = l_person.land.strip() if l_person.land else ""
+        person.phone_number = l_person.mobilnr.strip() if l_person.mobilnr else ""
+        person.workplace = l_person.arbete.strip() if l_person.arbete else ""
+        person.arbitrary_text = l_person.fritext.strip() if l_person.fritext else ""
+        person.organ_donor_until = l_person.gras_medlem_till
+
         try:
             email_validator(l_person.epost)
             person.email = l_person.epost.strip()

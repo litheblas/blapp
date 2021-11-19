@@ -82,7 +82,7 @@ class Person(DjangoObjectType):
             "email",
             "student_id",
             "workplace",
-            "organ_donor",
+            "organ_donor_until",
             "arbitrary_text",
             "date_of_birth",
             "date_of_death",
@@ -106,7 +106,7 @@ class EditPerson(ClientIDMutation):
         phone_number = String(default=None)
         student_id = String(default=None)
         workplace = String(default=None)
-        organ_donor = Boolean(default=False)
+        organ_donor_until = String(default=None)
         arbitrary_text = String(default=None)
         date_of_birth = Date(default=None)
         date_of_death = Date(default=None)
