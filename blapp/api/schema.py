@@ -193,12 +193,21 @@ class CreateEvent(ClientIDMutation):
     class Input:
         event_name = String()
         event_description = String()
+        published = Boolean(default=None)
+        obligatory = Boolean(default=None)
+        starts = DateTime(default=None)
+        ends = DateTime(default=None)
+        signup_deadline = DateTime(default=None)
     
     event = Field(lambda: Event)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        event = event_models.Event(event_name=input["event_name"], event_description=input["event_description"])
+        event = event_models.Event(
+            event_name=input["event_name"],
+            event_description=input["event_description"],
+            starts=input["starts"]
+            )
         event.save()
         return CreateEvent(event=event)
 
