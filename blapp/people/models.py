@@ -1,3 +1,4 @@
+from email.policy import default
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -26,6 +27,7 @@ class Person(models.Model):
     workplace = models.CharField(max_length=63, blank=True, verbose_name=_("workplace"))
     arbitrary_text = models.TextField(blank=True, verbose_name=_("arbitrary text"))
     organ_donor_until = models.DateField(null=True, blank=True, verbose_name=_("organ donor until"))
+    organ_donor = models.BooleanField(default=False, verbose_name=_("organ donator"))
 
     date_of_birth = models.DateField(
         null=True, blank=True, verbose_name=_("date of birth")

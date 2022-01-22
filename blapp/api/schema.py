@@ -1,3 +1,4 @@
+from email.policy import default
 import uuid
 
 from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String, Boolean
@@ -82,6 +83,7 @@ class Person(DjangoObjectType):
             "email",
             "student_id",
             "workplace",
+            "organ_donor",
             "organ_donor_until",
             "arbitrary_text",
             "date_of_birth",
@@ -107,6 +109,7 @@ class EditPerson(ClientIDMutation):
         student_id = String(default=None)
         workplace = String(default=None)
         organ_donor_until = String(default=None)
+        organ_donor = Boolean(default=None)
         arbitrary_text = String(default=None)
         date_of_birth = Date(default=None)
         date_of_death = Date(default=None)
@@ -132,7 +135,7 @@ class EditPerson(ClientIDMutation):
             person.arbitrary_text = input["arbitrary_text"]
         if input.get("home_address"):
             person.home_address = input["home_address"]
-        if input.get("organ_donor"):
+        if input.get("organ_donor") == True or input.get("organ_donor") == False:
             person.organ_donor = input["organ_donor"]
         if input.get("date_of_birth"):
             person.date_of_birth = input["date_of_birth"]
