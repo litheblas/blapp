@@ -186,6 +186,7 @@ class Event(DjangoObjectType):
             "starts",
             "ends",
             "signup_deadline",
+            "contact_person",
             # Relations
             "creator",
             "attendants"
@@ -201,6 +202,7 @@ class CreateEvent(ClientIDMutation):
         starts = DateTime(default=None)
         ends = DateTime(default=None)
         signup_deadline = DateTime(default=None)
+        contact_person = String(default=None)
     
     event = Field(lambda: Event)
 
@@ -209,7 +211,8 @@ class CreateEvent(ClientIDMutation):
         event = event_models.Event(
             event_name=input["event_name"],
             event_description=input["event_description"],
-            starts=input["starts"]
+            starts=input["starts"],
+            contact_person=input["contact_person"]
             )
         event.save()
         return CreateEvent(event=event)
@@ -228,7 +231,8 @@ class EditEvent(ClientIDMutation):
         starts = DateTime(default=None)
         ends = DateTime(default=None)
         signup_deadline = DateTime(default=None)
-    
+        contact_person = String(default=None)
+
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         event = event_models.Event.objects.get(id=uuid.UUID(input["eventUid"]))
@@ -240,7 +244,7 @@ class EditEvent(ClientIDMutation):
             event.event_name = input.get("event_name")
         if input.get("event_description"):
             event.event_description = input.get("event_description")
-        if input.get("published"):
+        if input.get("published") != None:
             event.published = input.get("published")
         if input.get("obligatory"):
             event.obligatory = input.get("obligatory")
@@ -250,6 +254,8 @@ class EditEvent(ClientIDMutation):
             event.ends = input.get("ends")
         if input.get("signup_deadline"):
             event.signup_deadline = input.get("signup_deadline")
+        if input.get("contact_person_info"):
+            event.contact_person = input.get("contact_person")
         
         event.save()
 
