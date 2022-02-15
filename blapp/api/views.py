@@ -1,5 +1,6 @@
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+from oauth2_provider.views.generic import ProtectedResourceView
 from graphene_django.views import GraphQLView
 
 from blapp.auth.models import ServiceAccount
@@ -20,3 +21,7 @@ def api_view(request):
         return HttpResponseBadRequest("Meh. Please log in.", status=401)
 
     return _api_view(request)
+
+class GraphQLEndpoint(ProtectedResourceView):
+    def post(self, request, *args, **kwargs):
+        return _api_view(request)

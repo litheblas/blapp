@@ -260,7 +260,40 @@ class EditEvent(ClientIDMutation):
         event.save()
 
         return EditEvent(event=event)
-    
+
+class Attendance(DjangoObjectType):
+    class Meta:
+        model = event_models.Attendance
+        interfaces = [Node]
+        only_fields = [
+            "person",
+            "event"
+        ]
+        filter_fields = []
+
+class CreateAttendance(ClientIDMutation):
+    event = Field(lambda: Event)
+    person = Field(lambda: Person)
+
+    class Input:
+        eventUid = String(required=True)
+        personUid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = event_models.Event.objects.get(id=uuid.UUID(input["eventUid"]))
+        person = event_models.Person.objects.get(id=uuid.UUID(input["personUid"]))
+        try:
+            event_models.Attendance.objects.get(event=event, person=person)
+            raise Exception("Person already attending.")
+        #except eventAttendance.DoesNotExist as exc:
+        except event_models.Attendance.DoesNotExist as exc:
+            attendance = event_models.Attendance()
+            attendance.person = person
+            attendance.event = event
+            attendance.save()
+            return CreateAttendance(person=person, event=event)
+
 class DeleteEvent(ClientIDMutation):
     event = Field(lambda: Event)
     class Input:
@@ -286,6 +319,8 @@ class CoreQuery:
     user_account = Node.Field(UserAccount)
     events = DjangoFilterConnectionField(Event)
     event = Node.Field(Event)
+    attendance = Node.Field(Attendance)
+    attendances = DjangoFilterConnectionField(Attendance)
 
 
 class CoreMutation(ObjectType):
@@ -294,6 +329,7 @@ class CoreMutation(ObjectType):
     edit_person = EditPerson.Field()
     edit_event = EditEvent.Field()
     delete_event = DeleteEvent.Field()
+    create_attendance = CreateAttendance.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):

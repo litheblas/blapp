@@ -18,6 +18,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST", default=[])
+CORS_ALLOW_CREDENTIALS = True
 
 # Only sets SECURE_PROXY_SSL_HEADER if explicitly defined. The format of
 # BLAPP_SECURE_PROXY_HEADER is <header>=<value>, where <value> is the value of
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     "graphene_django",
     "mptt",
     "oidc_provider",
+    "oauth2_provider",
     "widget_tweaks",
     "blapp.api",
     "blapp.auth",
@@ -73,6 +75,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "oauth2_provider.middleware.OAuth2TokenMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -118,6 +121,7 @@ PASSWORD_HASHERS = DEFAULT.PASSWORD_HASHERS + [
 ]
 AUTH_USER_MODEL = "blapp_auth.UserAccount"
 AUTHENTICATION_BACKENDS = [
+    "oauth2_provider.backends.OAuth2Backend",
     "django.contrib.auth.backends.ModelBackend",
     "blapp.auth.backends.ServiceAccountTokenBackend",
 ]
@@ -128,6 +132,15 @@ OIDC_EXTRA_SCOPE_CLAIMS = "blapp.auth.oidc.CustomScopeClaims"
 OIDC_TEMPLATES = {
     "authorize": "registration/openid-authorize.html",
     "error": "registration/openid-error.html",
+}
+
+OAUTH2_PROVIDER = {
+#    'OIDC_ENABLED': True,
+    'SCOPES': {
+        'read': 'Read scope',
+        'write': 'Write scope',
+   },
+    'PKCE_REQUIRED': True,
 }
 
 LANGUAGE_CODE = "en-us"

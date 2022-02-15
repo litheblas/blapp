@@ -1,3 +1,4 @@
+from dataclasses import field
 from django.utils.timezone import now
 from django.db import models
 from django.db.models.fields.related import ForeignKey
@@ -8,6 +9,7 @@ from blapp.utils.db_fields import (
     NameField,
 )
 from blapp.people.models import Person
+from blapp.auth.models import UserAccount
 
 class Event(models.Model):
     id = PrimaryKeyUUIDField()
@@ -18,7 +20,7 @@ class Event(models.Model):
     starts = models.DateTimeField(verbose_name=_("start date"), default=now)
     ends = models.DateTimeField(verbose_name=_("end date"), null=True, blank=True)
     signup_deadline = models.DateTimeField(verbose_name=_("signup deadline"), null=True, blank=True)
-    creator = models.ForeignKey(Person, related_name=_("event_creator"), verbose_name=_("event creator"), blank=True, null=True, on_delete=models.SET_NULL)
+    creator = models.ForeignKey(UserAccount, related_name=_("event_creator"), verbose_name=_("event creator"), blank=True, null=True, on_delete=models.SET_NULL)
     contact_person = models.TextField(verbose_name=_("contact person information"), null=True, blank=True)
 
     attendants = models.ManyToManyField(Person, related_name=("attendants"), through="Attendance")
@@ -32,3 +34,6 @@ class Event(models.Model):
 class Attendance(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    class Meta:
+        models.UniqueConstraint(fields=["event", "person"], name="unique-attendant")
