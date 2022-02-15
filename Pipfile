@@ -12,7 +12,7 @@ django-environ = "==0.7.0"
 django-extensions = "==3.1.3"
 django-filter = "==2.4.0"
 django-mptt = "==0.13.3"
-django-oauth-toolkit==1.5.0
+django-oauth-toolkit=="1.5.0"
 django-oidc-provider = {git = "https://github.com/vonfalk/django-oidc-provider.git", editable = true, ref = "169e0d56fc3b77c6fe893fdc7bb3027600cc9b63"}
 django-phonenumber-field = "==5.2.0"
 django-redis = "==5.0.0"
