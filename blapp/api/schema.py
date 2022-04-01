@@ -1,12 +1,15 @@
 from email.policy import default
+from unittest import skip
 import uuid
 
-from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String, Boolean
+from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String, Boolean, List
 from graphene.relay import Node as RelayNode
 from graphene.relay import ClientIDMutation
 from graphene.types import interface
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from django.db.models import Q
+import django_filters
 
 from blapp.auth import models as auth_models
 from blapp.commerce import models as commerce_models
@@ -60,8 +63,9 @@ class Purchase(DjangoObjectType):
             "person",
             "product",
             "sale_point",
+            "event",
         ]
-        filter_fields = []
+        filter_fields = ["person"]
 
 
 class Person(DjangoObjectType):
@@ -93,7 +97,22 @@ class Person(DjangoObjectType):
             "purchases",
             "user_account",
         ]
-        filter_fields = ["temp_tour18", "id"]
+        filter_fields = ["temp_tour18", "id", "first_name", "nickname", "last_name"]
+
+class PeopleFilter(django_filters.FilterSet):
+    people = List(Person, search=String())
+
+    def resolve_people(parent, info, search):
+        if search:
+            filter = (
+                Q(first_name__icontains=search)
+                | Q(nickname__icontains=search)
+                | Q(last_name__icontains=search)
+            )
+            return people_models.Person.objects.filter(filter)
+        
+        return people_models.Person.objects.all()
+
 
 
 class EditPerson(ClientIDMutation):
@@ -119,6 +138,7 @@ class EditPerson(ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         person = people_models.Person.objects.get(id=uuid.UUID(input["uid"]))
+
         if input.get("first_name"):
             person.first_name = input["first_name"]
         if input.get("last_name"):
@@ -187,6 +207,11 @@ class Event(DjangoObjectType):
             "ends",
             "signup_deadline",
             "contact_person",
+            "contact_mail",
+            "contact_phone",
+            "rating",
+            "price",
+            "comment",
             # Relations
             "creator",
             "attendants"
@@ -195,24 +220,84 @@ class Event(DjangoObjectType):
 
 class CreateEvent(ClientIDMutation):
     class Input:
-        event_name = String()
-        event_description = String()
-        published = Boolean(default=None)
-        obligatory = Boolean(default=None)
-        starts = DateTime(default=None)
+        event_name = String(required=True)
+        event_description = String(required=True)
+        published = Boolean(required=True, default=False)
+        obligatory = Boolean(default=False)
+        starts = DateTime(required=True, default=None)
         ends = DateTime(default=None)
         signup_deadline = DateTime(default=None)
         contact_person = String(default=None)
+        contact_mail = String(default=None)
+        contact_phone = String(default=None)
+        rating = String(default=None)
+        price = String(default=None)
+        comment = String(default=None)
     
     event = Field(lambda: Event)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        
+        if not input.get("obligatory"):
+            obligatory = False
+        else:
+            obligatory = input["obligatory"]
+
+        if not input.get("ends"):
+            ends = "2022-01-22T07:44:53+03:00"
+        else:
+            ends = input["ends"]
+
+        if not input.get("signup_deadline"):
+            signup_deadline = "2022-01-22T07:44:53+03:00"
+        else:
+            signup_deadline = input["signup_deadline"]
+
+        if not input.get("contact_person"):
+            contact_person = ""
+        else:
+            contact_person = input["contact_person"]
+
+        if not input.get("contact_mail"):
+            contact_mail = ""
+        else:
+            contact_mail = input["contact_mail"]
+
+        if not input.get("contact_phone"):
+            contact_phone = ""
+        else:
+            contact_phone = input["contact_phone"]
+
+        if not input.get("rating"):
+            rating = ""
+        else:
+            rating = input["rating"]
+
+        if not input.get("price"):
+            price = ""
+        else:
+            price = input["price"]
+
+        if not input.get("comment"):
+            comment = ""
+        else:
+            comment = input["comment"]
+
         event = event_models.Event(
             event_name=input["event_name"],
             event_description=input["event_description"],
+            published=input["published"],
             starts=input["starts"],
-            contact_person=input["contact_person"]
+            obligatory=obligatory,
+            ends=ends,
+            signup_deadline=signup_deadline,
+            contact_person=contact_person,
+            contact_mail=contact_mail,
+            contact_phone=contact_phone,
+            rating=rating,
+            price=price,
+            comment=comment,
             )
         event.save()
         return CreateEvent(event=event)
@@ -232,6 +317,11 @@ class EditEvent(ClientIDMutation):
         ends = DateTime(default=None)
         signup_deadline = DateTime(default=None)
         contact_person = String(default=None)
+        contact_mail = String(default=None)
+        contact_phone = String(default=None)
+        rating = String(default=None)
+        price = String(default=None)
+        comment = String(default=None)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
@@ -254,8 +344,18 @@ class EditEvent(ClientIDMutation):
             event.ends = input.get("ends")
         if input.get("signup_deadline"):
             event.signup_deadline = input.get("signup_deadline")
-        if input.get("contact_person_info"):
+        if input.get("contact_person"):
             event.contact_person = input.get("contact_person")
+        if input.get("contact_mail"):
+            event.contact_mail = input.get("contact_mail")
+        if input.get("contact_phone"):
+            event.contact_phone = input.get("contact_phone")
+        if input.get("rating"):
+            event.rating = input.get("rating")
+        if input.get("price"):
+            event.price = input.get("price")
+        if input.get("comment"):
+            event.comment = input.get("comment")
         
         event.save()
 
@@ -272,9 +372,53 @@ class DeleteEvent(ClientIDMutation):
         event.delete()
         return DeleteEvent(event=event) # Vad ska returneras?
 
+class Attendance(DjangoObjectType):
+    class Meta:
+        model = event_models.Attendance
+        interfaces = [Node]
+        only_fields = [
+            "person",
+            "event"
+        ]
+        filter_fields = []
+
+class CreateAttendance(ClientIDMutation):
+    event = Field(lambda: Event)
+    person = Field(lambda: Person)
+
+    class Input:
+        eventUid = String(required=True)
+        personUid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = event_models.Event.objects.get(id=uuid.UUID(input["eventUid"]))
+        person = event_models.Person.objects.get(id=uuid.UUID(input["personUid"]))
+        try:
+            event_models.Attendance.objects.get(event=event, person=person)
+            raise Exception("Unique constraint not satisfied.")
+        #except eventAttendance.DoesNotExist as exc:
+        except event_models.Attendance.DoesNotExist as exc:
+            attendance = event_models.Attendance()
+            attendance.person = person
+            attendance.event = event
+            attendance.save()
+            return CreateAttendance(person=person, event=event)
 
 class CoreQuery:
-    people = DjangoFilterConnectionField(Person)
+    people = DjangoFilterConnectionField(Person, search = String())
+
+    def resolve_people(self, info, search=None):
+        if search:
+            filter = (
+                Q(first_name__icontains=search)
+                | Q(nickname__icontains=search)
+                | Q(last_name__icontains=search)
+            )
+            return people_models.Person.objects.filter(filter)
+        
+        return people_models.Person.objects.all()
+        
     person = Node.Field(Person)
     products = DjangoFilterConnectionField(Product)
     product = Node.Field(Product)
@@ -286,6 +430,8 @@ class CoreQuery:
     user_account = Node.Field(UserAccount)
     events = DjangoFilterConnectionField(Event)
     event = Node.Field(Event)
+    attendances = DjangoFilterConnectionField(Attendance)
+    attendance = Node.Field(Event)
 
 
 class CoreMutation(ObjectType):
@@ -294,6 +440,7 @@ class CoreMutation(ObjectType):
     edit_person = EditPerson.Field()
     edit_event = EditEvent.Field()
     delete_event = DeleteEvent.Field()
+    create_attendance = CreateAttendance.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):

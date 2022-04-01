@@ -69,6 +69,14 @@ class Purchase(models.Model):
         related_name="purchases",
         verbose_name=_("sale point"),
     )
+    event = models.ForeignKey(
+        "events.Event",
+        on_delete=models.CASCADE,
+        related_name="event",
+        verbose_name=_("Event"),
+        blank=True,
+        default=None,
+    )
 
     class Meta:
         ordering = ("-timestamp",)
