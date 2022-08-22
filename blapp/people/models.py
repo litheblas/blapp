@@ -1,6 +1,6 @@
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from blapp.utils.db_fields import (

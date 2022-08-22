@@ -6,17 +6,17 @@ name = "pypi"
 [packages]
 channels = "==3.0.*"
 daphne = "==3.0.*"
-django = "==3.*"
+django = "==4.*"
 django-cors-headers = "==3.13.*"
 django-environ = "==0.9.*"
 django-extensions = "==3.2.*"
 django-filter = "==22.*"
 django-mptt = "==0.13.*"
-django-oidc-provider = {git = "https://github.com/vonfalk/django-oidc-provider.git", editable = true, ref = "169e0d56fc3b77c6fe893fdc7bb3027600cc9b63"}
+django-oidc-provider = {git = "https://github.com/vonfalk/django-oidc-provider.git", editable = true, ref = "9ddfb6955c1cd63ff31d659626b9af1d1ffc6cae"}
 django-phonenumber-field = "==6.3.*"
 django-redis = "==5.2.*"
 django-widget-tweaks = "==1.4.*"
-graphene-django = "==2.15.*"
+graphene-django = {git = "https://github.com/graphql-python/graphene-django", editable = true, ref = "5f1731dca31bc1b8df766a73011be02744f59c5c"}
 ipython = "==8.4.*"
 mysqlclient = "==2.1.*"
 phonenumberslite = "==8.12.*"
