@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from blapp.people.models import Person
 from blapp.utils.db_fields import DescriptionField, NameField, PrimaryKeyUUIDField

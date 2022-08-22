@@ -1,9 +1,9 @@
-from django.conf.urls import include, url
+from django.urls import include, re_path
 
 from .views.commerce import bulk_seller
 
 # fmt: off
 urlpatterns = [
-    url(r"^commerce/bulk/", bulk_seller),
+    re_path(r"^commerce/bulk/", bulk_seller),
 ]
 # fmt: on
