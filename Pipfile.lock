@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4a77cac9af37da17c5bc636f20bd628892fdee55d06bca967379232686347e7a"
+            "sha256": "fa07818890cb6c6d85033282d7d16d181ab4841d326230cd0eb45fe469ad801a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -286,7 +286,7 @@
         "django-oidc-provider": {
             "editable": true,
             "git": "https://github.com/vonfalk/django-oidc-provider.git",
-            "ref": "9ddfb6955c1cd63ff31d659626b9af1d1ffc6cae"
+            "ref": "912ca082f9ebdd3799fcce065ef00fd5e76dae67"
         },
         "django-phonenumber-field": {
             "hashes": [
