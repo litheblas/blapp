@@ -17,7 +17,7 @@ DEBUG = env.bool("DEBUG_MODE", default=False)
 SECRET_KEY = env.str("SECRET_KEY")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
-CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST", default=[])
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
 
 # Only sets SECURE_PROXY_SSL_HEADER if explicitly defined. The format of
 # BLAPP_SECURE_PROXY_HEADER is <header>=<value>, where <value> is the value of
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "blapp.legacy",
     "blapp.people",
     "blapp.utils",
+    "blapp.events",
 ]
 
 MIDDLEWARE = [
