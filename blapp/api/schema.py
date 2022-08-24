@@ -19,7 +19,7 @@ class UserAccount(DjangoObjectType):
     class Meta:
         model = auth_models.UserAccount
         interfaces = [Node]
-        only_fields = [
+        fields = [
             "id",
             "username",
             # Relations
@@ -32,7 +32,7 @@ class Product(DjangoObjectType):
     class Meta:
         model = commerce_models.Product
         interfaces = [Node]
-        only_fields = ["id", "name", "description", "price"]
+        fields = ["id", "name", "description", "price"]
         filter_fields = []
 
 
@@ -40,7 +40,7 @@ class SalePoint(DjangoObjectType):
     class Meta:
         model = commerce_models.SalePoint
         interfaces = [Node]
-        only_fields = ["id", "name", "description"]
+        fields = ["id", "name", "description"]
         filter_fields = []
 
 
@@ -48,7 +48,7 @@ class Purchase(DjangoObjectType):
     class Meta:
         model = commerce_models.Purchase
         interfaces = [Node]
-        only_fields = [
+        fields = [
             "id",
             "uid",
             "quantity",
@@ -68,7 +68,7 @@ class Person(DjangoObjectType):
     class Meta:
         model = people_models.Person
         interfaces = [Node]
-        only_fields = [
+        fields = [
             "id",
             "full_name",
             "short_name",

@@ -1,6 +1,7 @@
 from Cryptodome.PublicKey import RSA
 from django.contrib.auth.hashers import make_password
-from factory import DjangoModelFactory, Faker, LazyAttribute, LazyFunction, SubFactory
+from factory import Faker, LazyAttribute, LazyFunction, SubFactory
+from factory.django import DjangoModelFactory
 from oidc_provider.models import Client, RSAKey
 
 from blapp.auth.models import ServiceAccount, UserAccount
