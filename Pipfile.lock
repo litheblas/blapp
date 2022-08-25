@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f1ed309d2b8f64d61633796aaceea130980198588f011e6227ec0e1ebd118388"
+            "sha256": "0442253cf0662944cfd33205c528f5cae8f338c8604b61ad213a0f3afd2cca2d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1128,7 +1128,7 @@
                 "sha256:067a03f64e555261610e69277536072997b4576dbf84b113faef3c06d85b466b",
                 "sha256:0e00bfa1eadf1493f15662edb181222fea4847764cf3f9ff3e66ee0f95c9a644"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==14.1.0"
         },
         "fancycompleter": {
@@ -1174,7 +1174,7 @@
                 "sha256:70813c1135087a248a4d38cc0e1a0181ffab2188141a93eaf567940c3957ff06",
                 "sha256:8ddd78563b633ca55346c8cd41ec0af27d3c79931828beffb46ce70a379e7442"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==0.13.0"
         },
         "idna": {
@@ -1373,7 +1373,7 @@
                 "sha256:4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159",
                 "sha256:74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==1.0.0"
         },
         "prompt-toolkit": {
@@ -1587,11 +1587,11 @@
         },
         "splinter": {
             "hashes": [
-                "sha256:4a14a9d1f9d1372c64b666627ef4e103d759379bc1a9bde0c487e00d70976b1e",
-                "sha256:616da85a0c99bef00b59e75eb29e2e48162027c68ccb81a12d1dfe6d26209692"
+                "sha256:0fef9b632a0e220fe9cad7df1e2d5119932b6d2baf7843b80334248d6fda62d9",
+                "sha256:4721b22a5e0a8592cec90b07d35bf5f6c11ea06af1dc83409898f150b118ed11"
             ],
             "index": "pypi",
-            "version": "==0.18.1"
+            "version": "==0.17.0"
         },
         "stack-data": {
             "hashes": [
