@@ -12,7 +12,7 @@ django-environ = "==0.9.*"
 django-extensions = "==3.2.*"
 django-filter = "==22.*"
 django-mptt = "==0.13.*"
-django-oidc-provider = {git = "https://github.com/vonfalk/django-oidc-provider.git", editable = true, ref = "912ca082f9ebdd3799fcce065ef00fd5e76dae67"}
+django-oidc-provider = {git = "https://github.com/vonfalk/django-oidc-provider.git", editable = true, ref = "e2fe9cdb1f70c7f969626b89884f43ec4349bdfe"}
 django-phonenumber-field = "==6.3.*"
 django-redis = "==5.2.*"
 django-widget-tweaks = "==1.4.*"
@@ -38,7 +38,7 @@ pytest-django = "==4.5.*"
 pytest-env = "==0.6.*"
 pytest-splinter = "==3.3.*"
 # Locked at lower version due to compatibility problems in pytest-splinter
-splinter = "==0.18.*"
+splinter = "==0.17.*"
 blapp = {editable = true, path = "."}
 
 [requires]
