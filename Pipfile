@@ -38,7 +38,7 @@ pytest-django = "==4.5.*"
 pytest-env = "==0.6.*"
 pytest-splinter = "==3.3.*"
 # Locked at lower version due to compatibility problems in pytest-splinter
-splinter = "==0.18.*"
+splinter = "==0.17.*"
 blapp = {editable = true, path = "."}
 
 [requires]
