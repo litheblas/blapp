@@ -1,6 +1,7 @@
 ca-certificates
 libpq
 python3
+py3-pip
 
 build-base
 git
@@ -9,3 +10,4 @@ postgresql-dev
 python3-dev
 mariadb-dev
 yarn
+tzdata

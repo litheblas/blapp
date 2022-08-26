@@ -83,7 +83,8 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
               <Row>
                 {R.pipe(
                   R.values,
-                  R.sortBy((x) => x.shortName),
+                  R.tap((x) => console.log(x)),
+                  //R.sortBy((x) => x.shortName),
                   R.mapObjIndexed((person: any, personKey: any) => (
                     <Col sm={4} className='mb-2' key={personKey}>
                       <Button block size='md' className='py-3' color={this.state.personId === person.id ? 'success' : 'secondary'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>

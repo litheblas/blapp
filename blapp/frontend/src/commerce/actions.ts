@@ -1,6 +1,6 @@
 import * as R from 'ramda'
-import uuid1 from 'uuid/v1'
-import uuid4 from 'uuid/v4'
+import { v1 as uuid1 } from 'uuid'
+import { v4 as uuid4 } from 'uuid'
 import { DateTime } from 'luxon'
 
 const subActionSeparator = '/'
