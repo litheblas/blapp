@@ -18,7 +18,6 @@ const fixPurchases = R.pipe(
   R.values,
   //@ts-ignore
   R.sortBy(R.pluck('timestamp')),
-  R.reverse,
 )
 
 const mapStateToProps = (state: any, ownProps: any) => ({
@@ -83,7 +82,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
               <Row>
                 {R.pipe(
                   R.values,
-                  R.sortBy((x) => x.shortName),
+                  R.sortBy((x: any) => x.shortName),
                   R.mapObjIndexed((person: any, personKey: any) => (
                     <Col sm={4} className='mb-2' key={personKey}>
                       <Button block size='md' className='py-3' color={this.state.personId === person.id ? 'success' : 'secondary'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>

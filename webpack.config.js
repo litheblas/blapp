@@ -21,19 +21,17 @@ module.exports = {
       {
         test: /\.(scss)$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-          },
+            'style-loader',
+            'css-loader',
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [
-                require('precss'),
-                require('autoprefixer'),
-              ]
+              postcssOptions: {
+                plugins: [
+                  "precss",
+                  "autoprefixer"
+                ]
+              }
             }
           },
           {
