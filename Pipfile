@@ -37,7 +37,9 @@ pytest = "==7.1.*"
 pytest-django = "==4.5.*"
 pytest-env = "==0.6.*"
 pytest-splinter = "==3.3.*"
-# Locked at lower version due to compatibility problems in pytest-splinter
+# selenium is locked at a lower version due to compatibility problems in splinter
+selenium = "==4.2.*"
+# splinter is at lower version due to compatibility problems in pytest-splinter
 splinter = "==0.17.*"
 blapp = {editable = true, path = "."}
 
