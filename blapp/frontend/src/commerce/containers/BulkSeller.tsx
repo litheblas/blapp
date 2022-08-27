@@ -158,7 +158,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                     //@ts-ignore
                     fixPurchases(this.props.purchases).slice(0, 10).map((purchase: any, purchaseKey: any) => (
                       <tr key={purchaseKey}>
-                        <td>{purchase.person.shortName}</td>
+                        <td>{typeof this.props.people[purchase.person.id] != 'undefined' ? this.props.people[purchase.person.id].shortName : 'Okänd'}</td>
                         <td>{purchase.quantity}</td>
                         <td>{DateTime.fromISO(purchase.timestamp).setLocale('sv-SE').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)}</td>
                       </tr>

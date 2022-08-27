@@ -18,6 +18,9 @@ const defaultState = {
 
 const edgeListToObject = (list: any) => R.pipe(
   R.pluck('node'),
+  R.map((x: any) => [x.id, x]),
+  //@ts-ignore
+  R.fromPairs,
 )(list)
 
 const reducer = (state = defaultState, action: any) => {
