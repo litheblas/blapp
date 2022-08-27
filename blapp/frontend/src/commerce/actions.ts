@@ -77,6 +77,7 @@ const getBaseData = () => (dispatch: any, getState: any) => {
                       }
                       person {
                         id
+                        shortName
                       }
                       timestamp
                       quantity

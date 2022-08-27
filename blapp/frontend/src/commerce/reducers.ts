@@ -18,7 +18,6 @@ const defaultState = {
 
 const edgeListToObject = (list: any) => R.pipe(
   R.pluck('node'),
-  R.map((x: any) => [x.id, x]),
 )(list)
 
 const reducer = (state = defaultState, action: any) => {
@@ -54,7 +53,8 @@ const reducer = (state = defaultState, action: any) => {
       return {
         ...state,
         // Deletes the purchase from the failed queue as it enters the outbox.
-        //failedPurchases: R.dissoc(action.meta.purchase.uid, state.failedPurchases),
+        //@ts-ignore
+        failedPurchases: R.dissoc(action.meta.purchase.uid, state.failedPurchases),
       }
     case actionTypes.makePurchase.commit:
       return {

@@ -18,7 +18,6 @@ const fixPurchases = R.pipe(
   R.values,
   //@ts-ignore
   R.sortBy(R.pluck('timestamp')),
-  R.reverse,
 )
 
 const mapStateToProps = (state: any, ownProps: any) => ({
@@ -83,8 +82,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
               <Row>
                 {R.pipe(
                   R.values,
-                  R.tap((x) => console.log(x)),
-                  //R.sortBy((x) => x.shortName),
+                  R.sortBy((x: any) => x.shortName),
                   R.mapObjIndexed((person: any, personKey: any) => (
                     <Col sm={4} className='mb-2' key={personKey}>
                       <Button block size='md' className='py-3' color={this.state.personId === person.id ? 'success' : 'secondary'} onClick={() => this.setState({personId: person.id})}>{person.shortName}</Button>
@@ -160,7 +158,7 @@ export const BulkSellerContainer = connect(mapStateToProps, mapDispatchToProps)(
                     //@ts-ignore
                     fixPurchases(this.props.purchases).slice(0, 10).map((purchase: any, purchaseKey: any) => (
                       <tr key={purchaseKey}>
-                        <td>{typeof this.props.people[purchase.person.id] != 'undefined' ? this.props.people[purchase.person.id].shortName : 'Okänd'}</td>
+                        <td>{purchase.person.shortName}</td>
                         <td>{purchase.quantity}</td>
                         <td>{DateTime.fromISO(purchase.timestamp).setLocale('sv-SE').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)}</td>
                       </tr>
