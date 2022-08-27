@@ -8,7 +8,7 @@ ENV DJANGO_SETTINGS_MODULE=blapp.settings \
   PIP_NO_CACHE_DIR=false \
   PIPENV_DONT_LOAD_ENV=true \
   PYTHONUNBUFFERED=true
-ENV TZ=Europe/Copenhagen
+ENV TZ=Europe/Stockholm
 
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
