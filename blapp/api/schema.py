@@ -85,6 +85,16 @@ class Person(DjangoObjectType):
         ]
         filter_fields = ["temp_tour18"]
 
+class Role(DjangoObjectType):
+    class Meta:
+        model = people_models.Role
+        interfaces = [Node]
+        fields = [
+            "id",
+            "name",
+            "description",
+        ]
+        filter_fields = ["membership", "engagement"]
 
 class MakePurchase(ClientIDMutation):
     purchase = Field(lambda: Purchase)
@@ -117,6 +127,8 @@ class CoreQuery:
     product = Node.Field(Product)
     purchases = DjangoFilterConnectionField(Purchase)
     purchase = Node.Field(Purchase)
+    roles = DjangoFilterConnectionField(Role)
+    role = Node.Field(Role)
     sale_points = DjangoFilterConnectionField(SalePoint)
     sale_point = Node.Field(SalePoint)
     user_accounts = DjangoFilterConnectionField(UserAccount)
