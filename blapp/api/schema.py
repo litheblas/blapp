@@ -96,6 +96,20 @@ class Role(DjangoObjectType):
         ]
         filter_fields = ["membership", "engagement"]
 
+class RoleAssignment(DjangoObjectType):
+    class Meta:
+        model = people_models.RoleAssignment
+        interfaces = [Node]
+        fields = [
+            "id",
+            "period",
+            "trial",
+            # Relations
+            "role",
+            "person",
+        ]
+        filter_fields = ["person", "role"]
+
 class MakePurchase(ClientIDMutation):
     purchase = Field(lambda: Purchase)
 
@@ -129,6 +143,8 @@ class CoreQuery:
     purchase = Node.Field(Purchase)
     roles = DjangoFilterConnectionField(Role)
     role = Node.Field(Role)
+    role_assignments = DjangoFilterConnectionField(RoleAssignment)
+    role_assignment = Node.Field(RoleAssignment)
     sale_points = DjangoFilterConnectionField(SalePoint)
     sale_point = Node.Field(SalePoint)
     user_accounts = DjangoFilterConnectionField(UserAccount)
