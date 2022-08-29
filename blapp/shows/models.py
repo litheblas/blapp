@@ -29,7 +29,7 @@ class Show(models.Model):
         constraints = [
             models.CheckConstraint(
                 check=models.Q(end_date_time__gt=models.F("start_date_time")),
-                name="end_date_time_gte_start_date_time"
+                name="end_date_time_gt_start_date_time"
             )
         ]
 
