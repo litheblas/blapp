@@ -13,7 +13,7 @@ class Show(models.Model):
     header = NameField(verbose_name=_("header"))
     description = DescriptionField(verbose_name=_("description"))
     start_date_time = models.DateTimeField(verbose_name=_("start date time"), null=False, default=now)
-    end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=True, blank=True, default=None)
+    end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=False)
     location = NameField(verbose_name=_("location"))
     driving_section = NameField(blank=True, verbose_name=_("driving section"))
     contact_person_name = NameField(blank=True, verbose_name=_("contact person name"))
@@ -25,7 +25,7 @@ class Show(models.Model):
         ordering = ("start_date_time", "header")
         constraints = [
             models.CheckConstraint(
-                check=models.Q(end_date_time__exact=None) | models.Q(end_date_time__gt=models.F("start_date_time")),
+                check=models.Q(end_date_time__gt=models.F("start_date_time")),
                 name="end_date_time_gte_start_date_time"
             )
         ]
