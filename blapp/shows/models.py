@@ -15,13 +15,14 @@ class Show(models.Model):
     start_date_time = models.DateTimeField(verbose_name=_("start date time"), null=False, default=now)
     end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=False)
     location = NameField(verbose_name=_("location"))
-    driving_section = NameField(blank=True, verbose_name=_("driving section"))
+    driving_section = NameField(verbose_name=_("driving section"), blank=True)
     
-    contact_person_name = NameField(blank=True, verbose_name=_("contact person name"))
-    contact_person_email_address = NameField(blank=True, verbose_name=_("contact person email address"))
-    contact_person_phone_number = NameField(blank=True, verbose_name=_("contact person phone number"))
-    comment = DescriptionField(verbose_name=_("comment"))
-    fee = NameField(blank=True, verbose_name=_("fee"))
+    contact_person_name = NameField(verbose_name=_("contact person name"), blank=True)
+    contact_person_email_address = NameField(verbose_name=_("contact person email address"), blank=True)
+    contact_person_phone_number = NameField(verbose_name=_("contact person phone number"), blank=True)
+    contact_person_comment = DescriptionField(verbose_name=_("contact person comment"), blank=True)
+    comment = DescriptionField(verbose_name=_("comment"), blank=True)
+    fee = NameField(verbose_name=_("fee"), blank=True)
 
     class Meta:
         ordering = ("start_date_time", "header")

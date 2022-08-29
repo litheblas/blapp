@@ -127,6 +127,8 @@ class Show(DjangoObjectType):
             "contact_person_name",
             "contact_person_email_address",
             "contact_person_phone_number",
+            "contact_person_comment",
+            "comment",
             "fee",
         ]
         filter_fields = {
