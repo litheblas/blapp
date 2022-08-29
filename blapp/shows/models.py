@@ -16,9 +16,11 @@ class Show(models.Model):
     end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=False)
     location = NameField(verbose_name=_("location"))
     driving_section = NameField(blank=True, verbose_name=_("driving section"))
+    
     contact_person_name = NameField(blank=True, verbose_name=_("contact person name"))
     contact_person_email_address = NameField(blank=True, verbose_name=_("contact person email address"))
     contact_person_phone_number = NameField(blank=True, verbose_name=_("contact person phone number"))
+    comment = DescriptionField(verbose_name=_("comment"))
     fee = NameField(blank=True, verbose_name=_("fee"))
 
     class Meta:
@@ -29,7 +31,6 @@ class Show(models.Model):
                 name="end_date_time_gte_start_date_time"
             )
         ]
-        
 
     def __str__(self):
         return self.header
