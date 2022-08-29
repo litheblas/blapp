@@ -9,6 +9,7 @@ from graphene_django.types import DjangoObjectType
 from blapp.auth import models as auth_models
 from blapp.commerce import models as commerce_models
 from blapp.people import models as people_models
+from blapp.shows import models as show_models
 
 
 class Node(RelayNode):
@@ -110,6 +111,30 @@ class RoleAssignment(DjangoObjectType):
         ]
         filter_fields = ["person", "role"]
 
+class Show(DjangoObjectType):
+    class Meta:
+        model = show_models.Show
+        interfaces = [Node]
+        fields = [
+            "id",
+            "header",
+            "description",
+            "start_date_time",
+            "end_date_time",
+            "location",
+            "driving_section",
+            # Protected fields
+            "contact_person_name",
+            "contact_person_email_address",
+            "contact_person_phone_number",
+            "fee",
+        ]
+        filter_fields = {
+            "end_date_time": ["exact", "gte", "lte"],
+            "start_date_time": ["exact", "gte", "lte"],
+            "header": ["icontains", ]
+        }
+
 class MakePurchase(ClientIDMutation):
     purchase = Field(lambda: Purchase)
 
@@ -145,6 +170,8 @@ class CoreQuery:
     role = Node.Field(Role)
     role_assignments = DjangoFilterConnectionField(RoleAssignment)
     role_assignment = Node.Field(RoleAssignment)
+    shows = DjangoFilterConnectionField(Show)
+    show = Node.Field(Show)
     sale_points = DjangoFilterConnectionField(SalePoint)
     sale_point = Node.Field(SalePoint)
     user_accounts = DjangoFilterConnectionField(UserAccount)
