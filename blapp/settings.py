@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "blapp.api",
     "blapp.auth",
     "blapp.commerce",
+    "blapp.events",
     "blapp.frontend",
     "blapp.legacy",
     "blapp.people",

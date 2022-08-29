@@ -10,6 +10,7 @@ from blapp.auth import models as auth_models
 from blapp.commerce import models as commerce_models
 from blapp.people import models as people_models
 from blapp.shows import models as show_models
+from blapp.events import models as event_models
 
 
 class Node(RelayNode):
@@ -111,6 +112,23 @@ class RoleAssignment(DjangoObjectType):
         ]
         filter_fields = ["person", "role"]
 
+class Event(DjangoObjectType):
+    class Meta:
+        model = event_models.Event
+        interfaces = [Node]
+        fields = [
+            "header",
+            "description",
+            "location",
+            "start_date_time",
+            "end_date_time",
+        ]
+        filter_fields = {
+            "end_date_time": ["exact", "gte", "lte"],
+            "start_date_time": ["exact", "gte", "lte"],
+            "header": ["icontains", ]
+        }
+
 class Show(DjangoObjectType):
     class Meta:
         model = show_models.Show
@@ -172,6 +190,8 @@ class CoreQuery:
     role = Node.Field(Role)
     role_assignments = DjangoFilterConnectionField(RoleAssignment)
     role_assignment = Node.Field(RoleAssignment)
+    events = DjangoFilterConnectionField(Event)
+    event = Node.Field(Event)
     shows = DjangoFilterConnectionField(Show)
     show = Node.Field(Show)
     sale_points = DjangoFilterConnectionField(SalePoint)
