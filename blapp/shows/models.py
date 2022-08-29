@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-from django.contrib.postgres.fields import DateTimeRangeField
+from django.utils.timezone import now
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from blapp.utils.db_fields import (
@@ -13,7 +12,8 @@ class Show(models.Model):
 
     header = NameField(verbose_name=_("header"))
     description = DescriptionField(verbose_name=_("description"))
-    date_time = DateTimeRangeField(verbose_name=_("date and time"), default=(datetime.now().replace(second=0), datetime.now().replace(second=0) + timedelta(hours=1)))
+    start_date_time = models.DateTimeField(verbose_name=_("start date time"), null=False, default=now)
+    end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=True, blank=True, default=None)
     location = NameField(verbose_name=_("location"))
     driving_section = NameField(blank=True, verbose_name=_("driving section"))
     contact_person_name = NameField(blank=True, verbose_name=_("contact person name"))
@@ -22,7 +22,14 @@ class Show(models.Model):
     fee = NameField(blank=True, verbose_name=_("fee"))
 
     class Meta:
-        ordering = ("date_time", "header")
+        ordering = ("start_date_time", "header")
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(end_date_time__exact=None) | models.Q(end_date_time__gt=models.F("start_date_time")),
+                name="end_date_time_gte_start_date_time"
+            )
+        ]
+        
 
     def __str__(self):
         return self.header
