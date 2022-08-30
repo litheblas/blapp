@@ -34,6 +34,7 @@ class Person(models.Model):
     postal_region = NameField(verbose_name=_("postal region"), blank=True)
     country = NameField(verbose_name=_("country"), blank=True)
     national_id_number = models.CharField(verbose_name=_("national id number"), blank=True, max_length=4)
+    student_id = models.CharField(verbose_name=_("student id"), blank=True, max_length=10)
     dietary_preferences = NameField(verbose_name=_("dietary preferences"), blank=True)
     arbitrary_text = DescriptionField(verbose_name=_("arbitrary text"), blank=True)
 
