@@ -1,6 +1,7 @@
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django_jsonform.models.fields import ArrayField
 from mptt.models import MPTTModel, TreeForeignKey
 
 from blapp.utils.db_fields import (
@@ -27,6 +28,14 @@ class Person(models.Model):
 
     # Email must be unique if set
     email = UniqueEmailField()
+    phone_numbers = ArrayField(verbose_name=_("phone numbers"), base_field=models.CharField(max_length=14), default=list, blank=True, size=3)
+    street_address = NameField(verbose_name=_("street address"), blank=True)
+    postal_code = models.CharField(verbose_name=_("postal code"), blank=True, max_length=7)
+    postal_region = NameField(verbose_name=_("postal region"), blank=True)
+    country = NameField(verbose_name=_("country"), blank=True)
+    national_id_number = models.CharField(verbose_name=_("national id number"), blank=True, max_length=4)
+    dietary_preferences = NameField(verbose_name=_("dietary preferences"), blank=True)
+    arbitrary_text = DescriptionField(verbose_name=_("arbitrary text"), blank=True)
 
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
 
