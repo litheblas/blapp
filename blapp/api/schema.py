@@ -12,6 +12,8 @@ from blapp.people import models as people_models
 from blapp.shows import models as show_models
 from blapp.events import models as event_models
 
+from . import filters
+
 
 class Node(RelayNode):
     pass
@@ -93,7 +95,7 @@ class Person(DjangoObjectType):
             "purchases",
             "user_account",
         ]
-        filter_fields = ["temp_tour18"]
+        filterset_class = filters.PersonFilter
 
 class Role(DjangoObjectType):
     class Meta:
