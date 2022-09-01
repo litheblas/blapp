@@ -11,6 +11,21 @@ from blapp.utils.db_fields import (
     UniqueEmailField,
 )
 
+class PhoneNumber(models.Model):
+    id = PrimaryKeyUUIDField()
+
+    person = models.ForeignKey(to="Person", on_delete=models.CASCADE, related_name="phone_numbers", verbose_name=_("person"))
+
+    label = models.CharField(verbose_name=_("label"), max_length=20)
+    phone_number = models.CharField(verbose_name=_("phone number"), max_length=14)
+
+    def save(self, *args, **kwargs):
+        if self.__class__.objects.filter(person=self.person).count() >= 3:
+            return
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "{}: {}, {}".format(self.person.full_name, self.label, self.phone_number)
 
 class Person(models.Model):
     id = PrimaryKeyUUIDField()
@@ -28,7 +43,6 @@ class Person(models.Model):
 
     # Email must be unique if set
     email = UniqueEmailField()
-    phone_numbers = ArrayField(verbose_name=_("phone numbers"), base_field=models.CharField(max_length=14), default=list, blank=True, size=3)
     street_address = NameField(verbose_name=_("street address"), blank=True)
     postal_code = models.CharField(verbose_name=_("postal code"), blank=True, max_length=7)
     postal_region = NameField(verbose_name=_("postal region"), blank=True)
