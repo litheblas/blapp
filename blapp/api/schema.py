@@ -47,6 +47,18 @@ class SalePoint(DjangoObjectType):
         fields = ["id", "name", "description"]
         filter_fields = []
 
+class PhoneNumber(DjangoObjectType):
+    class Meta:
+        model = people_models.PhoneNumber
+        interfaces = [Node]
+        fields = [
+            "id",
+            "person",
+            "label",
+            "phone_number"
+        ]
+        filter_fields = ["person"]
+    
 
 class Purchase(DjangoObjectType):
     class Meta:
@@ -83,7 +95,6 @@ class Person(DjangoObjectType):
             "date_of_death",
             "email",
             "legacy_id",
-            "phone_numbers",
             "street_address",
             "postal_code",
             "postal_region",
@@ -94,6 +105,7 @@ class Person(DjangoObjectType):
             # Relations
             "purchases",
             "user_account",
+            "phone_numbers",
         ]
         filterset_class = filters.PersonFilter
 
@@ -194,6 +206,8 @@ class CoreQuery:
     person = Node.Field(Person)
     products = DjangoFilterConnectionField(Product)
     product = Node.Field(Product)
+    phone_numbers = DjangoFilterConnectionField(PhoneNumber)
+    phone_number = Node.Field(PhoneNumber)
     purchases = DjangoFilterConnectionField(Purchase)
     purchase = Node.Field(Purchase)
     roles = DjangoFilterConnectionField(Role)
