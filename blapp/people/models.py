@@ -1,7 +1,6 @@
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django_jsonform.models.fields import ArrayField
 from mptt.models import MPTTModel, TreeForeignKey
 
 from blapp.utils.db_fields import (

@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "channels",
-    "django_jsonform",
     "django_extensions",
     "graphene_django",
     "mptt",

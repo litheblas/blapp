@@ -11,7 +11,6 @@ django-cors-headers = "==3.13.*"
 django-environ = "==0.9.*"
 django-extensions = "==3.2.*"
 django-filter = "==22.*"
-django-jsonform = "==2.11.*"
 django-mptt = "==0.13.*"
 django-oidc-provider = {git = "https://github.com/vonfalk/django-oidc-provider.git", editable = true, ref = "b2e1d5a0c9e1ee507423fa3dced6daefa0d5b60f"}
 django-phonenumber-field = "==6.3.*"
