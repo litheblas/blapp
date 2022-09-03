@@ -6,7 +6,7 @@ from . import models
 
 class RoleAssignmentInline(admin.TabularInline):
     model = models.RoleAssignment
-    fields = ["person", "role", "period", "trial"]
+    fields = ["person", "role", "start_date_time", "end_date_time", "trial"]
     raw_id_fields = ["person"]
     extra = 0
 
@@ -22,4 +22,3 @@ class PersonAdmin(admin.ModelAdmin):
 @admin.register(models.Role)
 class RoleAdmin(MPTTModelAdmin, admin.ModelAdmin):
     list_display = ["name", "description", "membership", "engagement"]
-    inlines = [RoleAssignmentInline]

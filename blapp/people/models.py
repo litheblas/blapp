@@ -1,4 +1,3 @@
-from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
@@ -17,6 +16,16 @@ class Person(models.Model):
     first_name = NameField(verbose_name=_("first name"))
     last_name = NameField(verbose_name=_("last name"))
     nickname = NameField(blank=True, verbose_name=_("nickname"))
+    student_id = models.CharField(max_length=8, blank=True, verbose_name=_("student id"))
+    home_address = models.CharField(max_length=63, blank=True, verbose_name=_("home address"))
+    postal_code = models.CharField(max_length=15, blank=True, verbose_name=_("postal code"))
+    postal_region = models.CharField(max_length=63, blank=True, verbose_name=_("postal region"))
+    country = models.CharField(max_length=63, blank=True, verbose_name=_("country"))
+    phone_number = models.CharField(max_length=31, blank=True, verbose_name=_("phone number"))
+    work = models.CharField(max_length=63, blank=True, verbose_name=_("work"))
+    arbitrary_text = models.TextField(blank=True, verbose_name=_("arbitrary text"))
+    organ_donor_until = models.DateField(null=True, blank=True, verbose_name=_("organ donor until"))
+    organ_donor = models.BooleanField(default=False, verbose_name=_("organ donator"))
 
     date_of_birth = models.DateField(
         null=True, blank=True, verbose_name=_("date of birth")
@@ -90,7 +99,8 @@ class RoleAssignment(models.Model):
         verbose_name=_("person"),
     )
 
-    period = DateRangeField(verbose_name=_("period"))
+    start_date_time = models.DateField(null=True, blank=True, verbose_name=_("start date"))
+    end_date_time = models.DateField(null=True, blank=True, verbose_name=_("end date"))
     trial = models.BooleanField()
 
     legacy_table = models.CharField(max_length=64, blank=True)
@@ -98,7 +108,7 @@ class RoleAssignment(models.Model):
     legacy_end_id = models.CharField(max_length=64, blank=True)
 
     class Meta:
-        ordering = ["period"]
+        ordering = ["start_date_time"]
 
     def __str__(self):
-        return f"{self.person.short_name}: {self.role} ({self.period.lower}–{self.period.upper})"
+        return f"{self.person.short_name}: {self.role} ({self.start_date_time}–{self.end_date_time})"
