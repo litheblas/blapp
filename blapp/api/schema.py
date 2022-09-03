@@ -14,6 +14,8 @@ from blapp.people import models as people_models
 from blapp.shows import models as show_models
 from blapp.events import models as event_models
 
+from . import filters
+
 
 class Node(RelayNode):
     pass
@@ -47,6 +49,18 @@ class SalePoint(DjangoObjectType):
         fields = ["id", "name", "description"]
         filter_fields = []
 
+class PhoneNumber(DjangoObjectType):
+    class Meta:
+        model = people_models.PhoneNumber
+        interfaces = [Node]
+        fields = [
+            "id",
+            "person",
+            "label",
+            "phone_number"
+        ]
+        filter_fields = ["person"]
+    
 
 class Purchase(DjangoObjectType):
     class Meta:
@@ -93,13 +107,21 @@ class Person(DjangoObjectType):
             "organ_donor",
             "email",
             "legacy_id",
+            "street_address",
+            "postal_code",
+            "postal_region",
+            "country",
+            "national_id_number",
+            "dietary_preferences",
+            "arbitrary_text",
+            "phone_numbers",
             # Relations
             "purchases",
             "user_account",
             "role_assignments",
         ]
         filter_fields = ["temp_tour18", "id"]
-
+        filterset_class = filters.PersonFilter
 
 class Role(DjangoObjectType):
     class Meta:
@@ -381,6 +403,8 @@ class CoreQuery:
     person = Node.Field(Person)
     products = DjangoFilterConnectionField(Product)
     product = Node.Field(Product)
+    phone_numbers = DjangoFilterConnectionField(PhoneNumber)
+    phone_number = Node.Field(PhoneNumber)
     purchases = DjangoFilterConnectionField(Purchase)
     purchase = Node.Field(Purchase)
     roles = DjangoFilterConnectionField(Role)
