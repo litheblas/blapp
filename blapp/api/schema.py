@@ -132,7 +132,7 @@ class RoleAssignment(DjangoObjectType):
             "role",
             "person",
         ]
-        filter_fields = ["person", "role"]
+        filter_fields = ["person", "role", "role__membership", "role__engagement"]
 
 class Event(DjangoObjectType):
     class Meta:
