@@ -94,6 +94,10 @@ class Person(DjangoObjectType):
             "date_of_birth",
             "date_of_death",
             "email",
+            "student_id",
+            "work_name",
+            "organ_donor_until",
+            "organ_donor",
             "legacy_id",
             "street_address",
             "postal_code",
@@ -106,6 +110,7 @@ class Person(DjangoObjectType):
             "purchases",
             "user_account",
             "phone_numbers",
+            "role_assignments",
         ]
         filterset_class = filters.PersonFilter
 
@@ -117,6 +122,8 @@ class Role(DjangoObjectType):
             "id",
             "name",
             "description",
+            "engagement",
+            "membership",
         ]
         filter_fields = ["membership", "engagement"]
 

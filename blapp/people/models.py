@@ -46,10 +46,14 @@ class Person(models.Model):
     postal_code = models.CharField(verbose_name=_("postal code"), blank=True, max_length=7)
     postal_region = NameField(verbose_name=_("postal region"), blank=True)
     country = NameField(verbose_name=_("country"), blank=True)
+    work_name = NameField(verbose_name=_("work"), blank=True)
     national_id_number = models.CharField(verbose_name=_("national id number"), blank=True, max_length=4)
     student_id = models.CharField(verbose_name=_("student id"), blank=True, max_length=10)
     dietary_preferences = NameField(verbose_name=_("dietary preferences"), blank=True)
     arbitrary_text = DescriptionField(verbose_name=_("arbitrary text"), blank=True)
+
+    organ_donor = models.BooleanField(default=False)
+    organ_donor_until = models.DateField(null=True, blank=True, verbose_name=_("organ donor until"))
 
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
 
