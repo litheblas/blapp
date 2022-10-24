@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "graphene_django",
     "mptt",
+    "oauth2_provider",
     "oidc_provider",
     "widget_tweaks",
     "blapp.api",
@@ -133,6 +134,10 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
+
+OAUTH2_PROVIDER = {
+    "PKCE_REQUIRED": True,
+}
 
 STATIC_URL = "/static/"
 STATIC_ROOT = path.join(REPO_ROOT, ".var", "static")

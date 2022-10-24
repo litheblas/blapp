@@ -13,6 +13,7 @@ def dummy_view(request):
 urlpatterns = [
     re_path(r"^admin/", admin.site.urls),
     re_path(r"^api/graphql/$", api_view, name="api-graphql"),
+    re_path(r"^o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     re_path(r"^auth/", include([
         re_path(r"^", include("django.contrib.auth.urls")),
         re_path(r"^openid/", include([
