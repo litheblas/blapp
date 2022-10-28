@@ -15,6 +15,9 @@ from blapp.events import models as event_models
 from . import filters
 
 
+def check_permissions(info, self):
+    return info.context.user.is_staff or info.context.user.person == self
+
 class Node(RelayNode):
     pass
 
@@ -108,6 +111,16 @@ class Person(DjangoObjectType):
             "phone_numbers",
         ]
         filterset_class = filters.PersonFilter
+
+    def resolve_national_id_number(self, info):
+        if check_permissions(info, self):
+            return self.national_id_number
+        return ""
+
+    def resolve_dietary_preferences(self, info):
+        if check_permissions(info, self):
+            return self.dietary_preferences
+        return ""
 
 class Role(DjangoObjectType):
     class Meta:
