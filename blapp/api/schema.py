@@ -15,6 +15,12 @@ from blapp.events import models as event_models
 from . import filters
 
 
+def check_person_permissions(info, self):
+    return info.context.user.is_staff or info.context.user.is_superuser or info.context.user.person == self
+
+def check_user_permissions(info):
+    return info.context.user.is_staff or info.context.user.is_superuser
+
 class Node(RelayNode):
     pass
 
@@ -109,6 +115,16 @@ class Person(DjangoObjectType):
         ]
         filterset_class = filters.PersonFilter
 
+    def resolve_national_id_number(self, info):
+        if check_person_permissions(info, self):
+            return self.national_id_number
+        return ""
+
+    def resolve_dietary_preferences(self, info):
+        if check_person_permissions(info, self):
+            return self.dietary_preferences
+        return ""
+
 class Role(DjangoObjectType):
     class Meta:
         model = people_models.Role
@@ -176,6 +192,36 @@ class Show(DjangoObjectType):
             "start_date_time": ["exact", "gte", "lte"],
             "header": ["icontains", ]
         }
+
+    def resolve_contact_person_name(self, info):
+        if check_user_permissions(info):
+            return self.contact_person_name
+        return ""
+    
+    def resolve_contact_person_email_address(self, info):
+        if check_user_permissions(info):
+            return self.contact_person_email_address
+        return ""
+    
+    def resolve_contact_person_phone_number(self, info):
+        if check_user_permissions(info):
+            return self.contact_person_phone_number
+        return ""
+    
+    def resolve_contact_person_comment(self, info):
+        if check_user_permissions(info):
+            return self.contact_person_comment
+        return ""
+    
+    def resolve_comment(self, info):
+        if check_user_permissions(info):
+            return self.comment
+        return ""
+    
+    def resolve_fee(self, info):
+        if check_user_permissions(info):
+            return self.fee
+        return ""
 
 class MakePurchase(ClientIDMutation):
     purchase = Field(lambda: Purchase)

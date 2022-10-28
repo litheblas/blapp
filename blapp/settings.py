@@ -75,6 +75,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "oauth2_provider.middleware.OAuth2TokenMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -118,6 +119,7 @@ PASSWORD_HASHERS = DEFAULT.PASSWORD_HASHERS + [
 ]
 AUTH_USER_MODEL = "blapp_auth.UserAccount"
 AUTHENTICATION_BACKENDS = [
+    "oauth2_provider.backends.OAuth2Backend",
     "django.contrib.auth.backends.ModelBackend",
     "blapp.auth.backends.ServiceAccountTokenBackend",
 ]
