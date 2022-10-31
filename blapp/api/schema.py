@@ -15,10 +15,13 @@ from blapp.events import models as event_models
 from . import filters
 
 
-def check_person_permissions(info, self):
+def check_staff_superuser_person(info, self):
     return info.context.user.is_staff or info.context.user.is_superuser or info.context.user.person == self
 
-def check_user_permissions(info):
+def check_superuser_person(info, self):
+    return info.context.user.is_superuser or info.context.user.person == self
+
+def check_staff_superuser(info):
     return info.context.user.is_staff or info.context.user.is_superuser
 
 class Node(RelayNode):
@@ -116,12 +119,12 @@ class Person(DjangoObjectType):
         filterset_class = filters.PersonFilter
 
     def resolve_national_id_number(self, info):
-        if check_person_permissions(info, self):
+        if check_staff_superuser_person(info, self):
             return self.national_id_number
         return ""
 
     def resolve_dietary_preferences(self, info):
-        if check_person_permissions(info, self):
+        if check_staff_superuser_person(info, self):
             return self.dietary_preferences
         return ""
 
@@ -194,32 +197,32 @@ class Show(DjangoObjectType):
         }
 
     def resolve_contact_person_name(self, info):
-        if check_user_permissions(info):
+        if check_staff_superuser(info):
             return self.contact_person_name
         return ""
     
     def resolve_contact_person_email_address(self, info):
-        if check_user_permissions(info):
+        if check_staff_superuser(info):
             return self.contact_person_email_address
         return ""
     
     def resolve_contact_person_phone_number(self, info):
-        if check_user_permissions(info):
+        if check_staff_superuser(info):
             return self.contact_person_phone_number
         return ""
     
     def resolve_contact_person_comment(self, info):
-        if check_user_permissions(info):
+        if check_staff_superuser(info):
             return self.contact_person_comment
         return ""
     
     def resolve_comment(self, info):
-        if check_user_permissions(info):
+        if check_staff_superuser(info):
             return self.comment
         return ""
     
     def resolve_fee(self, info):
-        if check_user_permissions(info):
+        if check_staff_superuser(info):
             return self.fee
         return ""
 
@@ -246,6 +249,59 @@ class MakePurchase(ClientIDMutation):
 
         return MakePurchase(purchase=purchase)
 
+class EditPerson(ClientIDMutation):
+    person = Field(lambda: Person)
+
+    class Input:
+        uid = String(required=True)
+        first_name = String(default=None)
+        last_name = String(default=None)
+        nickname = String(default=None)
+
+        date_of_birth = DateTime(default=None)
+        date_of_death = DateTime(default=None)
+
+        email = String(default=None)
+        street_address = String(default=None)
+        postal_code = String(default=None)
+        country = String(default=None)
+        national_id_number = String(default=None)
+        student_id = String(default=None)
+        dietary_preferences = String(default=None)
+        arbitrary_text = String(default=None)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        person = Node.get_node_from_global_id(info, input["uid"])
+        if check_superuser_person(info, person):
+            if first_name := input.get("first_name"):
+                person.first_name = first_name
+            if last_name := input.get("last_name"):
+                person.last_name = last_name
+            if nickname := input.get("nickname"):
+                person.nickname = nickname
+            if date_of_birth := input.get("date_of_birth"):
+                person.date_of_birth = date_of_birth
+            if date_of_death := input.get("date_of_death"):
+                person.date_of_death = date_of_death
+            if email := input.get("email"):
+                person.email = email
+            if street_address := input.get("street_address"):
+                person.street_address = street_address
+            if postal_code := input.get("postal_code"):
+                person.postal_code = postal_code
+            if country := input.get("country"):
+                person.country = country
+            if national_id_number := input.get("national_id_number"):
+                person.national_id_number = national_id_number
+            if student_id := input.get("student_id"):
+                person.student_id = student_id
+            if dietary_preferences := input.get("dietary_preferences"):
+                person.dietary_preferences = dietary_preferences
+            if arbitrary_text := input.get("arbitrary_text"):
+                person.arbitrary_text = arbitrary_text
+            person.save()
+        return EditPerson(person=person)
 
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
@@ -272,6 +328,7 @@ class CoreQuery:
 
 class CoreMutation(ObjectType):
     make_purchase = MakePurchase.Field()
+    edit_person = EditPerson.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):
