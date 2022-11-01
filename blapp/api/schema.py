@@ -1,3 +1,5 @@
+from email.policy import default
+from optparse import check_choice
 import uuid
 
 from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String
@@ -11,6 +13,8 @@ from blapp.commerce import models as commerce_models
 from blapp.people import models as people_models
 from blapp.shows import models as show_models
 from blapp.events import models as event_models
+
+from re import fullmatch
 
 from . import filters
 
@@ -55,18 +59,6 @@ class SalePoint(DjangoObjectType):
         interfaces = [Node]
         fields = ["id", "name", "description"]
         filter_fields = []
-
-class PhoneNumber(DjangoObjectType):
-    class Meta:
-        model = people_models.PhoneNumber
-        interfaces = [Node]
-        fields = [
-            "id",
-            "person",
-            "label",
-            "phone_number"
-        ]
-        filter_fields = ["person"]
     
 
 class Purchase(DjangoObjectType):
@@ -111,10 +103,15 @@ class Person(DjangoObjectType):
             "national_id_number",
             "dietary_preferences",
             "arbitrary_text",
+            "phone_number_1",
+            "phone_number_1_label",
+            "phone_number_2",
+            "phone_number_2_label",
+            "phone_number_3",
+            "phone_number_3_label",
             # Relations
             "purchases",
             "user_account",
-            "phone_numbers",
         ]
         filterset_class = filters.PersonFilter
 
@@ -271,6 +268,13 @@ class EditPerson(ClientIDMutation):
         dietary_preferences = String(default=None)
         arbitrary_text = String(default=None)
 
+        phone_number_1 = String(default=None)
+        phone_number_1_label = String(default=None)
+        phone_number_2 = String(default=None)
+        phone_number_2_label = String(default=None)
+        phone_number_3 = String(default=None)
+        phone_number_3_label = String(default=None)
+
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         person = Node.get_node_from_global_id(info, input["uid"])
@@ -303,6 +307,18 @@ class EditPerson(ClientIDMutation):
                 person.dietary_preferences = dietary_preferences
             if arbitrary_text := input.get("arbitrary_text"):
                 person.arbitrary_text = arbitrary_text
+            if phone_number_1 := input.get("phone_number_1"):
+                person.phone_number_1 = phone_number_1
+            if phone_number_1_label := input.get("phone_number_1_label"):
+                person.phone_number_1_label = phone_number_1_label
+            if phone_number_2 := input.get("phone_number_2"):
+                person.phone_number_2 = phone_number_2
+            if phone_number_2_label := input.get("phone_number_2_label"):
+                person.phone_number_2_label = phone_number_2_label
+            if phone_number_3 := input.get("phone_number_3"):
+                person.phone_number_3 = phone_number_3
+            if phone_number_3_label := input.get("phone_number_3_label"):
+                person.phone_number_3_label = phone_number_3_label
             person.save()
         return EditPerson(person=person)
 
@@ -311,8 +327,6 @@ class CoreQuery:
     person = Node.Field(Person)
     products = DjangoFilterConnectionField(Product)
     product = Node.Field(Product)
-    phone_numbers = DjangoFilterConnectionField(PhoneNumber)
-    phone_number = Node.Field(PhoneNumber)
     purchases = DjangoFilterConnectionField(Purchase)
     purchase = Node.Field(Purchase)
     roles = DjangoFilterConnectionField(Role)

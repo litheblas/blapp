@@ -48,3 +48,10 @@ class MoneyDecimalField(models.DecimalField):
         kwargs["max_digits"] = 12
         kwargs["decimal_places"] = 2
         super().__init__(*args, **kwargs)
+
+class PhoneNumberField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_length", 30)
+        kwargs.setdefault("blank", True)
+
+        super().__init__(*args, **kwargs)
