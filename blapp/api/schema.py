@@ -1,6 +1,6 @@
 import uuid
 
-from graphene import ID, DateTime, Field, Int, ObjectType, Schema, String
+from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String
 from graphene.relay import Node as RelayNode
 from graphene.relay import ClientIDMutation
 from graphene_django.filter import DjangoFilterConnectionField
@@ -258,12 +258,13 @@ class EditPerson(ClientIDMutation):
         last_name = String(default=None)
         nickname = String(default=None)
 
-        date_of_birth = DateTime(default=None)
-        date_of_death = DateTime(default=None)
+        date_of_birth = Date(default=None)
+        date_of_death = Date(default=None)
 
         email = String(default=None)
         street_address = String(default=None)
         postal_code = String(default=None)
+        postal_region = String(default=None)
         country = String(default=None)
         national_id_number = String(default=None)
         student_id = String(default=None)
@@ -288,6 +289,8 @@ class EditPerson(ClientIDMutation):
                 person.email = email
             if street_address := input.get("street_address"):
                 person.street_address = street_address
+            if postal_region := input.get("postal_region"):
+                person.postal_region = postal_region
             if postal_code := input.get("postal_code"):
                 person.postal_code = postal_code
             if country := input.get("country"):
