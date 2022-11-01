@@ -8,7 +8,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from blapp.people.models import Person
-from blapp.utils.db_fields import DescriptionField, NameField, PrimaryKeyUUIDField
+from blapp.utils.db_fields import (
+    DescriptionField,
+    NameField,
+    PrimaryKeyUUIDField,
+)
 from blapp.utils.random import hex_string
 
 from .constants import AUTH_TOKEN_LENGTH

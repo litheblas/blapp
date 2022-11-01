@@ -6,10 +6,11 @@ from mptt.models import MPTTModel, TreeForeignKey
 from blapp.utils.db_fields import (
     DescriptionField,
     NameField,
+    PhoneNumberField,
     PrimaryKeyUUIDField,
     UniqueEmailField,
-    PhoneNumberField
 )
+
 
 class Person(models.Model):
     id = PrimaryKeyUUIDField()
@@ -28,20 +29,32 @@ class Person(models.Model):
     # Email must be unique if set
     email = UniqueEmailField()
     street_address = NameField(verbose_name=_("street address"), blank=True)
-    postal_code = models.CharField(verbose_name=_("postal code"), blank=True, max_length=7)
+    postal_code = models.CharField(
+        verbose_name=_("postal code"), blank=True, max_length=7
+    )
     postal_region = NameField(verbose_name=_("postal region"), blank=True)
     country = NameField(verbose_name=_("country"), blank=True)
-    national_id_number = models.CharField(verbose_name=_("national id number"), blank=True, max_length=4)
-    student_id = models.CharField(verbose_name=_("student id"), blank=True, max_length=10)
+    national_id_number = models.CharField(
+        verbose_name=_("national id number"), blank=True, max_length=4
+    )
+    student_id = models.CharField(
+        verbose_name=_("student id"), blank=True, max_length=10
+    )
     dietary_preferences = NameField(verbose_name=_("dietary preferences"), blank=True)
     arbitrary_text = DescriptionField(verbose_name=_("arbitrary text"), blank=True)
 
     phone_number_1 = PhoneNumberField(verbose_name=_("phone number 1"))
-    phone_number_1_label = models.CharField(verbose_name=_("phone number 1 label"), blank=True, max_length=30)
+    phone_number_1_label = models.CharField(
+        verbose_name=_("phone number 1 label"), blank=True, max_length=30
+    )
     phone_number_2 = PhoneNumberField(verbose_name=_("phone number 2"))
-    phone_number_2_label = models.CharField(verbose_name=_("phone number 2 label"), blank=True, max_length=30)
+    phone_number_2_label = models.CharField(
+        verbose_name=_("phone number 2 label"), blank=True, max_length=30
+    )
     phone_number_3 = PhoneNumberField(verbose_name=_("phone number 3"))
-    phone_number_3_label = models.CharField(verbose_name=_("phone number 3 label"), blank=True, max_length=30)
+    phone_number_3_label = models.CharField(
+        verbose_name=_("phone number 3 label"), blank=True, max_length=30
+    )
 
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
 

@@ -1,12 +1,13 @@
-from django.http import HttpResponseBadRequest
-from django.views.decorators.csrf import csrf_exempt
+# from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
-from blapp.auth.models import ServiceAccount
-from blapp.auth.utils import token_from_request
-
 from .schema import schema
+
+# from blapp.auth.models import ServiceAccount
+# from blapp.auth.utils import token_from_request
+
 
 _api_view = GraphQLView.as_view(schema=schema, graphiql=True)
 

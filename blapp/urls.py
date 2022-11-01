@@ -1,6 +1,6 @@
-from django.urls import include, re_path
 from django.contrib import admin
 from django.http.response import Http404
+from django.urls import include, re_path
 
 from blapp.api.views import api_view
 
