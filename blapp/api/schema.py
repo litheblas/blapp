@@ -161,6 +161,7 @@ class Event(DjangoObjectType):
         model = event_models.Event
         interfaces = [Node]
         fields = [
+            "owner",
             "header",
             "description",
             "location",
@@ -336,6 +337,74 @@ class EditPerson(ClientIDMutation):
         return EditPerson(person=person)
 
 
+class CreateEvent(ClientIDMutation):
+    event = Field(lambda: Event)
+
+    class Input:
+        header = String(required=True)
+        description = String(blank=True)
+        location = String(blank=True)
+        start_date_time = DateTime(required=True)
+        end_date_time = DateTime(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(clf, root, info, **input):
+        event = event_models.Event()
+        event.owner = info.context.user.person
+        event.header = input.get("header")
+        if description := input.get("description"):
+            event.description = description
+        if location := input.get("location"):
+            event.location = location
+        event.start_date_time = input.get("start_date_time")
+        event.end_date_time = input.get("end_date_time")
+        event.save()
+        return CreateEvent(event=event)
+
+
+class EditEvent(ClientIDMutation):
+    event = Field(lambda: Event)
+
+    class Input:
+        uid = String(required=True)
+        header = String(blank=True)
+        description = String(blank=True)
+        location = String(blank=True)
+        start_date_time = DateTime(null=True)
+        end_date_time = DateTime(null=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = Node.get_node_from_global_id(info, input.get("uid"))
+        if check_person(info, event.owner):
+            if header := input.get("header"):
+                event.header = header
+            if description := input.get("description"):
+                event.description = description
+            if location := input.get("location"):
+                event.location = location
+            if start_date_time := input.get("start_date_time"):
+                event.start_date_time = start_date_time
+            if end_date_time := input.get("end_date_time"):
+                event.end_date_time = end_date_time
+            event.save()
+        return EditEvent(event=event)
+
+
+class DeleteEvent(ClientIDMutation):
+    event = Field(lambda: Event)
+
+    class Input:
+        uid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = Node.get_node_from_global_id(info, input.get("uid"))
+        if check_person(info, event.owner):
+            event.delete()
+        return DeleteEvent(event=event)
+
+
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
     person = Node.Field(Person)
@@ -360,6 +429,9 @@ class CoreQuery:
 class CoreMutation(ObjectType):
     make_purchase = MakePurchase.Field()
     edit_person = EditPerson.Field()
+    create_event = CreateEvent.Field()
+    edit_event = EditEvent.Field()
+    delete_event = DeleteEvent.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):
