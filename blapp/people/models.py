@@ -8,23 +8,8 @@ from blapp.utils.db_fields import (
     NameField,
     PrimaryKeyUUIDField,
     UniqueEmailField,
+    PhoneNumberField
 )
-
-class PhoneNumber(models.Model):
-    id = PrimaryKeyUUIDField()
-
-    person = models.ForeignKey(to="Person", on_delete=models.CASCADE, related_name="phone_numbers", verbose_name=_("person"))
-
-    label = models.CharField(verbose_name=_("label"), max_length=20)
-    phone_number = models.CharField(verbose_name=_("phone number"), max_length=14)
-
-    def save(self, *args, **kwargs):
-        if self.__class__.objects.filter(person=self.person).count() >= 3:
-            return
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return "{}: {}, {}".format(self.person.full_name, self.label, self.phone_number)
 
 class Person(models.Model):
     id = PrimaryKeyUUIDField()
@@ -50,6 +35,13 @@ class Person(models.Model):
     student_id = models.CharField(verbose_name=_("student id"), blank=True, max_length=10)
     dietary_preferences = NameField(verbose_name=_("dietary preferences"), blank=True)
     arbitrary_text = DescriptionField(verbose_name=_("arbitrary text"), blank=True)
+
+    phone_number_1 = PhoneNumberField(verbose_name=_("phone number 1"))
+    phone_number_1_label = models.CharField(verbose_name=_("phone number 1 label"), blank=True, max_length=30)
+    phone_number_2 = PhoneNumberField(verbose_name=_("phone number 2"))
+    phone_number_2_label = models.CharField(verbose_name=_("phone number 2 label"), blank=True, max_length=30)
+    phone_number_3 = PhoneNumberField(verbose_name=_("phone number 3"))
+    phone_number_3_label = models.CharField(verbose_name=_("phone number 3 label"), blank=True, max_length=30)
 
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
 
