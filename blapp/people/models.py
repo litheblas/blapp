@@ -1,4 +1,3 @@
-from wsgiref.validate import validator
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
