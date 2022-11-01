@@ -21,7 +21,7 @@ class test_person_query:
                     }
                 }
             }
-        """
+        """,
         )
 
         assert result == {
@@ -33,9 +33,9 @@ class test_person_query:
                                 "firstName": person.first_name,
                                 "lastName": person.last_name,
                                 "email": person.email,
-                            }
-                        }
-                    ]
-                }
-            }
+                            },
+                        },
+                    ],
+                },
+            },
         }

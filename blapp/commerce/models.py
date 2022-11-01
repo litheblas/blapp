@@ -42,12 +42,14 @@ class Purchase(models.Model):
         help_text=_(
             "Unique ID used to ensure that offline clients can sync multiple "
             "times without creating duplicates. Offline clients *must* supply "
-            "this."
+            "this.",
         ),
     )
 
     timestamp = models.DateTimeField(
-        default=now, editable=False, verbose_name=_("timestamp")
+        default=now,
+        editable=False,
+        verbose_name=_("timestamp"),
     )
 
     person = models.ForeignKey(

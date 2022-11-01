@@ -6,5 +6,5 @@ django.setup()
 application = ProtocolTypeRouter(
     {
         # http->django views is added by default
-    }
+    },
 )

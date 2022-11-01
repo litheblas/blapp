@@ -19,7 +19,7 @@ def _medlem_role_assignments(person, l_person):
     open_assignment = None
 
     for l_medlem in legacy_models.Medlem.objects.filter(pers=l_person.persid).order_by(
-        "datum"
+        "datum",
     ):
         # print(
         #     l_medlem.datum,
@@ -50,7 +50,8 @@ def _medlem_role_assignments(person, l_person):
                 role=people_models.Role.objects.get(
                     legacy_table=legacy_models.Instrument._meta.db_table,
                     legacy_id={"gamling": "okänt", "heder": "heder"}.get(
-                        l_medlem.typ, l_medlem.instr
+                        l_medlem.typ,
+                        l_medlem.instr,
                     ),
                 ),
                 period=DateRange(l_medlem.datum, None),
@@ -122,12 +123,13 @@ def _roles():
             legacy_table=legacy_models.Sektion._meta.db_table,
             legacy_id=l_sektion.sektid,
             defaults=dict(
-                name=l_sektion.lnamn.strip(), parent=section_and_instruments_role
+                name=l_sektion.lnamn.strip(),
+                parent=section_and_instruments_role,
             ),
         )
 
         for l_instrument in legacy_models.Instrument.objects.filter(
-            sekt=l_sektion.sektid
+            sekt=l_sektion.sektid,
         ):
             (
                 instrument_role,
@@ -174,7 +176,7 @@ def import_legacy_data():
     print("### People and user accounts ###")
     for l_person in legacy_models.Person.objects.all().order_by("fnamn"):
         person, person_created = people_models.Person.objects.get_or_create(
-            legacy_id=l_person.persid
+            legacy_id=l_person.persid,
         )
         person.first_name = l_person.fnamn.strip()
         person.last_name = l_person.enamn.strip()

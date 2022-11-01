@@ -22,7 +22,7 @@ class PersonFilter(FilterSet):
                 V(" "),
                 "last_name",
                 output_field=CharField(),
-            )
+            ),
         )
         for word in value.split():
             query = query.filter(conc__icontains=word)

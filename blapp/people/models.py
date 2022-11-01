@@ -20,40 +20,56 @@ class Person(models.Model):
     nickname = NameField(blank=True, verbose_name=_("nickname"))
 
     date_of_birth = models.DateField(
-        null=True, blank=True, verbose_name=_("date of birth")
+        null=True,
+        blank=True,
+        verbose_name=_("date of birth"),
     )
     date_of_death = models.DateField(
-        null=True, blank=True, verbose_name=_("date of death")
+        null=True,
+        blank=True,
+        verbose_name=_("date of death"),
     )
 
     # Email must be unique if set
     email = UniqueEmailField()
     street_address = NameField(verbose_name=_("street address"), blank=True)
     postal_code = models.CharField(
-        verbose_name=_("postal code"), blank=True, max_length=7
+        verbose_name=_("postal code"),
+        blank=True,
+        max_length=7,
     )
     postal_region = NameField(verbose_name=_("postal region"), blank=True)
     country = NameField(verbose_name=_("country"), blank=True)
     national_id_number = models.CharField(
-        verbose_name=_("national id number"), blank=True, max_length=4
+        verbose_name=_("national id number"),
+        blank=True,
+        max_length=4,
     )
     student_id = models.CharField(
-        verbose_name=_("student id"), blank=True, max_length=10
+        verbose_name=_("student id"),
+        blank=True,
+        max_length=10,
     )
     dietary_preferences = NameField(verbose_name=_("dietary preferences"), blank=True)
     arbitrary_text = DescriptionField(verbose_name=_("arbitrary text"), blank=True)
 
     phone_number_1 = PhoneNumberField(verbose_name=_("phone number 1"))
     phone_number_1_label = models.CharField(
-        verbose_name=_("phone number 1 label"), blank=True, max_length=30
+        verbose_name=_("phone number 1 label"),
+        blank=True,
+        max_length=30,
     )
     phone_number_2 = PhoneNumberField(verbose_name=_("phone number 2"))
     phone_number_2_label = models.CharField(
-        verbose_name=_("phone number 2 label"), blank=True, max_length=30
+        verbose_name=_("phone number 2 label"),
+        blank=True,
+        max_length=30,
     )
     phone_number_3 = PhoneNumberField(verbose_name=_("phone number 3"))
     phone_number_3_label = models.CharField(
-        verbose_name=_("phone number 3 label"), blank=True, max_length=30
+        verbose_name=_("phone number 3 label"),
+        blank=True,
+        max_length=30,
     )
 
     legacy_id = models.PositiveIntegerField(null=True, blank=True)
@@ -86,7 +102,11 @@ class Role(MPTTModel, models.Model):
     description = DescriptionField()
 
     parent = TreeForeignKey(
-        "self", on_delete=models.CASCADE, related_name="children", null=True, blank=True
+        "self",
+        on_delete=models.CASCADE,
+        related_name="children",
+        null=True,
+        blank=True,
     )
 
     membership = models.BooleanField(default=False)

@@ -16,7 +16,9 @@ class Event(models.Model):
     description = DescriptionField(verbose_name=_("description"))
     location = NameField(verbose_name=_("location"))
     start_date_time = models.DateTimeField(
-        verbose_name=_("start date time"), null=False, default=now
+        verbose_name=_("start date time"),
+        null=False,
+        default=now,
     )
     end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=False)
 
@@ -26,7 +28,7 @@ class Event(models.Model):
             models.CheckConstraint(
                 check=models.Q(end_date_time__gt=models.F("start_date_time")),
                 name="event_end_date_time_gt_start_date_time",
-            )
+            ),
         ]
 
     def __str__(self):

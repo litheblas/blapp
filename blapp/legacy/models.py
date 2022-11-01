@@ -61,7 +61,11 @@ class Aktivitet(models.Model):
     aktivitet = models.CharField(max_length=127)
     plats = models.CharField(max_length=127)
     koordinat = models.ForeignKey(
-        "Coord", models.DO_NOTHING, db_column="koordinat", blank=True, null=True
+        "Coord",
+        models.DO_NOTHING,
+        db_column="koordinat",
+        blank=True,
+        null=True,
     )
     fritext = models.TextField()
     tid = models.DateTimeField()
@@ -94,7 +98,11 @@ class Arrangemang(models.Model):
     slutdatum = models.DateField(blank=True, null=True)
     barstat = models.CharField(max_length=3, blank=True, null=True)
     maillist = models.ForeignKey(
-        "Mailadress", models.DO_NOTHING, db_column="maillist", blank=True, null=True
+        "Mailadress",
+        models.DO_NOTHING,
+        db_column="maillist",
+        blank=True,
+        null=True,
     )
     mapcolor = models.CharField(max_length=7, blank=True, null=True)
 
@@ -214,7 +222,10 @@ class ExtraSida(models.Model):
 
 class Extramail(models.Model):
     addr = models.OneToOneField(
-        "Mailadress", models.DO_NOTHING, db_column="addr", primary_key=True
+        "Mailadress",
+        models.DO_NOTHING,
+        db_column="addr",
+        primary_key=True,
     )
     password = models.CharField(max_length=63, blank=True, null=True)
 
@@ -408,7 +419,11 @@ class Mailadress(models.Model):
 class Maillist(models.Model):
     maillistid = models.AutoField(primary_key=True)
     namn = models.ForeignKey(
-        Mailadress, models.DO_NOTHING, db_column="namn", blank=True, null=True
+        Mailadress,
+        models.DO_NOTHING,
+        db_column="namn",
+        blank=True,
+        null=True,
     )
     beskr = models.CharField(max_length=63, blank=True, null=True)
     slutdatum = models.DateField(blank=True, null=True)
@@ -510,7 +525,11 @@ class Pagang(models.Model):
     tid = models.TimeField(blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     koordinat = models.ForeignKey(
-        Coord, models.DO_NOTHING, db_column="koordinat", blank=True, null=True
+        Coord,
+        models.DO_NOTHING,
+        db_column="koordinat",
+        blank=True,
+        null=True,
     )
     kontakt = models.CharField(max_length=63, blank=True, null=True)
     kontakttel = models.CharField(max_length=31, blank=True, null=True)
@@ -579,7 +598,11 @@ class Person(models.Model):
     icqnr = models.CharField(max_length=20, blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     blasmail = models.OneToOneField(
-        Mailadress, models.DO_NOTHING, db_column="blasmail", blank=True, null=True
+        Mailadress,
+        models.DO_NOTHING,
+        db_column="blasmail",
+        blank=True,
+        null=True,
     )
     gras_medlem_till = models.DateField(blank=True, null=True)
     arbete = models.CharField(max_length=63, blank=True, null=True)
