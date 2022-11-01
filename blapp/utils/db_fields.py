@@ -49,6 +49,7 @@ class MoneyDecimalField(models.DecimalField):
         kwargs["decimal_places"] = 2
         super().__init__(*args, **kwargs)
 
+
 class PhoneNumberField(models.CharField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("max_length", 30)

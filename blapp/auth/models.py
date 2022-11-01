@@ -8,7 +8,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from blapp.people.models import Person
-from blapp.utils.db_fields import DescriptionField, NameField, PrimaryKeyUUIDField
+from blapp.utils.db_fields import (
+    DescriptionField,
+    NameField,
+    PrimaryKeyUUIDField,
+)
 from blapp.utils.random import hex_string
 
 from .constants import AUTH_TOKEN_LENGTH
@@ -16,7 +20,12 @@ from .constants import AUTH_TOKEN_LENGTH
 
 class UserAccountManager(BaseUserManager):
     def create_user(
-        self, username=None, email=None, password=None, first_name=None, last_name=None
+        self,
+        username=None,
+        email=None,
+        password=None,
+        first_name=None,
+        last_name=None,
     ):
         if not username:
             raise ValueError("Users must have a username")
@@ -30,7 +39,9 @@ class UserAccountManager(BaseUserManager):
         assert not UserAccount.objects.filter(username=username).exists()
 
         person = Person.objects.create(
-            first_name=first_name, last_name=last_name, email=email
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
         )
 
         user = self.model(username=username, person=person)

@@ -41,7 +41,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": env.str("REDIS_URL"),
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
+    },
 }
 
 INSTALLED_APPS = [
@@ -100,14 +100,14 @@ TEMPLATES = [
             ],
             "debug": DEBUG,
         },
-    }
+    },
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 PASSWORD_HASHERS = DEFAULT.PASSWORD_HASHERS + [
     # For compatibility with passwords from legacy database
-    "django.contrib.auth.hashers.UnsaltedMD5PasswordHasher"
+    "django.contrib.auth.hashers.UnsaltedMD5PasswordHasher",
 ]
 AUTH_USER_MODEL = "blapp_auth.UserAccount"
 AUTHENTICATION_BACKENDS = [

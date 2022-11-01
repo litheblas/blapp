@@ -1,28 +1,35 @@
 import uuid
 
-from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String
-from graphene.relay import Node as RelayNode
+from graphene import ID, Date, DateTime, Field, Int, ObjectType, Schema, String
 from graphene.relay import ClientIDMutation
+from graphene.relay import Node as RelayNode
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
 from blapp.auth import models as auth_models
 from blapp.commerce import models as commerce_models
+from blapp.events import models as event_models
 from blapp.people import models as people_models
 from blapp.shows import models as show_models
-from blapp.events import models as event_models
 
 from . import filters
 
 
 def check_staff_superuser_person(info, self):
-    return info.context.user.is_staff or info.context.user.is_superuser or info.context.user.person == self
+    return (
+        info.context.user.is_staff
+        or info.context.user.is_superuser
+        or info.context.user.person == self
+    )
+
 
 def check_person(info, self):
     return info.context.user.person == self
 
+
 def check_staff_superuser(info):
     return info.context.user.is_staff or info.context.user.is_superuser
+
 
 class Node(RelayNode):
     pass
@@ -121,6 +128,7 @@ class Person(DjangoObjectType):
             return self.dietary_preferences
         return ""
 
+
 class Role(DjangoObjectType):
     class Meta:
         model = people_models.Role
@@ -131,6 +139,7 @@ class Role(DjangoObjectType):
             "description",
         ]
         filter_fields = ["membership", "engagement"]
+
 
 class RoleAssignment(DjangoObjectType):
     class Meta:
@@ -146,6 +155,7 @@ class RoleAssignment(DjangoObjectType):
         ]
         filter_fields = ["person", "role", "role__membership", "role__engagement"]
 
+
 class Event(DjangoObjectType):
     class Meta:
         model = event_models.Event
@@ -160,8 +170,11 @@ class Event(DjangoObjectType):
         filter_fields = {
             "end_date_time": ["exact", "gte", "lte"],
             "start_date_time": ["exact", "gte", "lte"],
-            "header": ["icontains", ]
+            "header": [
+                "icontains",
+            ],
         }
+
 
 class Show(DjangoObjectType):
     class Meta:
@@ -186,7 +199,9 @@ class Show(DjangoObjectType):
         filter_fields = {
             "end_date_time": ["exact", "gte", "lte"],
             "start_date_time": ["exact", "gte", "lte"],
-            "header": ["icontains", ]
+            "header": [
+                "icontains",
+            ],
         }
 
     def resolve_contact_person_name(self, info):
@@ -219,6 +234,7 @@ class Show(DjangoObjectType):
             return self.fee
         return ""
 
+
 class MakePurchase(ClientIDMutation):
     purchase = Field(lambda: Purchase)
 
@@ -241,6 +257,7 @@ class MakePurchase(ClientIDMutation):
         purchase.save()
 
         return MakePurchase(purchase=purchase)
+
 
 class EditPerson(ClientIDMutation):
     person = Field(lambda: Person)
@@ -317,6 +334,7 @@ class EditPerson(ClientIDMutation):
                 person.phone_number_3_label = phone_number_3_label
             person.save()
         return EditPerson(person=person)
+
 
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
