@@ -1,5 +1,3 @@
-from email.policy import default
-from optparse import check_choice
 import uuid
 
 from graphene import ID, DateTime, Date, Field, Int, ObjectType, Schema, String
@@ -13,8 +11,6 @@ from blapp.commerce import models as commerce_models
 from blapp.people import models as people_models
 from blapp.shows import models as show_models
 from blapp.events import models as event_models
-
-from re import fullmatch
 
 from . import filters
 
@@ -59,7 +55,7 @@ class SalePoint(DjangoObjectType):
         interfaces = [Node]
         fields = ["id", "name", "description"]
         filter_fields = []
-    
+
 
 class Purchase(DjangoObjectType):
     class Meta:
@@ -197,27 +193,27 @@ class Show(DjangoObjectType):
         if check_staff_superuser(info):
             return self.contact_person_name
         return ""
-    
+
     def resolve_contact_person_email_address(self, info):
         if check_staff_superuser(info):
             return self.contact_person_email_address
         return ""
-    
+
     def resolve_contact_person_phone_number(self, info):
         if check_staff_superuser(info):
             return self.contact_person_phone_number
         return ""
-    
+
     def resolve_contact_person_comment(self, info):
         if check_staff_superuser(info):
             return self.contact_person_comment
         return ""
-    
+
     def resolve_comment(self, info):
         if check_staff_superuser(info):
             return self.comment
         return ""
-    
+
     def resolve_fee(self, info):
         if check_staff_superuser(info):
             return self.fee
