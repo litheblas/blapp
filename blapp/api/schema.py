@@ -18,8 +18,8 @@ from . import filters
 def check_staff_superuser_person(info, self):
     return info.context.user.is_staff or info.context.user.is_superuser or info.context.user.person == self
 
-def check_superuser_person(info, self):
-    return info.context.user.is_superuser or info.context.user.person == self
+def check_person(info, self):
+    return info.context.user.person == self
 
 def check_staff_superuser(info):
     return info.context.user.is_staff or info.context.user.is_superuser
@@ -274,7 +274,7 @@ class EditPerson(ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         person = Node.get_node_from_global_id(info, input["uid"])
-        if check_superuser_person(info, person):
+        if check_person(info, person):
             if first_name := input.get("first_name"):
                 person.first_name = first_name
             if last_name := input.get("last_name"):
