@@ -11,6 +11,12 @@ from blapp.utils.db_fields import (
 
 class Event(models.Model):
     id = PrimaryKeyUUIDField()
+    owner = models.ForeignKey(
+        "people.Person",
+        on_delete=models.CASCADE,
+        related_name="events",
+        verbose_name=_("owner"),
+    )
 
     header = NameField(verbose_name=_("header"))
     description = DescriptionField(verbose_name=_("description"))
