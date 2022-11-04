@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
   selenium:
-    image: selenium/standalone-firefox:latest
+    image: selenium/standalone-firefox:106.0
     shm_size: 2gb
 
   app: &app

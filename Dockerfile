@@ -15,7 +15,7 @@ WORKDIR ${APP_ROOT}
 
 COPY apk-packages.txt ${APP_ROOT}/
 RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\r\n" " ") && \
-  pip3 install -U "pipenv==2022.5.2"
+  pip3 install -U "pipenv==2022.10.25"
 
 COPY Pipfile Pipfile.lock ${APP_ROOT}/
 # Workaround for https://github.com/pypa/pip/issues/6197 until pip==19.0.2
