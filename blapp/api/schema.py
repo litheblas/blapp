@@ -5,6 +5,7 @@ from graphene.relay import ClientIDMutation
 from graphene.relay import Node as RelayNode
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from graphql import GraphQLError
 
 from blapp.auth import models as auth_models
 from blapp.commerce import models as commerce_models
@@ -335,7 +336,7 @@ class CreatePerson(ClientIDMutation):
                 useraccount.person.phone_number_3_label = phone_number_3_label
             useraccount.person.save()
             return CreatePerson(person=useraccount.person)
-        return CreatePerson()
+        return GraphQLError("Unauthorized action.")
 
 
 class EditPerson(ClientIDMutation):
