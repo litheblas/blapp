@@ -260,6 +260,84 @@ class MakePurchase(ClientIDMutation):
         return MakePurchase(purchase=purchase)
 
 
+class CreatePerson(ClientIDMutation):
+    person = Field(lambda: Person)
+
+    class Input:
+        # UserAccount parameters
+        username = String(required=True)
+        email = String(required=True)
+        password = String(required=True)
+        first_name = String(required=True)
+        last_name = String(required=True)
+
+        # Person parameters
+        nickname = String(default=None)
+        date_of_birth = DateTime(default=None)
+        street_address = String(default=None)
+        postal_code = String(default=None)
+        postal_region = String(default=None)
+        country = String(default=None)
+        national_id_number = String(default=None)
+        student_id = String(default=None)
+        dietary_preferences = String(default=None)
+        arbitrary_text = String(default=None)
+        phone_number_1 = String(default=None)
+        phone_number_1_label = String(default=None)
+        phone_number_2 = String(default=None)
+        phone_number_2_label = String(default=None)
+        phone_number_3 = String(default=None)
+        phone_number_3_label = String(default=None)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        if check_staff_superuser(info):
+            useraccount = auth_models.UserAccount.objects.create_user(
+                username=input["username"],
+                email=input["email"],
+                password=input["password"],
+                first_name=input["first_name"],
+                last_name=input["last_name"],
+            )
+            useraccount.save()
+
+            if nickname := input.get("nickname"):
+                useraccount.person.nickname = nickname
+            if date_of_birth := input.get("date_of_birth"):
+                useraccount.person.date_of_birth = date_of_birth
+            if street_address := input.get("street_address"):
+                useraccount.person.street_address = street_address
+            if postal_code := input.get("postal_code"):
+                useraccount.person.postal_code = postal_code
+            if postal_region := input.get("postal_region"):
+                useraccount.person.postal_region = postal_region
+            if country := input.get("country"):
+                useraccount.person.country = country
+            if national_id_number := input.get("national_id_number"):
+                useraccount.person.national_id_number = national_id_number
+            if student_id := input.get("student_id"):
+                useraccount.person.student_id = student_id
+            if dietary_preferences := input.get("dietary_preferences"):
+                useraccount.person.dietary_preferences = dietary_preferences
+            if arbitrary_text := input.get("arbitrary_text"):
+                useraccount.person.arbitrary_text = arbitrary_text
+            if phone_number_1 := input.get("phone_number_1"):
+                useraccount.person.phone_number_1 = phone_number_1
+            if phone_number_1_label := input.get("phone_number_1_label"):
+                useraccount.person.phone_number_1_label = phone_number_1_label
+            if phone_number_2 := input.get("phone_number_2"):
+                useraccount.person.phone_number_2 = phone_number_2
+            if phone_number_2_label := input.get("phone_number_2_label"):
+                useraccount.person.phone_number_2_label = phone_number_2_label
+            if phone_number_3 := input.get("phone_number_3"):
+                useraccount.person.phone_number_3 = phone_number_3
+            if phone_number_3_label := input.get("phone_number_3_label"):
+                useraccount.person.phone_number_3_label = phone_number_3_label
+            useraccount.person.save()
+            return CreatePerson(person=useraccount.person)
+        return CreatePerson()
+
+
 class EditPerson(ClientIDMutation):
     person = Field(lambda: Person)
 
@@ -428,6 +506,7 @@ class CoreQuery:
 
 class CoreMutation(ObjectType):
     make_purchase = MakePurchase.Field()
+    create_person = CreatePerson.Field()
     edit_person = EditPerson.Field()
     create_event = CreateEvent.Field()
     edit_event = EditEvent.Field()
