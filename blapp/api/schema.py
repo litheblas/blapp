@@ -1,6 +1,16 @@
 import uuid
 
-from graphene import ID, Date, DateTime, Field, Int, ObjectType, Schema, String
+from graphene import (
+    ID,
+    Boolean,
+    Date,
+    DateTime,
+    Field,
+    Int,
+    ObjectType,
+    Schema,
+    String,
+)
 from graphene.relay import ClientIDMutation
 from graphene.relay import Node as RelayNode
 from graphene_django.filter import DjangoFilterConnectionField
@@ -176,6 +186,21 @@ class Event(DjangoObjectType):
                 "icontains",
             ],
         }
+
+
+class Attendance(DjangoObjectType):
+    class Meta:
+        model = event_models.Attendance
+        interfaces = [Node]
+        fields = [
+            "id",
+            "event",
+            "person",
+        ]
+        filter_fields = [
+            "person",
+            "event",
+        ]
 
 
 class Show(DjangoObjectType):
@@ -484,6 +509,48 @@ class DeleteEvent(ClientIDMutation):
         return DeleteEvent(event=event)
 
 
+class EventSignup(ClientIDMutation):
+    ok = Boolean()
+
+    class Input:
+        event_uid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        attendance, created = event_models.Attendance.objects.get_or_create(
+            person=info.context.user.person,
+            event=Node.get_node_from_global_id(info, input.get("event_uid")),
+        )
+        if not created:
+            return GraphQLError(
+                'You are already signed up to event "{}".'.format(
+                    attendance.event.header,
+                ),
+            )
+        return EventSignup(ok=True)
+
+
+class EventQuit(ClientIDMutation):
+    ok = Boolean()
+
+    class Input:
+        event_uid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = Node.get_node_from_global_id(info, input.get("event_uid"))
+        try:
+            event_models.Attendance.objects.get(
+                person=info.context.user.person,
+                event=event,
+            ).delete()
+            return EventQuit(ok=True)
+        except event_models.Event.DoesNotExist:
+            return GraphQLError(
+                'You are not registered to event "{}".'.format(event.header),
+            )
+
+
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
     person = Node.Field(Person)
@@ -497,6 +564,8 @@ class CoreQuery:
     role_assignment = Node.Field(RoleAssignment)
     events = DjangoFilterConnectionField(Event)
     event = Node.Field(Event)
+    attendances = DjangoFilterConnectionField(Attendance)
+    attendance = Node.Field(Attendance)
     shows = DjangoFilterConnectionField(Show)
     show = Node.Field(Show)
     sale_points = DjangoFilterConnectionField(SalePoint)
@@ -512,6 +581,8 @@ class CoreMutation(ObjectType):
     create_event = CreateEvent.Field()
     edit_event = EditEvent.Field()
     delete_event = DeleteEvent.Field()
+    event_signup = EventSignup.Field()
+    event_quit = EventQuit.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):
