@@ -54,4 +54,9 @@ class Attendance(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     class Meta:
-        models.UniqueConstraint(fields=["event", "person"], name="unique-attendance")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["event", "person"],
+                name="unique_attendant",
+            ),
+        ]
