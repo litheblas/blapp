@@ -1,16 +1,6 @@
 import uuid
 
-from graphene import (
-    ID,
-    Boolean,
-    Date,
-    DateTime,
-    Field,
-    Int,
-    ObjectType,
-    Schema,
-    String,
-)
+from graphene import ID, Date, DateTime, Field, Int, ObjectType, Schema, String
 from graphene.relay import ClientIDMutation
 from graphene.relay import Node as RelayNode
 from graphene_django.filter import DjangoFilterConnectionField
@@ -510,16 +500,17 @@ class DeleteEvent(ClientIDMutation):
 
 
 class EventSignup(ClientIDMutation):
-    ok = Boolean()
+    event = Field(lambda: Event)
 
     class Input:
         event_uid = String(required=True)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        event = Node.get_node_from_global_id(info, input.get("event_uid"))
         attendance, created = event_models.Attendance.objects.get_or_create(
             person=info.context.user.person,
-            event=Node.get_node_from_global_id(info, input.get("event_uid")),
+            event=event,
         )
         if not created:
             return GraphQLError(
@@ -527,11 +518,11 @@ class EventSignup(ClientIDMutation):
                     attendance.event.header,
                 ),
             )
-        return EventSignup(ok=True)
+        return EventSignup(event=event)
 
 
 class EventQuit(ClientIDMutation):
-    ok = Boolean()
+    event = Field(lambda: Event)
 
     class Input:
         event_uid = String(required=True)
@@ -544,8 +535,8 @@ class EventQuit(ClientIDMutation):
                 person=info.context.user.person,
                 event=event,
             ).delete()
-            return EventQuit(ok=True)
-        except event_models.Event.DoesNotExist:
+            return EventQuit(event=event)
+        except event_models.Attendance.DoesNotExist:
             return GraphQLError(
                 'You are not registered to event "{}".'.format(event.header),
             )
