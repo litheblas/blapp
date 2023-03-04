@@ -499,7 +499,7 @@ class DeleteEvent(ClientIDMutation):
         return DeleteEvent(event=event)
 
 
-class EventSignup(ClientIDMutation):
+class EventRegister(ClientIDMutation):
     event = Field(lambda: Event)
 
     class Input:
@@ -518,10 +518,10 @@ class EventSignup(ClientIDMutation):
                     attendance.event.header,
                 ),
             )
-        return EventSignup(event=event)
+        return EventRegister(event=event)
 
 
-class EventQuit(ClientIDMutation):
+class EventDeregister(ClientIDMutation):
     event = Field(lambda: Event)
 
     class Input:
@@ -535,7 +535,7 @@ class EventQuit(ClientIDMutation):
                 person=info.context.user.person,
                 event=event,
             ).delete()
-            return EventQuit(event=event)
+            return EventDeregister(event=event)
         except event_models.Attendance.DoesNotExist:
             return GraphQLError(
                 'You are not registered to event "{}".'.format(event.header),
@@ -572,8 +572,8 @@ class CoreMutation(ObjectType):
     create_event = CreateEvent.Field()
     edit_event = EditEvent.Field()
     delete_event = DeleteEvent.Field()
-    event_signup = EventSignup.Field()
-    event_quit = EventQuit.Field()
+    event_signup = EventRegister.Field()
+    event_quit = EventDeregister.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):
