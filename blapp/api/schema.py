@@ -178,6 +178,21 @@ class Event(DjangoObjectType):
         }
 
 
+class Attendance(DjangoObjectType):
+    class Meta:
+        model = event_models.Attendance
+        interfaces = [Node]
+        fields = [
+            "id",
+            "event",
+            "person",
+        ]
+        filter_fields = [
+            "person",
+            "event",
+        ]
+
+
 class Show(DjangoObjectType):
     class Meta:
         model = show_models.Show
@@ -484,6 +499,49 @@ class DeleteEvent(ClientIDMutation):
         return DeleteEvent(event=event)
 
 
+class EventRegister(ClientIDMutation):
+    event = Field(lambda: Event)
+
+    class Input:
+        event_uid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = Node.get_node_from_global_id(info, input.get("event_uid"))
+        attendance, created = event_models.Attendance.objects.get_or_create(
+            person=info.context.user.person,
+            event=event,
+        )
+        if not created:
+            return GraphQLError(
+                'You are already signed up to event "{}".'.format(
+                    attendance.event.header,
+                ),
+            )
+        return EventRegister(event=event)
+
+
+class EventDeregister(ClientIDMutation):
+    event = Field(lambda: Event)
+
+    class Input:
+        event_uid = String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event = Node.get_node_from_global_id(info, input.get("event_uid"))
+        try:
+            event_models.Attendance.objects.get(
+                person=info.context.user.person,
+                event=event,
+            ).delete()
+            return EventDeregister(event=event)
+        except event_models.Attendance.DoesNotExist:
+            return GraphQLError(
+                'You are not registered to event "{}".'.format(event.header),
+            )
+
+
 class CoreQuery:
     people = DjangoFilterConnectionField(Person)
     person = Node.Field(Person)
@@ -497,6 +555,8 @@ class CoreQuery:
     role_assignment = Node.Field(RoleAssignment)
     events = DjangoFilterConnectionField(Event)
     event = Node.Field(Event)
+    attendances = DjangoFilterConnectionField(Attendance)
+    attendance = Node.Field(Attendance)
     shows = DjangoFilterConnectionField(Show)
     show = Node.Field(Show)
     sale_points = DjangoFilterConnectionField(SalePoint)
@@ -512,6 +572,8 @@ class CoreMutation(ObjectType):
     create_event = CreateEvent.Field()
     edit_event = EditEvent.Field()
     delete_event = DeleteEvent.Field()
+    event_signup = EventRegister.Field()
+    event_quit = EventDeregister.Field()
 
 
 class QuerySchema(CoreQuery, ObjectType):

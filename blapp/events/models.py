@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
+from blapp.people.models import Person
 from blapp.utils.db_fields import (
     DescriptionField,
     NameField,
@@ -28,6 +29,12 @@ class Event(models.Model):
     )
     end_date_time = models.DateTimeField(verbose_name=_("end date time"), null=False)
 
+    attendants = models.ManyToManyField(
+        Person,
+        related_name="attendants",
+        through="attendance",
+    )
+
     class Meta:
         ordering = ("start_date_time", "header")
         constraints = [
@@ -39,3 +46,17 @@ class Event(models.Model):
 
     def __str__(self):
         return self.header
+
+
+class Attendance(models.Model):
+    id = PrimaryKeyUUIDField()
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["event", "person"],
+                name="unique_attendant",
+            ),
+        ]
