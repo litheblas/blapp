@@ -1,4 +1,4 @@
-FROM alpine:3.16.2
+FROM alpine:3.17.2
 
 # PIP_NO_CACHE_DIR=false actually means *no cache*
 ENV APP_ROOT=/app
@@ -15,7 +15,7 @@ WORKDIR ${APP_ROOT}
 
 COPY apk-packages.txt ${APP_ROOT}/
 RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\r\n" " ") && \
-  pip3 install -U "pipenv==2022.10.25"
+  pip3 install -U "pipenv==2023.2.18"
 
 COPY Pipfile Pipfile.lock ${APP_ROOT}/
 # Workaround for https://github.com/pypa/pip/issues/6197 until pip==19.0.2
