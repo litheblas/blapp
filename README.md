@@ -29,14 +29,14 @@ sudo apt install \
     redis-server \
     yarnpkg
 
-sudo pip3 install \
+pip3 install \
     mysqlclient \
     pipenv \
     django \
 	pre-commit
 
 pipenv install -d
-pre-commit install
+pre-commit install --install-hooks
 ```
 
 ## Other platforms
