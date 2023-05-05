@@ -6,7 +6,7 @@ services:
     shm_size: 2gb
 
   app: &app
-    image: quay.io/litheblas/blapp:latest
+    image: oscarfalk/blapp:latest
     build:
       context: .
     environment:
@@ -28,7 +28,7 @@ services:
 
   tests:
     <<: *app
-    image: quay.io/litheblas/blapp:latest-dev
+    image: oscarfalk/blapp:latest-dev
     build:
       context: .
       args:
