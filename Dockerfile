@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.17.2
 
 # PIP_NO_CACHE_DIR=false actually means *no cache*
 ENV APP_ROOT=/app
@@ -8,17 +8,18 @@ ENV DJANGO_SETTINGS_MODULE=blapp.settings \
   PIP_NO_CACHE_DIR=false \
   PIPENV_DONT_LOAD_ENV=true \
   PYTHONUNBUFFERED=true
+ENV TZ=Europe/Stockholm
 
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 
 COPY apk-packages.txt ${APP_ROOT}/
 RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\r\n" " ") && \
-  pip3 install -U "pipenv==2018.11.26"
+  pip3 install -U "pipenv==2023.2.18"
 
 COPY Pipfile Pipfile.lock ${APP_ROOT}/
 # Workaround for https://github.com/pypa/pip/issues/6197 until pip==19.0.2
-ENV PIP_USE_PEP517=false
+#ENV PIP_USE_PEP517=false
 RUN pipenv install --deploy
 
 COPY package.json yarn.lock ${APP_ROOT}/

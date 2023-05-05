@@ -1,4 +1,4 @@
-fnames = u"""Aaron
+fnames = """Aaron
 Abbas
 Abdullah
 Abel
@@ -74,7 +74,7 @@ Conny
 Cornelis
 Céline""".split()
 
-lnames = u"""Ackerman
+lnames = """Ackerman
 Afzelius
 Agrell
 Ahlberg

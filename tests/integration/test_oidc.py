@@ -63,8 +63,9 @@ def oidc_client(webserver, oidc_provider, reverse):
     client.provider_config(issuer=reverse("openid"))
     client.store_registration_info(
         RegistrationResponse(
-            client_id=oidc_provider.client_id, client_secret=oidc_provider.client_secret
-        )
+            client_id=oidc_provider.client_id,
+            client_secret=oidc_provider.client_secret,
+        ),
     )
 
     return client
@@ -89,7 +90,7 @@ def test_oidc(
             "nonce": oidc_session.nonce,
             "redirect_uri": oidc_provider.redirect_uris[0],
             "state": oidc_session.state,
-        }
+        },
     )
     auth_url = auth_req.request(oidc_client.authorization_endpoint)
 
@@ -100,7 +101,9 @@ def test_oidc(
     browser.find_by_value("Authorize").click()
 
     auth_resp = oidc_client.parse_response(
-        AuthorizationResponse, info=browser.url, sformat="urlencoded"
+        AuthorizationResponse,
+        info=browser.url,
+        sformat="urlencoded",
     )
 
     assert auth_resp["state"] == oidc_session.state
@@ -112,7 +115,8 @@ def test_oidc(
     )
 
     user_info = oidc_client.do_user_info_request(
-        state=oidc_session.state, behavior="use_authorization_header"
+        state=oidc_session.state,
+        behavior="use_authorization_header",
     )
 
     assert user_info["sub"] == str(user_account.pk)

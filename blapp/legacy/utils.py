@@ -19,7 +19,7 @@ def _medlem_role_assignments(person, l_person):
     open_assignment = None
 
     for l_medlem in legacy_models.Medlem.objects.filter(pers=l_person.persid).order_by(
-        "datum"
+        "datum",
     ):
         # print(
         #     l_medlem.datum,
@@ -39,7 +39,10 @@ def _medlem_role_assignments(person, l_person):
             if l_medlem.typ == "gamling":
                 continue
 
-        assignment, assignment_created = people_models.RoleAssignment.objects.get_or_create(
+        (
+            assignment,
+            assignment_created,
+        ) = people_models.RoleAssignment.objects.get_or_create(
             legacy_table=legacy_models.Medlem._meta.db_table,
             legacy_start_id=l_medlem.medlemid,
             defaults=dict(
@@ -47,7 +50,8 @@ def _medlem_role_assignments(person, l_person):
                 role=people_models.Role.objects.get(
                     legacy_table=legacy_models.Instrument._meta.db_table,
                     legacy_id={"gamling": "okänt", "heder": "heder"}.get(
-                        l_medlem.typ, l_medlem.instr
+                        l_medlem.typ,
+                        l_medlem.instr,
                     ),
                 ),
                 period=DateRange(l_medlem.datum, None),
@@ -64,7 +68,10 @@ def _medlem_role_assignments(person, l_person):
 
 def _persfunk_role_assignments(person, l_person):
     for l_persfunk in legacy_models.Persfunk.objects.filter(pers=l_person):
-        assignment, assignment_created = people_models.RoleAssignment.objects.get_or_create(
+        (
+            assignment,
+            assignment_created,
+        ) = people_models.RoleAssignment.objects.get_or_create(
             legacy_table=legacy_models.Persfunk._meta.db_table,
             legacy_start_id=l_persfunk.id,
             legacy_end_id=l_persfunk.id,
@@ -103,7 +110,10 @@ def _roles():
 
         print(funcs_role.name, "/", func_role.name)
 
-    section_and_instruments_role, section_and_instruments_role_created = people_models.Role.objects.get_or_create(
+    (
+        section_and_instruments_role,
+        section_and_instruments_role_created,
+    ) = people_models.Role.objects.get_or_create(
         legacy_table=legacy_models.Sektion._meta.db_table,
         legacy_id="",
         defaults=dict(name="Sektioner och instrument"),
@@ -113,14 +123,18 @@ def _roles():
             legacy_table=legacy_models.Sektion._meta.db_table,
             legacy_id=l_sektion.sektid,
             defaults=dict(
-                name=l_sektion.lnamn.strip(), parent=section_and_instruments_role
+                name=l_sektion.lnamn.strip(),
+                parent=section_and_instruments_role,
             ),
         )
 
         for l_instrument in legacy_models.Instrument.objects.filter(
-            sekt=l_sektion.sektid
+            sekt=l_sektion.sektid,
         ):
-            instrument_role, instrument_role_created = people_models.Role.objects.get_or_create(
+            (
+                instrument_role,
+                instrument_role_created,
+            ) = people_models.Role.objects.get_or_create(
                 legacy_table=legacy_models.Instrument._meta.db_table,
                 legacy_id=l_instrument.instrid,
                 defaults=dict(
@@ -132,7 +146,10 @@ def _roles():
 
             print(section_role.name, "/", instrument_role.name)
 
-    unknown_instrument_role, unknown_instrument_role_created = people_models.Role.objects.get_or_create(
+    (
+        unknown_instrument_role,
+        unknown_instrument_role_created,
+    ) = people_models.Role.objects.get_or_create(
         legacy_table=legacy_models.Instrument._meta.db_table,
         legacy_id="okänt",
         defaults=dict(name="[okänt instrument]", membership=True),
@@ -159,7 +176,7 @@ def import_legacy_data():
     print("### People and user accounts ###")
     for l_person in legacy_models.Person.objects.all().order_by("fnamn"):
         person, person_created = people_models.Person.objects.get_or_create(
-            legacy_id=l_person.persid
+            legacy_id=l_person.persid,
         )
         person.first_name = l_person.fnamn.strip()
         person.last_name = l_person.enamn.strip()
@@ -175,9 +192,10 @@ def import_legacy_data():
         person.save()
 
         if person.email and l_person.password:
-            user_account, user_account_created = auth_models.UserAccount.objects.get_or_create(
-                person=person
-            )
+            (
+                user_account,
+                user_account_created,
+            ) = auth_models.UserAccount.objects.get_or_create(person=person)
             user_account.username = l_person.blasmail.mailadress.strip().lower()
             user_account.password = f"md5$${l_person.password}"
             user_account.save()

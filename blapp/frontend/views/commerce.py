@@ -1,9 +1,10 @@
 from django.conf import settings
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 
 def bulk_seller(request):
-    return render_to_response(
+    return render(
+        request=request,
         template_name="commerce/bulk-seller.html",
         context={"APP_SETTINGS": settings.FRONTEND_SETTINGS},
     )

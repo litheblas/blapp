@@ -41,7 +41,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": env.str("REDIS_URL"),
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
+    },
 }
 
 INSTALLED_APPS = [
@@ -56,15 +56,18 @@ INSTALLED_APPS = [
     "django_extensions",
     "graphene_django",
     "mptt",
+    "oauth2_provider",
     "oidc_provider",
     "widget_tweaks",
     "blapp.api",
     "blapp.auth",
     "blapp.commerce",
+    "blapp.events",
     "blapp.frontend",
     "blapp.legacy",
     "blapp.people",
     "blapp.utils",
+    "blapp.shows",
 ]
 
 MIDDLEWARE = [
@@ -72,6 +75,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "oauth2_provider.middleware.OAuth2TokenMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -96,14 +100,14 @@ TEMPLATES = [
             ],
             "debug": DEBUG,
         },
-    }
+    },
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
@@ -111,10 +115,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 PASSWORD_HASHERS = DEFAULT.PASSWORD_HASHERS + [
     # For compatibility with passwords from legacy database
-    "django.contrib.auth.hashers.UnsaltedMD5PasswordHasher"
+    "django.contrib.auth.hashers.UnsaltedMD5PasswordHasher",
 ]
 AUTH_USER_MODEL = "blapp_auth.UserAccount"
 AUTHENTICATION_BACKENDS = [
+    "oauth2_provider.backends.OAuth2Backend",
     "django.contrib.auth.backends.ModelBackend",
     "blapp.auth.backends.ServiceAccountTokenBackend",
 ]
@@ -130,8 +135,11 @@ OIDC_TEMPLATES = {
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
+
+OAUTH2_PROVIDER = {
+    "PKCE_REQUIRED": True,
+}
 
 STATIC_URL = "/static/"
 STATIC_ROOT = path.join(REPO_ROOT, ".var", "static")

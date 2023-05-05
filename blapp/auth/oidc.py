@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from oidc_provider.lib.claims import ScopeClaims
 
 
@@ -14,7 +14,7 @@ class CustomScopeClaims(ScopeClaims):
         return {
             # Wraps the UUID to an integer fitting in 63 bits (or Mattermost
             # will fall on its side)
-            "id": self.user.id.int % (2 ** 63 - 1),
+            "id": self.user.id.int % (2**63 - 1),
             "username": self.userinfo["preferred_username"],
             # Nicknames in full name are handled so-so good in Mattermost
             "name": f"{self.user.person.first_name} {self.user.person.last_name}",

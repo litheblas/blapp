@@ -10,7 +10,7 @@ The Blapp is the LiTHe Blås App. It handles very important things.
 Use Homebrew and Pipenv:
 ```sh
 brew bundle install
-pipenv install -d -e . (Don't leave out the period)
+pipenv install -d
 ```
 
 ## Ubuntu (WSL Ubuntu 20.04 LTS)
@@ -29,12 +29,14 @@ sudo apt install \
     redis-server \
     yarnpkg
 
-sudo pip3 install \
+pip3 install \
     mysqlclient \
     pipenv \
-    django
+    django \
+	pre-commit
 
-pipenv install -d -e .
+pipenv install -d
+pre-commit install --install-hooks
 ```
 
 ## Other platforms

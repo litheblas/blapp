@@ -80,22 +80,24 @@ class test_service_account:
         assert (
             authenticate(
                 request=request_factory.get(
-                    "/", HTTP_AUTHORIZATION="Service-Token badtoken"
-                )
+                    "/",
+                    HTTP_AUTHORIZATION="Service-Token badtoken",
+                ),
             )
             is None
         )
         assert (
             authenticate(
-                request=request_factory.get("/", HTTP_AUTHORIZATION="Token goodtoken")
+                request=request_factory.get("/", HTTP_AUTHORIZATION="Token goodtoken"),
             )
             is None
         )
         assert (
             authenticate(
                 request=request_factory.get(
-                    "/", HTTP_AUTHORIZATION="Service-Token goodtoken"
-                )
+                    "/",
+                    HTTP_AUTHORIZATION="Service-Token goodtoken",
+                ),
             )
             == expected_service_account
         )

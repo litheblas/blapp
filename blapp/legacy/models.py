@@ -17,6 +17,7 @@ class Sebi(models.Model):
 
 
 class AktPers(models.Model):
+    id = models.AutoField(primary_key=True)
     akt = models.ForeignKey("Aktivitet", models.DO_NOTHING)
     pers = models.ForeignKey("Person", models.DO_NOTHING)
     svar = models.CharField(max_length=1)
@@ -42,6 +43,7 @@ class AktPobel(models.Model):
 
 
 class AktPobelPerson(models.Model):
+    id = models.AutoField(primary_key=True)
     fnamn = models.CharField(max_length=63)
     enamn = models.CharField(max_length=63)
     epost = models.CharField(max_length=127)
@@ -54,11 +56,16 @@ class AktPobelPerson(models.Model):
 
 
 class Aktivitet(models.Model):
+    id = models.AutoField(primary_key=True)
     arrangor = models.ForeignKey("Person", models.DO_NOTHING)
     aktivitet = models.CharField(max_length=127)
     plats = models.CharField(max_length=127)
     koordinat = models.ForeignKey(
-        "Coord", models.DO_NOTHING, db_column="koordinat", blank=True, null=True
+        "Coord",
+        models.DO_NOTHING,
+        db_column="koordinat",
+        blank=True,
+        null=True,
     )
     fritext = models.TextField()
     tid = models.DateTimeField()
@@ -74,6 +81,7 @@ class Aktivitet(models.Model):
 
 
 class ArrPers(models.Model):
+    id = models.AutoField(primary_key=True)
     arr_id = models.IntegerField(blank=True, null=True)
     pers_id = models.IntegerField(blank=True, null=True)
 
@@ -83,13 +91,18 @@ class ArrPers(models.Model):
 
 
 class Arrangemang(models.Model):
+    id = models.AutoField(primary_key=True)
     arr = models.CharField(max_length=63, blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     datum = models.DateField(blank=True, null=True)
     slutdatum = models.DateField(blank=True, null=True)
     barstat = models.CharField(max_length=3, blank=True, null=True)
     maillist = models.ForeignKey(
-        "Mailadress", models.DO_NOTHING, db_column="maillist", blank=True, null=True
+        "Mailadress",
+        models.DO_NOTHING,
+        db_column="maillist",
+        blank=True,
+        null=True,
     )
     mapcolor = models.CharField(max_length=7, blank=True, null=True)
 
@@ -110,6 +123,7 @@ class BarenStat(models.Model):
 
 
 class Barskulder(models.Model):
+    id = models.AutoField(primary_key=True)
     blasar_id = models.IntegerField()
     belopp = models.FloatField()
     datum = models.DateField(blank=True, null=True)
@@ -132,6 +146,7 @@ class Blasbaslog(models.Model):
 
 
 class Bokning(models.Model):
+    id = models.AutoField(primary_key=True)
     resurs_id = models.IntegerField()
     startdt = models.DateTimeField()
     slutdt = models.DateTimeField()
@@ -144,6 +159,7 @@ class Bokning(models.Model):
 
 
 class Bokresurs(models.Model):
+    id = models.AutoField(primary_key=True)
     namn = models.CharField(max_length=63, blank=True, null=True)
 
     class Meta:
@@ -152,6 +168,7 @@ class Bokresurs(models.Model):
 
 
 class Coord(models.Model):
+    id = models.AutoField(primary_key=True)
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
     namn = models.CharField(max_length=64, blank=True, null=True)
@@ -162,6 +179,7 @@ class Coord(models.Model):
 
 
 class CoordArr(models.Model):
+    id = models.AutoField(primary_key=True)
     coordid = models.ForeignKey(Coord, models.DO_NOTHING, db_column="coordid")
     arrid = models.ForeignKey(Arrangemang, models.DO_NOTHING, db_column="arrid")
     datum = models.DateField(blank=True, null=True)
@@ -184,6 +202,7 @@ class Deletelog(models.Model):
 
 
 class Et05(models.Model):
+    id = models.AutoField(primary_key=True)
     text = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -203,7 +222,10 @@ class ExtraSida(models.Model):
 
 class Extramail(models.Model):
     addr = models.OneToOneField(
-        "Mailadress", models.DO_NOTHING, db_column="addr", primary_key=True
+        "Mailadress",
+        models.DO_NOTHING,
+        db_column="addr",
+        primary_key=True,
     )
     password = models.CharField(max_length=63, blank=True, null=True)
 
@@ -222,6 +244,7 @@ class Flumm(models.Model):
 
 
 class FragaKat(models.Model):
+    id = models.AutoField(primary_key=True)
     beskrivning = models.CharField(max_length=85, blank=True, null=True)
 
     class Meta:
@@ -241,6 +264,7 @@ class Funk(models.Model):
 
 
 class Gb(models.Model):
+    id = models.AutoField(primary_key=True)
     tstamp = models.IntegerField()
     author = models.CharField(max_length=255, blank=True, null=True)
     msg = models.TextField(blank=True, null=True)
@@ -252,6 +276,7 @@ class Gb(models.Model):
 
 
 class Identitet(models.Model):
+    id = models.AutoField(primary_key=True)
     idtyp = models.IntegerField(blank=True, null=True)
     pers = models.IntegerField(blank=True, null=True)
     varde = models.CharField(max_length=128, blank=True, null=True)
@@ -262,6 +287,7 @@ class Identitet(models.Model):
 
 
 class Identitetstyp(models.Model):
+    id = models.AutoField(primary_key=True)
     namn = models.CharField(max_length=32, blank=True, null=True)
     skapare = models.IntegerField(blank=True, null=True)
 
@@ -271,6 +297,7 @@ class Identitetstyp(models.Model):
 
 
 class Image(models.Model):
+    id = models.AutoField(primary_key=True)
     path = models.CharField(max_length=63)
     url = models.CharField(max_length=63)
     height = models.SmallIntegerField(blank=True, null=True)
@@ -302,6 +329,7 @@ class Instrument(models.Model):
 
 
 class Karta(models.Model):
+    id = models.AutoField(primary_key=True)
     fil = models.CharField(max_length=63, blank=True, null=True)
     beskrivning = models.TextField(blank=True, null=True)
 
@@ -328,6 +356,7 @@ class Kartplats(models.Model):
 
 
 class Kort(models.Model):
+    id = models.AutoField(primary_key=True)
     nummer = models.CharField(max_length=16)
     persid = models.IntegerField()
     aktiv = models.CharField(max_length=1)
@@ -347,6 +376,7 @@ class Kres(models.Model):
 
 
 class KresPers(models.Model):
+    id = models.AutoField(primary_key=True)
     persid = models.IntegerField()
     kresid = models.IntegerField()
 
@@ -356,6 +386,7 @@ class KresPers(models.Model):
 
 
 class Logkort(models.Model):
+    id = models.AutoField(primary_key=True)
     ts = models.DateTimeField()
     kortid = models.CharField(max_length=16)
     felid = models.IntegerField()
@@ -367,6 +398,7 @@ class Logkort(models.Model):
 
 
 class Logresurs(models.Model):
+    id = models.AutoField(primary_key=True)
     resid = models.IntegerField()
     status = models.IntegerField()
     ts = models.DateTimeField()
@@ -387,7 +419,11 @@ class Mailadress(models.Model):
 class Maillist(models.Model):
     maillistid = models.AutoField(primary_key=True)
     namn = models.ForeignKey(
-        Mailadress, models.DO_NOTHING, db_column="namn", blank=True, null=True
+        Mailadress,
+        models.DO_NOTHING,
+        db_column="namn",
+        blank=True,
+        null=True,
     )
     beskr = models.CharField(max_length=63, blank=True, null=True)
     slutdatum = models.DateField(blank=True, null=True)
@@ -411,6 +447,7 @@ class Medlem(models.Model):
 
 
 class Misslyckadeadd(models.Model):
+    id = models.AutoField(primary_key=True)
     musid = models.IntegerField(blank=True, null=True)
     typ = models.IntegerField(blank=True, null=True)
     ip = models.CharField(max_length=15, blank=True, null=True)
@@ -433,6 +470,7 @@ class MsStat(models.Model):
 
 
 class Musik(models.Model):
+    id = models.AutoField(primary_key=True)
     filnamn = models.CharField(max_length=255)
     titel = models.CharField(max_length=127)
     artist = models.CharField(max_length=127)
@@ -446,6 +484,7 @@ class Musik(models.Model):
 
 
 class Offyellow2005(models.Model):
+    id = models.AutoField(primary_key=True)
     text = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -454,6 +493,7 @@ class Offyellow2005(models.Model):
 
 
 class Oldmusik(models.Model):
+    id = models.AutoField(primary_key=True)
     filnamn = models.CharField(max_length=255)
     titel = models.CharField(max_length=127)
     artist = models.CharField(max_length=127)
@@ -467,6 +507,7 @@ class Oldmusik(models.Model):
 
 
 class Oldspellista(models.Model):
+    id = models.AutoField(primary_key=True)
     musid = models.IntegerField()
     status = models.CharField(max_length=5)
     ts = models.DateTimeField()
@@ -478,12 +519,17 @@ class Oldspellista(models.Model):
 
 
 class Pagang(models.Model):
+    id = models.AutoField(primary_key=True)
     plats = models.CharField(max_length=63, blank=True, null=True)
     dag = models.DateField(blank=True, null=True)
     tid = models.TimeField(blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     koordinat = models.ForeignKey(
-        Coord, models.DO_NOTHING, db_column="koordinat", blank=True, null=True
+        Coord,
+        models.DO_NOTHING,
+        db_column="koordinat",
+        blank=True,
+        null=True,
     )
     kontakt = models.CharField(max_length=63, blank=True, null=True)
     kontakttel = models.CharField(max_length=31, blank=True, null=True)
@@ -498,6 +544,7 @@ class Pagang(models.Model):
 
 
 class Page(models.Model):
+    id = models.AutoField(primary_key=True)
     parent = models.IntegerField(blank=True, null=True)
     access = models.IntegerField()
     title = models.CharField(max_length=63)
@@ -509,6 +556,7 @@ class Page(models.Model):
 
 
 class Persfunk(models.Model):
+    id = models.AutoField(primary_key=True)
     pers = models.ForeignKey("Person", models.DO_NOTHING, db_column="pers")
     funk = models.ForeignKey(Funk, models.DO_NOTHING, db_column="funk")
     startdatum = models.DateField()
@@ -550,7 +598,11 @@ class Person(models.Model):
     icqnr = models.CharField(max_length=20, blank=True, null=True)
     fritext = models.TextField(blank=True, null=True)
     blasmail = models.OneToOneField(
-        Mailadress, models.DO_NOTHING, db_column="blasmail", blank=True, null=True
+        Mailadress,
+        models.DO_NOTHING,
+        db_column="blasmail",
+        blank=True,
+        null=True,
     )
     gras_medlem_till = models.DateField(blank=True, null=True)
     arbete = models.CharField(max_length=63, blank=True, null=True)
@@ -586,6 +638,7 @@ class Persres(models.Model):
 
 
 class Resurs(models.Model):
+    id = models.AutoField(primary_key=True)
     namn = models.CharField(max_length=63)
     aktiv = models.CharField(max_length=1)
     script = models.CharField(max_length=63)
@@ -597,6 +650,7 @@ class Resurs(models.Model):
 
 
 class Resursio(models.Model):
+    id = models.AutoField(primary_key=True)
     resid = models.IntegerField()
     success = models.CharField(max_length=1)
     port = models.CharField(max_length=4, blank=True, null=True)
@@ -612,6 +666,7 @@ class Resursio(models.Model):
 
 class Saxsekten(models.Model):
     # id = models.IntegerField(blank=True, null=True)
+    id = models.AutoField(primary_key=True)
     freetext = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
@@ -620,6 +675,7 @@ class Saxsekten(models.Model):
 
 
 class Script(models.Model):
+    id = models.AutoField(primary_key=True)
     showscript = models.CharField(max_length=63, blank=True, null=True)
     editscript = models.CharField(max_length=63, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -642,6 +698,7 @@ class Sektion(models.Model):
 
 
 class Spellista(models.Model):
+    id = models.AutoField(primary_key=True)
     musid = models.IntegerField()
     status = models.CharField(max_length=5)
     ts = models.DateTimeField()
