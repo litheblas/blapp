@@ -105,6 +105,7 @@ class Person(DjangoObjectType):
             "postal_region",
             "country",
             "national_id_number",
+            "student_id",
             "dietary_preferences",
             "arbitrary_text",
             "phone_number_1",
