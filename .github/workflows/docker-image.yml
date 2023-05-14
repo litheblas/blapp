@@ -1,7 +1,6 @@
 name: Docker Image CI
 
 on:
-  workflow_dispatch:
   pull_request:
     branches: [ 'master', 'dev' ]
 
@@ -21,6 +20,16 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: oscarfalk/blapp
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        load: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+    - name: Run tests
+      run: |
+        docker compose -f ./docker-compose.ci.yml run tests
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
