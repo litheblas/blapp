@@ -1,7 +1,8 @@
 name: pre-commit
 
 on:
-  push
+  push:
+    branches: ['!dev', '!master']
 
 jobs:
   pre-commit:
