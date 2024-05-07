@@ -66,6 +66,7 @@ class Command(BaseCommand):
         self.stdout.write("legacy_persons.json Done")
 
 
+
         thing_to_json = {}
         assignments = legacy_models.Funk.objects.all()
 
@@ -78,10 +79,11 @@ class Command(BaseCommand):
         self.stdout.write("Migrating assignment relations")
 
         assignmentrelations = {}
+        all_relations = legacy_models.Persfunk.objects.all()
         for funkid in data.keys():
-            all_relations = legacy_models.Persfunk.objects.all.filter(funk__funkid=funkid)
+            certain_rels = all_relations.filter(funk__funkid=funkid)
             done_relations = []
-            for rel in all_relations:
+            for rel in certain_rels:
                 done_relations.append({"persid": rel.pers.persid, "start": rel.start, "end": rel.end})
             assignmentrelations[funkid] = done_relations
 
@@ -91,6 +93,20 @@ class Command(BaseCommand):
         instruments = {str(x.instrid) : x.name for x in legacy_models.Instrument.objects.all()}
         instruments["heder"] = "Hedersmedlem"
         thing_to_json['instruments'] = instruments
+
+        all_member_relations = legacy_models.Medlem.objects.all()
+        memberrelations = {}
+        for instrid in instruments.keys():
+            certain_rels = all_member_relations.filter(instr__instrid=instrid)
+            done_relations = []
+            for rel in certain_rels:
+                done_relations.append({"persid": rel.pers.persid, "start": rel.datum})
+            memberrelations[instrid] = done_relations
+        thing_to_json['memberrelations'] = memberrelations
+
+        with open("legacy_assignments.json", "w") as file:
+            self.stdout.write("Writing to file")
+            json.dump(thing_to_json, file)
 
 
 
