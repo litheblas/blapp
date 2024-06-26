@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 'fnamn': person.fnamn or '',
                 'enamn': person.enamn or '',
                 'smek': person.smek or '',
-                'fodd': person.fodd or '',
+                'fodd': str(person.fodd) or '',
                 'pnr_sista': person.pnr_sista or '',
                 'gatuadr': person.gatuadr or '',
                 'postnr': person.postnr or '',
@@ -83,24 +83,37 @@ class Command(BaseCommand):
             certain_rels = all_relations.filter(funk__funkid=funkid)
             done_relations = []
             for rel in certain_rels:
-                done_relations.append({"persid": rel.pers.persid, "start": str(rel.start), "end": str(rel.end)})
+                done_relations.append({"persid": rel.pers.persid, "start": str(rel.startdatum), "end": str(rel.slutdatum)})
             assignmentrelations[funkid] = done_relations
 
         thing_to_json['assignmentrelations'] = assignmentrelations
 
         self.stdout.write("Migrating instruments")
-        instruments = {str(x.instrid) : x.name for x in legacy_models.Instrument.objects.all()}
-        instruments["heder"] = "Hedersmedlem"
+        instruments = {str(x.instrid) : x.lnamn for x in legacy_models.Instrument.objects.all()}
         thing_to_json['instruments'] = instruments
 
         all_member_relations = legacy_models.Medlem.objects.all()
         memberrelations = {}
         for instrid in instruments.keys():
-            certain_rels = all_member_relations.filter(instr__instrid=instrid)
+            certain_rels = all_member_relations.filter(instr=int(instrid), typ='antagen')
             done_relations = []
             for rel in certain_rels:
                 done_relations.append({"persid": str(rel.pers.persid), "start": str(rel.datum)})
             memberrelations[instrid] = done_relations
+
+        gamlingrelations = []
+        provrel = []
+
+        for gamlingrel in all_member_relations.filter(typ='gamling'):
+            gamlingrelations.append({"persid": str(gamlingrel.pers.persid), "start": str(gamlingrel.datum)})
+
+        memberrelations['gamling'] = gamlingrelations
+
+        for provrel in all_member_relations.filter(typ='prov'):
+            provrel.append({"persid": str(provrel.pers.persid), "start": str(provrel.datum)})
+
+        memberrelations['prov'] = provrel
+
         thing_to_json['memberrelations'] = memberrelations
 
         with open("legacy_assignments.json", "w") as file:
