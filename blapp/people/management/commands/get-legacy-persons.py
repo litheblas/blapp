@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 'icqnr': person.icqnr or '',
                 'fritext': person.fritext or '',
                 'gras_medlem_till': str(person.gras_medlem_till) or '',
-                "username": person.blasmail.mailadress,
+                "username": person.blasmail.mailadress if person.blasmail else '',
                 #'password': person.password or '',
                 #'nomail': person.nomail or '',
                 #'veg': person.veg or '',
@@ -103,6 +103,7 @@ class Command(BaseCommand):
 
         gamlingrelations = []
         provrels = []
+        hederrels = []
 
         for gamlingrel in all_member_relations.filter(typ='gamling'):
             gamlingrelations.append({"persid": str(gamlingrel.pers.persid), "start": str(gamlingrel.datum)})
@@ -113,6 +114,11 @@ class Command(BaseCommand):
             provrels.append({"persid": str(provrel.pers.persid), "start": str(provrel.datum)})
 
         memberrelations['prov'] = provrels
+
+        for hedersrel in all_member_relations.filter(typ='heder'):
+            hederrels.append({"persid": str(hedersrel.pers.persid), "start": str(hedersrel.datum)})
+
+        memberrelations['heder'] = hederrels
 
         thing_to_json['memberrelations'] = memberrelations
 
