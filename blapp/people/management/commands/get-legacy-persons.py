@@ -44,6 +44,7 @@ class Command(BaseCommand):
                 'fritext': person.fritext or '',
                 'gras_medlem_till': str(person.gras_medlem_till) or '',
                 'email': person.blasmail.mailadress if person.blasmail else "",
+                "username": person.blasmail,
                 #'password': person.password or '',
                 #'nomail': person.nomail or '',
                 #'veg': person.veg or '',
@@ -83,7 +84,7 @@ class Command(BaseCommand):
             certain_rels = all_relations.filter(funk__funkid=funkid)
             done_relations = []
             for rel in certain_rels:
-                done_relations.append({"persid": rel.pers.persid, "start": str(rel.startdatum), "end": str(rel.slutdatum)})
+                done_relations.append({"persid": str(rel.pers.persid), "start": str(rel.startdatum), "end": str(rel.slutdatum)})
             assignmentrelations[funkid] = done_relations
 
         thing_to_json['assignmentrelations'] = assignmentrelations
@@ -102,7 +103,7 @@ class Command(BaseCommand):
             memberrelations[instrid] = done_relations
 
         gamlingrelations = []
-        provrel = []
+        provrels = []
 
         for gamlingrel in all_member_relations.filter(typ='gamling'):
             gamlingrelations.append({"persid": str(gamlingrel.pers.persid), "start": str(gamlingrel.datum)})
@@ -110,9 +111,9 @@ class Command(BaseCommand):
         memberrelations['gamling'] = gamlingrelations
 
         for provrel in all_member_relations.filter(typ='prov'):
-            provrel.append({"persid": str(provrel.pers.persid), "start": str(provrel.datum)})
+            provrels.append({"persid": str(provrel.pers.persid), "start": str(provrel.datum)})
 
-        memberrelations['prov'] = provrel
+        memberrelations['prov'] = provrels
 
         thing_to_json['memberrelations'] = memberrelations
 
