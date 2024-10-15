@@ -111,7 +111,7 @@ class Command(BaseCommand):
         memberrelations['gamling'] = gamlingrelations
 
         for provrel in all_member_relations.filter(typ='prov'):
-            provrels.append({"persid": str(provrel.pers.persid), "start": str(provrel.datum)})
+            provrels.append({"persid": str(provrel.pers.persid), "start": str(provrel.datum), "instr": str(provrel.instr)})
 
         memberrelations['prov'] = provrels
 
